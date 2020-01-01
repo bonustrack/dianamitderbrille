@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import { upperFirst, camelCase } from 'lodash';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import App from '@/App.vue';
+import router from '@/router';
+import store from '@/store';
+import '@/style.scss';
 
 const requireComponent = require.context('./components', true, /[\w-]+\.vue$/);
 requireComponent.keys().forEach(fileName => {

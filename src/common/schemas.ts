@@ -17,6 +17,12 @@ const signup = Joi.object({
     .required()
 });
 
+const login = Joi.object({
+  email: Joi.string().trim().required(),
+  password: Joi.string().trim().required()
+});
+
 module.exports = {
-  signup
+  signup,
+  login
 };

@@ -1,11 +1,12 @@
 const express = require('express');
 const { randomBytes } = require('crypto');
 const db = require('./helpers/db.ts');
-const { signup } = require('../src/common/schemas.ts');
+const { issueToken } = require('./helpers/token.ts');
+const { signup, login } = require('../src/common/schemas.ts');
 
 const router = express.Router();
 
-router.all('/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     const values = await signup.validateAsync(req.body);
     const account = {
@@ -15,9 +16,28 @@ router.all('/signup', async (req, res) => {
       password: values.password
     };
     await db.queryAsync('INSERT INTO accounts SET ?', [account]);
-    res.json({ success: true });
+    const token = issueToken(account.id);
+    res.json({ access_token: token });
   } catch (error) {
     const errorMessage = error.sqlMessage || 'request failed';
+    res.status(500).json({ error: errorMessage });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const values = await login.validateAsync(req.body);
+    const query = 'SELECT id FROM accounts WHERE email = ? AND password = ?';
+    const accounts = await db.queryAsync(query, [values.email, values.password]);
+    if (accounts && accounts[0] && accounts[0].id) {
+      const token = issueToken(accounts[0].id);
+      res.json({ access_token: token });
+    } else {
+      const errorMessage = 'email or password is wrong';
+      res.status(500).json({ error: errorMessage });
+    }
+  } catch (error) {
+    const errorMessage = 'request failed';
     res.status(500).json({ error: errorMessage });
   }
 });

@@ -1,11 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-const Home = () => import(/* webpackChunkName: "home" */ '../views/Home.vue');
+const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
+const Signup = () => import(/* webpackChunkName: "signup" */ '@/views/Signup.vue');
 
 Vue.use(VueRouter);
 
-const routes = [{ path: '/', name: 'home', component: Home }];
+const routes = [
+  { path: '/', name: 'home', component: Home },
+  { path: '/signup', name: 'signup', component: Signup }
+];
 
 const router = new VueRouter({
   mode: 'history',

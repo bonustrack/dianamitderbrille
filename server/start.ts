@@ -10,7 +10,7 @@ app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(frameguard({ action: 'deny' }));
 app.use(cors());
-app.use(serveStatic(`${__dirname}/dist`));
+app.use(serveStatic(`${__dirname}/../dist`));
 
 app.use('/api', api);
 app.get('*', (req, res) => res.sendFile(`${__dirname}/../dist/index.html`));

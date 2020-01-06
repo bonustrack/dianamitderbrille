@@ -13,7 +13,7 @@ app.use(cors());
 app.use(serveStatic(`${__dirname}/dist`));
 
 app.use('/api', api);
-app.get('*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`));
+app.get('*', (req, res) => res.sendFile(`${__dirname}/../dist/index.html`));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {

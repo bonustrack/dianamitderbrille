@@ -32,6 +32,7 @@
 <script>
 import client from '@/helpers/client';
 import { login } from '@/common/schemas';
+import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 export default {
   data() {
@@ -55,8 +56,9 @@ export default {
     },
     async submit(values) {
       try {
-        await client.request('login', values);
-        this.$router.push('/');
+        const result = await client.request('login', values);
+        localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, result.access_token);
+        this.$store.dispatch('login').then(() => this.$router.push('/feed#login'));
       } catch (error) {
         this.error = error;
         this.isLoading = false;

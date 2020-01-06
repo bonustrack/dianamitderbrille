@@ -2,6 +2,7 @@ const express = require('express');
 const { randomBytes } = require('crypto');
 const db = require('./helpers/db.ts');
 const { issueToken } = require('./helpers/token.ts');
+const { verify } = require('./helpers/middleware.ts');
 const { signup, login } = require('../src/common/schemas.ts');
 
 const router = express.Router();
@@ -40,6 +41,11 @@ router.post('/login', async (req, res) => {
     const errorMessage = 'request failed';
     res.status(500).json({ error: errorMessage });
   }
+});
+
+router.post('/verify', verify, (req, res) => {
+  const query = 'SELECT id, name, email FROM accounts WHERE id = ? LIMIT 1';
+  db.queryAsync(query, [res.locals.id]).then(result => res.json(result[0]));
 });
 
 module.exports = router;

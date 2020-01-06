@@ -1,14 +1,22 @@
-import Joi from '@hapi/joi';
+const Joi = require('@hapi/joi');
 
-export const signup = Joi.object({
+const signup = Joi.object({
   email: Joi.string()
     .email({ tlds: false })
+    .lowercase({ force: true })
+    .trim()
     .required(),
   password: Joi.string()
     .min(8)
-    .max(64)
+    .max(32)
+    .trim()
     .required(),
   name: Joi.string()
     .max(24)
+    .trim()
     .required()
 });
+
+module.exports = {
+  signup
+};

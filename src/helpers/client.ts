@@ -2,20 +2,34 @@ class Client {
   public accessToken?: string = '';
 
   request(command, params?) {
-    const url = `${process.env.VUE_APP_REST_API}/api/${command}`;
-    let init;
-    if (params) {
-      init = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: this.accessToken
-        },
-        body: JSON.stringify(params)
-      };
-    }
-    return fetch(url, init).then(res => res.json());
+    return new Promise((resolve, reject) => {
+      const url = `${process.env.VUE_APP_API}/api/${command}`;
+      let init;
+      if (params) {
+        init = {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: this.accessToken
+          },
+          body: JSON.stringify(params)
+        };
+      }
+      return fetch(url, init)
+        .then(res => {
+          if (!res.ok) throw res;
+          return res.json();
+        })
+        .then(json => {
+          resolve(json);
+        })
+        .catch(err => {
+          err.json().then(result => {
+            reject(result.error);
+          });
+        });
+    });
   }
 
   setAccessToken(accessToken) {

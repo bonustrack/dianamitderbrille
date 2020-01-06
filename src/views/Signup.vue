@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm p-responsive">
     <h1 class="text-center">Sign up</h1>
-    <form @submit.prevent="handleSubmit" style="max-width: 320px;" class="mx-auto">
+    <form @submit.prevent="handleSubmit" style="max-width: 360px;" class="mx-auto">
       <dl class="form-group">
         <input
           class="form-control input-lg input-block"
@@ -32,13 +32,14 @@
           Sign up
         </button>
       </div>
+      <dl class="form-group text-center">Or, <router-link to="/login">log in</router-link></dl>
     </form>
   </div>
 </template>
 
 <script>
 import client from '@/helpers/client';
-import { signup } from '@/helpers/schemas';
+import { signup } from '@/common/schemas';
 
 export default {
   data() {
@@ -55,17 +56,17 @@ export default {
         const values = await signup.validateAsync(this.form);
         this.error = '';
         this.submit(values);
-      } catch (err) {
-        this.error = err.details[0].message;
+      } catch (error) {
+        this.error = error.details[0].message;
         this.isLoading = false;
       }
     },
     async submit(values) {
       try {
         await client.request('signup', values);
-        this.isLoading = false;
-      } catch (err) {
-        this.error = err;
+        this.$router.push('/');
+      } catch (error) {
+        this.error = error;
         this.isLoading = false;
       }
     }

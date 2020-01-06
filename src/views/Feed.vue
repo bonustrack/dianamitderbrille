@@ -1,5 +1,5 @@
 <template>
   <div class="text-center">
-    <h1>[Landing page]</h1>
+    <h1>[Feed]</h1>
   </div>
 </template>

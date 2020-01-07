@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import router from '@/router';
 import client from '@/helpers/client';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
@@ -7,10 +6,14 @@ const state = {
   account: false,
   isAuthenticated: false,
   token: false,
+  isInit: false,
   isLoading: false
 };
 
 const mutations = {
+  isInit(_state) {
+    Vue.set(_state, 'isInit', true);
+  },
   isLoading(_state, payload) {
     Vue.set(_state, 'isLoading', payload);
   },
@@ -30,15 +33,26 @@ const actions = {
   login: ({ commit }) => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem(TOKEN_LOCALSTORAGE_KEY);
-      if (!token) return resolve();
+      if (!token) {
+        commit('isInit');
+        return resolve();
+      }
       commit('isLoading', true);
       client.setAccessToken(token);
-      client.request('verify', []).then(account => {
-        commit('login', { account, token });
-        router.push('/feed');
-        commit('isLoading', false);
-        return resolve();
-      });
+      client
+        .request('verify', [])
+        .then(account => {
+          commit('login', { account, token });
+          commit('isLoading', false);
+          commit('isInit');
+          return resolve();
+        })
+        .catch(() => {
+          localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
+          client.setAccessToken(undefined);
+          commit('isLoading', false);
+          commit('isInit');
+        });
     });
   },
   logout: ({ commit }) => {

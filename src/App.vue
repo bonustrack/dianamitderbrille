@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="app">
     <VueLoadingIndicator v-if="isLoading" class="bg-white overlay big" />
-    <div id="app" v-else>
+    <template v-else>
       <Nav />
-      <router-view />
+      <router-view class="height-full" />
       <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
-    </div>
+    </template>
   </div>
 </template>
 

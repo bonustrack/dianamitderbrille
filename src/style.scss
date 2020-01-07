@@ -10,6 +10,31 @@ $font-size-small: 18px;
 
 @import '~@primer/css/index.scss';
 
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('./assets/fonts/Calibre-Medium.eot');
+  src: url('./assets/fonts/Calibre-Medium.eot?#iefix') format('embedded-opentype'),
+  url('./assets/fonts/Calibre-Medium.woff') format('woff'),
+  url('./assets/fonts/Calibre-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibre-Semibold';
+  src: url('./assets/fonts/Calibre-Semibold.eot');
+  src: url('./assets/fonts/Calibre-Semibold.eot?#iefix') format('embedded-opentype'),
+  url('./assets/fonts/Calibre-Semibold.woff') format('woff'),
+  url('./assets/fonts/Calibre-Semibold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1, h2, h3, h4 {
+  color: $white;
+  font-family: $font-mktg;
+}
+
 .input-lg {
   padding: 0 8px;
   font-size: $body-font-size;
@@ -29,4 +54,11 @@ $font-size-small: 18px;
 
 .flash {
   font-size: $font-size-small;
+}
+
+
+#app {
+  min-height: 100vh;
+  color: #CBCCCE;
+  background-color: #202225;
 }

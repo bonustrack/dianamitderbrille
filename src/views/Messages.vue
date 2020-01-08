@@ -1,5 +1,5 @@
 <template>
   <div class="p-4">
-    <h2>Billing</h2>
+    <h2>Messages</h2>
   </div>
 </template>

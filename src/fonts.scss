@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('./assets/fonts/Calibre-Medium.eot');
+  src: url('./assets/fonts/Calibre-Medium.eot?#iefix') format('embedded-opentype'),
+  url('./assets/fonts/Calibre-Medium.woff') format('woff'),
+  url('./assets/fonts/Calibre-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibre-Semibold';
+  src: url('./assets/fonts/Calibre-Semibold.eot');
+  src: url('./assets/fonts/Calibre-Semibold.eot?#iefix') format('embedded-opentype'),
+  url('./assets/fonts/Calibre-Semibold.woff') format('woff'),
+  url('./assets/fonts/Calibre-Semibold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {font-family: "iconfont";
+  src: url('//at.alicdn.com/t/font_1601044_yo9stvemgic.eot?t=1578378482410'); /* IE9 */
+  src: url('//at.alicdn.com/t/font_1601044_yo9stvemgic.eot?t=1578378482410#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'),
+  url('//at.alicdn.com/t/font_1601044_yo9stvemgic.woff?t=1578378482410') format('woff'),
+  url('//at.alicdn.com/t/font_1601044_yo9stvemgic.ttf?t=1578378482410') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('//at.alicdn.com/t/font_1601044_yo9stvemgic.svg?t=1578378482410#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconhome:before {
+  content: "\e612";
+}
+
+.iconsnapchat:before {
+  content: "\e636";
+}
+
+.iconamazon:before {
+  content: "\f161";
+}
+
+.iconinstagram:before {
+  content: "\f1d3";
+}
+
+.iconuser:before {
+  content: "\e632";
+}
+
+.iconfacebook:before {
+  content: "\e6ee";
+}
+
+.iconmessage:before {
+  content: "\e97e";
+}

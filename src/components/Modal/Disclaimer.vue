@@ -14,11 +14,13 @@
 </template>
 
 <script>
+import { DISCLAIMER_LOCALSTORAGE_KEY } from '@/helpers/utils';
+
 export default {
   props: ['open'],
   methods: {
     handleSubmit() {
-      localStorage.setItem('approvedDisclaimer', '1');
+      localStorage.setItem(DISCLAIMER_LOCALSTORAGE_KEY, '1');
       this.$emit('close');
     }
   }

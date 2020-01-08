@@ -31,14 +31,52 @@ const ifAuthenticated = (to, from, next) => {
   }
 };
 
+const ifNotAuthenticated = (to, from, next) => {
+  // @ts-ignore
+  const state = store.state.settings;
+  const fn = () => {
+    if (state.isAuthenticated) return next('/home');
+    next();
+  };
+  if (!state.isInit) {
+    store.watch(
+      () => state.isInit,
+      newValue => {
+        if (newValue === true) fn();
+      }
+    );
+  } else {
+    fn();
+  }
+};
+
 const routes = [
-  { path: '/', name: 'home', component: Home, meta: { isLight: true } },
-  { path: '/signup', name: 'signup', component: Signup, meta: { isLight: true } },
-  { path: '/login', name: 'login', component: Login, meta: { isLight: true } },
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    meta: { isLight: true },
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: Signup,
+    meta: { isLight: true },
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    meta: { isLight: true },
+    beforeEnter: ifNotAuthenticated
+  },
   { path: '/home', name: 'feed', component: Feed, beforeEnter: ifAuthenticated },
   { path: '/account', name: 'account', component: Account, beforeEnter: ifAuthenticated },
   { path: '/billing', name: 'billing', component: Billing, beforeEnter: ifAuthenticated },
-  { path: '/messages', name: 'messages', component: Messages, beforeEnter: ifAuthenticated }
+  { path: '/messages', name: 'messages', component: Messages, beforeEnter: ifAuthenticated },
+  { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') }
 ];
 
 const router = new VueRouter({

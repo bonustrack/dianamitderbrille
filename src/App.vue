@@ -4,9 +4,9 @@
     <div v-else-if="isLight">
       <router-view />
     </div>
-    <div class="container-lg p-responsive height-full" v-else>
+    <div v-else-if="isAuthenticated" class="container-lg p-responsive height-full">
       <Sidebar />
-      <router-view class="border-x height-full" style="margin-left: 260px; min-height: 100vh;" />
+      <router-view id="content" class="border-lg-left border-lg-right height-full container-lg" />
     </div>
     <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
   </div>
@@ -25,6 +25,9 @@ export default {
     isLoading() {
       return this.$store.state.settings.isLoading;
     },
+    isAuthenticated() {
+      return this.$store.state.settings.isAuthenticated;
+    },
     isLight() {
       return this.$route.meta.isLight;
     }
@@ -34,3 +37,14 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+#content {
+  min-height: 100vh;
+
+  @media (min-width: 1012px) {
+    margin-left: 260px;
+    padding-bottom: 0;
+  }
+}
+</style>

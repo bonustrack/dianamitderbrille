@@ -68,7 +68,7 @@ h1, h2, h3 {
 }
 
 .vue-ui-loading-indicator {
-  background-color: transparent !important;
+  background-color: #202225 !important;
 
   .animation {
     border-color: rgba(255, 255, 255, 0.2);
@@ -93,6 +93,6 @@ html, body, #app {
   vertical-align: text-bottom;
 }
 
-.border, .border-x, .border-y, .border-left, .border-right, .border-top, .border-bottom {
+.border, [class*="border-"] {
   border-color: rgba(255, 255, 255, 0.2) !important;
 }

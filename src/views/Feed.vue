@@ -1,6 +1,6 @@
 <template>
-  <div class="py-4 pl-4">
-    <div class="d-flex border-bottom pr-4 pb-4 mb-4" v-for="(item, i) in 3" :key="i">
+  <div class="py-4 pl-lg-4">
+    <div class="d-flex border-bottom pr-lg-4 py-4" v-for="(item, i) in 3" :key="i">
       <div>
         <img
           class="circle mr-3"

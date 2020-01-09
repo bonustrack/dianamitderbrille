@@ -1,13 +1,5 @@
 @import "~primer-support/index.scss";
-
-$body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
-$font-mktg: 'Calibre-Semibold', Helvetica, Arial, sans-serif;
-$body-font-size: 20px;
-$border-radius: 6px;
-$h1-size: 42px;
-$btn-input-focus-shadow: none;
-$font-size-small: 18px;
-
+@import 'vars.scss';
 @import '~@primer/css/index.scss';
 @import 'fonts.scss';
 
@@ -17,7 +9,7 @@ a:hover {
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 34px;
   margin-bottom: 0.6em;
 }
 

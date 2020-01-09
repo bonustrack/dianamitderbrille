@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
-    <h2>Messages</h2>
+  <div>
+    <h2 class="px-5 py-4 border-bottom">Messages</h2>
   </div>
 </template>

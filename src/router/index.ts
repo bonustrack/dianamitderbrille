@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '@/store';
+import { ifAuthenticated, ifNotAuthenticated } from '@/helpers/utils';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Signup = () => import(/* webpackChunkName: "signup" */ '@/views/Signup.vue');
@@ -11,44 +11,6 @@ const Billing = () => import(/* webpackChunkName: "billing" */ '@/views/Billing.
 const Messages = () => import(/* webpackChunkName: "messages" */ '@/views/Messages.vue');
 
 Vue.use(VueRouter);
-
-const ifAuthenticated = (to, from, next) => {
-  // @ts-ignore
-  const state = store.state.settings;
-  const fn = () => {
-    if (state.isAuthenticated) return next();
-    next('/login');
-  };
-  if (!state.isInit) {
-    store.watch(
-      () => state.isInit,
-      newValue => {
-        if (newValue === true) fn();
-      }
-    );
-  } else {
-    fn();
-  }
-};
-
-const ifNotAuthenticated = (to, from, next) => {
-  // @ts-ignore
-  const state = store.state.settings;
-  const fn = () => {
-    if (state.isAuthenticated) return next('/home');
-    next();
-  };
-  if (!state.isInit) {
-    store.watch(
-      () => state.isInit,
-      newValue => {
-        if (newValue === true) fn();
-      }
-    );
-  } else {
-    fn();
-  }
-};
 
 const routes = [
   {

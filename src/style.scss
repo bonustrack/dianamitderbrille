@@ -1,36 +1,28 @@
 @import "~primer-support/index.scss";
-
-$body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
-$font-mktg: 'Calibre-Semibold', Helvetica, Arial, sans-serif;
-$body-font-size: 20px;
-$border-radius: 6px;
-$h1-size: 42px;
-$btn-input-focus-shadow: none;
-$font-size-small: 18px;
-
+@import 'vars.scss';
 @import '~@primer/css/index.scss';
+@import 'fonts.scss';
 
-@font-face {
-  font-family: 'Calibre-Medium';
-  src: url('./assets/fonts/Calibre-Medium.eot');
-  src: url('./assets/fonts/Calibre-Medium.eot?#iefix') format('embedded-opentype'),
-  url('./assets/fonts/Calibre-Medium.woff') format('woff'),
-  url('./assets/fonts/Calibre-Medium.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
 }
 
-@font-face {
-  font-family: 'Calibre-Semibold';
-  src: url('./assets/fonts/Calibre-Semibold.eot');
-  src: url('./assets/fonts/Calibre-Semibold.eot?#iefix') format('embedded-opentype'),
-  url('./assets/fonts/Calibre-Semibold.woff') format('woff'),
-  url('./assets/fonts/Calibre-Semibold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+h2 {
+  font-size: 34px;
+  margin-bottom: 0.6em;
 }
 
-h1, h2, h3, h4 {
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-weight: normal;
+  font-size: 20px;
+}
+
+h1, h2, h3 {
   color: $white;
   font-family: $font-mktg;
 }
@@ -57,8 +49,42 @@ h1, h2, h3, h4 {
 }
 
 
-#app {
+::-webkit-scrollbar-thumb {
+  background-color: $gray-200;
+  border: 0;
+  background-clip: padding-box;
+
+  &:hover {
+    background-color: $gray-400;
+  }
+}
+
+.vue-ui-loading-indicator {
+  background-color: #202225 !important;
+
+  .animation {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-right-color: white;
+  }
+}
+
+html, body, #app {
+  background-color: #202225;
   min-height: 100vh;
   color: #CBCCCE;
-  background-color: #202225;
+}
+
+.hero {
+  background-image: url("https://cdn2.onlyfans.com/files/p/pm/pmf/pmfbnxzdffadmmyyln3l0e1vpii6dk831572719973/header.jpg?Expires=1609911601&Signature=cNKTWuv7h2uaJPVRcx6cN25YjoibnSIjFA07nEnVthNZ9Fhgs5DjEzjMh-x~LGxW70fZccrHhR~3JpqlhV78h9DA0NKScyFhGGXspsOHEF8k62IhrOJRRqKthrHVHvzbeX-yDZYCaaM5Utc4FoH6NtL8eQpHAI-NQUCP3Jfq1Z3N-Rkb9Lff34B3sJxxWe~SSIiim1cf1ZSzsYdaZWoLjPLvj1ieWwJWKdDlP8ty87p1WZNCGH-qDQ5R9EIAdkfXXOgE7~82OW~lcmI45JwIgdqpw5KyXchjdblKPFoCqIodVash5xE9m2s2UOiasZ0GqhrRTfSIqHlmQQogOllzoQ__&Key-Pair-Id=APKAJKLR6VB3PTZVDEBA");
+  background-size: cover;
+}
+
+.iconfont {
+  font-size: 26px;
+  line-height: 26px;
+  vertical-align: text-bottom;
+}
+
+.border, [class*="border-"] {
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }

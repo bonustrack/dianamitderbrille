@@ -1,7 +1,7 @@
 <template>
   <div v-if="open" class="modal">
     <div class="backdrop" />
-    <div class="shell bg-white overflow-hidden container-sm rounded-2">
+    <div class="shell overflow-hidden container-sm rounded-2">
       <slot />
     </div>
   </div>
@@ -41,6 +41,7 @@ export default {
     margin: 0 auto;
     width: 100%;
     max-height: 48vh;
+    background-color: #202225;
 
     .modal-body {
       overflow-y: scroll;

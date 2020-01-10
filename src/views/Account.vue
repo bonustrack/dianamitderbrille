@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h2 class="px-5 py-4 border-bottom">Account</h2>
-    <div class="p-5">
+  <Layout title="Account">
+    <div class="p-4">
       <div class="mb-4">
         <span>Name</span>
         <h3>{{ account.name }}</h3>
@@ -13,7 +12,7 @@
       <p><router-link to="/billing">Billing</router-link></p>
       <p><a @click="logout" class="text-red">Log out</a></p>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script>

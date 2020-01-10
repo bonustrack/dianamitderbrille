@@ -1,12 +1,12 @@
 <template>
   <div id="app" class="height-full">
     <VueLoadingIndicator v-if="isLoading" class="overlay big" />
-    <div v-else-if="isLight">
-      <router-view />
-    </div>
-    <div v-else-if="isAuthenticated" class="container-lg p-responsive height-full">
-      <Sidebar />
-      <router-view id="content" class="border-lg-left border-lg-right height-full container-lg" />
+    <div :class="isInterface && 'container-lg height-full'" v-else>
+      <Sidebar v-if="isInterface" />
+      <router-view
+        :id="isInterface && 'content'"
+        :class="isInterface && 'border-lg-left border-lg-right height-full'"
+      />
     </div>
     <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
   </div>
@@ -25,11 +25,8 @@ export default {
     isLoading() {
       return this.$store.state.settings.isLoading;
     },
-    isAuthenticated() {
-      return this.$store.state.settings.isAuthenticated;
-    },
-    isLight() {
-      return this.$route.meta.isLight;
+    isInterface() {
+      return !this.$route.meta.isLight && this.$store.state.settings.isAuthenticated;
     }
   },
   created() {

@@ -7,7 +7,7 @@ import { signup, login } from '../common/schemas';
 
 const router = express.Router();
 
-router.post('/api/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     const values = await signup.validateAsync(req.body);
     const account = {
@@ -25,7 +25,7 @@ router.post('/api/signup', async (req, res) => {
   }
 });
 
-router.post('/api/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const values = await login.validateAsync(req.body);
     const query = 'SELECT id FROM accounts WHERE email = ? AND password = ?';
@@ -43,7 +43,7 @@ router.post('/api/login', async (req, res) => {
   }
 });
 
-router.post('/api/verify', verify, (req, res) => {
+router.post('/verify', verify, (req, res) => {
   const query = 'SELECT id, name, email FROM accounts WHERE id = ? LIMIT 1';
   db.queryAsync(query, [res.locals.id]).then(result => res.json(result[0]));
 });

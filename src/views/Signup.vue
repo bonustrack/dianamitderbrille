@@ -39,7 +39,7 @@
 
 <script>
 import client from '@/helpers/client';
-import { signup } from '@/common/schemas';
+import { signup } from '@/../common/schemas';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 export default {

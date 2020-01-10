@@ -31,7 +31,7 @@
 
 <script>
 import client from '@/helpers/client';
-import { login } from '@/common/schemas';
+import { login } from '@/../common/schemas';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 export default {

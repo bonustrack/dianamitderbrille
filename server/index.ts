@@ -1,11 +1,11 @@
+import bodyParser from 'body-parser';
+import cors from 'cors';
 // @ts-ignore
 import { randomBytes } from 'crypto';
 import db from './helpers/db';
 import { issueToken } from './helpers/token';
 import { verify } from './helpers/middleware';
 import { signup, login } from '../common/schemas';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 
 export default (app) => {
   app.use(bodyParser.json({ limit: '20mb' }));

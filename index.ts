@@ -3,16 +3,16 @@ import { randomBytes } from 'crypto';
 import serveStatic from 'serve-static';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import db from './helpers/db';
-import { issueToken } from './helpers/token';
-import { verify } from './helpers/middleware';
-import { signup, login } from '../common/schemas';
+import db from './server/helpers/db';
+import { issueToken } from './server/helpers/token';
+import { verify } from './server/helpers/middleware';
+import { signup, login } from './common/schemas';
 
 export default (app) => {
   app.use(bodyParser.json({ limit: '20mb' }));
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
   app.use(cors());
-  app.use(serveStatic(`${__dirname}/../dist`));
+  app.use(serveStatic(`${__dirname}/dist`));
 
   app.post('/api/signup', async (req, res) => {
     try {
@@ -55,5 +55,5 @@ export default (app) => {
     db.queryAsync(query, [res.locals.id]).then(result => res.json(result[0]));
   });
 
-  app.get('*', (req, res) => res.sendFile(`${__dirname}/../dist/index.html`));
+  app.get('*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`));
 }

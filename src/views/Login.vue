@@ -20,7 +20,7 @@
       </dl>
       <dl class="flash flash-error" v-if="error" v-text="error" />
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary btn-block" :disabled="isLoading">
+        <button type="submit" class="btn-mktg btn-block" :disabled="isLoading">
           Log in
         </button>
       </div>

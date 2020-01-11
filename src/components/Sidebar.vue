@@ -35,7 +35,6 @@
 #sidebar {
   font-family: $font-mktg;
   width: 260px;
-  background-color: #202225;
 
   a {
     color: rgba(255, 255, 255, 0.4);
@@ -46,6 +45,7 @@
   }
 
   @media (max-width: 1012px - 1) {
+    background-color: #16181a;
     width: auto;
     left: 0;
     right: 0;

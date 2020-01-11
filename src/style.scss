@@ -4,6 +4,12 @@
 @import '~//at.alicdn.com/t/font_1601044_hgp69etdrkn.css';
 @import 'fonts.scss';
 
+html, body, #app {
+  background-color: #16181a;
+  min-height: 100vh;
+  color: #CBCCCE;
+}
+
 a:hover {
   text-decoration: none;
   cursor: pointer;
@@ -68,12 +74,6 @@ h1, h2, h3 {
   }
 }
 
-html, body, #app {
-  background-color: #202225;
-  min-height: 100vh;
-  color: #CBCCCE;
-}
-
 .hero {
   background-image: url("https://cdn2.onlyfans.com/files/p/pm/pmf/pmfbnxzdffadmmyyln3l0e1vpii6dk831572719973/header.jpg?Expires=1609911601&Signature=cNKTWuv7h2uaJPVRcx6cN25YjoibnSIjFA07nEnVthNZ9Fhgs5DjEzjMh-x~LGxW70fZccrHhR~3JpqlhV78h9DA0NKScyFhGGXspsOHEF8k62IhrOJRRqKthrHVHvzbeX-yDZYCaaM5Utc4FoH6NtL8eQpHAI-NQUCP3Jfq1Z3N-Rkb9Lff34B3sJxxWe~SSIiim1cf1ZSzsYdaZWoLjPLvj1ieWwJWKdDlP8ty87p1WZNCGH-qDQ5R9EIAdkfXXOgE7~82OW~lcmI45JwIgdqpw5KyXchjdblKPFoCqIodVash5xE9m2s2UOiasZ0GqhrRTfSIqHlmQQogOllzoQ__&Key-Pair-Id=APKAJKLR6VB3PTZVDEBA");
   background-size: cover;
@@ -87,4 +87,18 @@ html, body, #app {
 
 .border, [class*="border-"] {
   border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-mktg {
+  border-radius: 24px;
+  height: 48px;
+  font-size: 20px;
+  line-height: 48px;
+  padding: 0 24px;
+  background-color: #2e0770;
+  border: none;
+
+  &:hover {
+    background-color: #2e0770;
+  }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border-bottom d-flex mt-4 pr-4">
+    <div class="border-bottom d-flex pt-4 pr-4">
       <div class="ml-5">
         <Avatar class="mr-3" />
       </div>
@@ -16,7 +16,7 @@
             <div class="iconfont iconimage overflow-hidden" />
           </Upload>
           <div class="flex-auto text-right py-2">
-            <button class="btn btn-primary" @click="handleSubmit">Post</button>
+            <button class="btn-mktg" @click="handleSubmit">Post</button>
           </div>
         </div>
       </div>

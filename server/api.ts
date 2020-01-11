@@ -1,4 +1,7 @@
 import express from 'express';
+import multer from 'multer';
+import fs from 'fs';
+import pinataSDK from '@pinata/sdk';
 import { randomBytes } from 'crypto';
 import db from './helpers/db';
 import { issueToken } from './helpers/token';
@@ -6,6 +9,10 @@ import { verify } from './helpers/middleware';
 import { signup, login } from '../common/schemas';
 
 const router = express.Router();
+const storage = multer.memoryStorage();
+const fileSize = 1000 * 1000;
+const upload = multer({ dest: 'uploads/', limits: { fileSize } });
+const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_API_KEY);
 
 router.post('/signup', async (req, res) => {
   try {
@@ -43,9 +50,23 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/verify', verify, (req, res) => {
+router.post('/verify', verify, async (req, res) => {
   const query = 'SELECT id, name, email FROM accounts WHERE id = ? LIMIT 1';
-  db.queryAsync(query, [res.locals.id]).then(result => res.json(result[0]));
+  const result = await db.queryAsync(query, [res.locals.id]);
+  res.json(result[0]);
+});
+
+router.post('/upload', upload.single('file'), async (req, res, next) => {
+  const path = `./uploads/${req.file.filename}`;
+  const readableStreamForFile = fs.createReadStream(path);
+  try {
+    const result = await pinata.pinFileToIPFS(readableStreamForFile);
+    await fs.unlinkSync(path);
+    res.json({ result });
+  } catch (error) {
+    console.log(error);
+    res.json({ error });
+  }
 });
 
 export default router;

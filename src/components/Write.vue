@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border-bottom d-flex">
+    <div class="border-bottom d-flex mt-4 pr-4">
       <div class="ml-5">
         <Avatar class="mr-3" />
       </div>
@@ -10,11 +10,12 @@
           style="height: 64px;"
           placeholder="Compose new post..."
         />
-        <div class="d-flex ove">
-          <Upload v-model="file" class="p-3 border-right">
+        <img v-if="file" :src="`https://gateway.pinata.cloud/ipfs/${file}`" class="width-fit"/>
+        <div class="d-flex">
+          <Upload v-model="file" class="p-3">
             <div class="iconfont iconimage overflow-hidden" />
           </Upload>
-          <div class="flex-auto text-right py-2 px-4">
+          <div class="flex-auto text-right py-2">
             <button class="btn btn-primary" @click="handleSubmit">Post</button>
           </div>
         </div>

@@ -7,26 +7,36 @@
 
 <script>
 export default {
-  props: {
-    value: File
-  },
   methods: {
-    handleFileChange(e) {
-      this.$emit('input', e.target.files[0]);
+    async handleFileChange(e) {
+      const file = e.target.files[0];
+      let formData = new FormData();
+      formData.append('file', file);
+      try {
+        const url = `${process.env.VUE_APP_API}/api/upload`;
+        const result = await fetch(url, { method: 'POST', body: formData })
+          .then(res => res.json());
+        this.$emit('input', result.result.IpfsHash);
+        console.log('Result', result);
+      } catch (error) {
+        console.log('Error', error);
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-label:hover {
-  cursor: pointer;
-}
 .file-select > input[type='file'] {
   display: none;
   font-weight: normal;
 }
 label {
-  font-weight: normal;
+  all: initial;
+  all: unset;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>

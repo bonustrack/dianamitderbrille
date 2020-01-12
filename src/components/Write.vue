@@ -6,12 +6,12 @@
       </div>
       <div class="d-flex flex-column flex-auto">
         <textarea
-          class="form-control flex-auto width-full mb-0"
-          style="height: 64px;"
+          class="form-control flex-auto width-full mb-2"
           placeholder="Compose new post..."
+          rows="1"
         />
-        <img v-if="file" :src="`https://gateway.pinata.cloud/ipfs/${file}`" class="width-fit"/>
-        <div class="d-flex">
+        <img v-if="file" :src="`https://gateway.pinata.cloud/ipfs/${file}`" class="width-fit" />
+        <div class="d-flex mb-2">
           <Upload v-model="file" class="p-3">
             <div class="iconfont iconimage overflow-hidden" />
           </Upload>

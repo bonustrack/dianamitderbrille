@@ -45,7 +45,7 @@
   }
 
   @media (max-width: 1012px - 1) {
-    background-color: #16181a;
+    background-color: $bg-color;
     width: auto;
     left: 0;
     right: 0;

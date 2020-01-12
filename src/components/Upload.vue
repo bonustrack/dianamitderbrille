@@ -14,8 +14,7 @@ export default {
       formData.append('file', file);
       try {
         const url = `${process.env.VUE_APP_API}/api/upload`;
-        const result = await fetch(url, { method: 'POST', body: formData })
-          .then(res => res.json());
+        const result = await fetch(url, { method: 'POST', body: formData }).then(res => res.json());
         this.$emit('input', result.result.IpfsHash);
         console.log('Result', result);
       } catch (error) {

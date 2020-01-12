@@ -14,6 +14,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../vars.scss';
+
 .modal {
   position: fixed;
   display: flex;
@@ -23,6 +25,7 @@ export default {
   right: 0;
   align-items: center;
   justify-content: center;
+  z-index: 9;
 
   .backdrop {
     position: fixed;
@@ -41,7 +44,7 @@ export default {
     margin: 0 auto;
     width: 100%;
     max-height: 48vh;
-    background-color: #202225;
+    background-color: $bg-color;
 
     .modal-body {
       overflow-y: scroll;

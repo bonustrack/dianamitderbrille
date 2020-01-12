@@ -17,14 +17,14 @@ const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_A
 router.post('/signup', async (req, res) => {
   try {
     const values = await signup.validateAsync(req.body);
-    const account = {
+    const user = {
       id: randomBytes(4).toString('hex'),
-      name: values.name,
       email: values.email,
-      password: values.password
+      password: values.password,
+      meta: JSON.stringify({ name: values.name })
     };
-    await db.queryAsync('INSERT INTO accounts SET ?', [account]);
-    const token = issueToken(account.id);
+    await db.queryAsync('INSERT INTO users SET ?', [user]);
+    const token = issueToken(user.id);
     res.json({ access_token: token });
   } catch (error) {
     const errorMessage = error.sqlMessage || 'request failed';
@@ -35,10 +35,10 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const values = await login.validateAsync(req.body);
-    const query = 'SELECT id FROM accounts WHERE email = ? AND password = ?';
-    const accounts = await db.queryAsync(query, [values.email, values.password]);
-    if (accounts && accounts[0] && accounts[0].id) {
-      const token = issueToken(accounts[0].id);
+    const query = 'SELECT id FROM users WHERE email = ? AND password = ?';
+    const users = await db.queryAsync(query, [values.email, values.password]);
+    if (users && users[0] && users[0].id) {
+      const token = issueToken(users[0].id);
       res.json({ access_token: token });
     } else {
       const errorMessage = 'email or password is wrong';
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify', verify, async (req, res) => {
-  const query = 'SELECT id, name, email FROM accounts WHERE id = ? LIMIT 1';
+  const query = 'SELECT id, email, meta FROM users WHERE id = ? LIMIT 1';
   const result = await db.queryAsync(query, [res.locals.id]);
   res.json(result[0]);
 });

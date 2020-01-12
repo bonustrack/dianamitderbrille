@@ -1,7 +1,7 @@
 <template>
   <Layout title="Home">
     <Write />
-    <div class="pl-lg-5">
+    <div class="pl-lg-5 pb-6">
       <div class="d-flex border-bottom pr-lg-5 py-5" v-for="(item, i) in items" :key="i">
         <div>
           <Avatar class="mr-3" />

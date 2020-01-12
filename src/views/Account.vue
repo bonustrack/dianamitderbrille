@@ -2,8 +2,11 @@
   <Layout title="Account">
     <div class="p-4">
       <div class="mb-4">
+        <Avatar size="128"/>
+      </div>
+      <div class="mb-4">
         <span>Name</span>
-        <h3>{{ account.name }}</h3>
+        <h3>{{ account.meta.name }}</h3>
       </div>
       <div class="mb-4">
         <span>Email</span>

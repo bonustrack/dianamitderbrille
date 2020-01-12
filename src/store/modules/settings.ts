@@ -42,6 +42,8 @@ const actions = {
       client
         .request('verify', [])
         .then(account => {
+          // @ts-ignore
+          account.meta = JSON.parse(account.meta);
           commit('login', { account, token });
           commit('isLoading', false);
           commit('isInit');

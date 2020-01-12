@@ -37,7 +37,7 @@
   width: 260px;
 
   a {
-    color: rgba(255, 255, 255, 0.4);
+    color: $color;
 
     &.router-link-exact-active {
       color: white;

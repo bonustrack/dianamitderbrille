@@ -13,7 +13,7 @@ export const verify = async (req, res, next) => {
     || req.body.refresh_token;
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    let query = 'UPDATE accounts SET logged = CURRENT_TIMESTAMP WHERE id = ?';
+    let query = 'UPDATE users SET logged = CURRENT_TIMESTAMP WHERE id = ?';
     await db.queryAsync(query, payload.id);
     res.locals.token = token;
     res.locals.id = payload.id;

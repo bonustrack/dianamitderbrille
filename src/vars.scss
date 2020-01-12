@@ -1,7 +1,8 @@
-$primary: #2e0770;
+$primary: #eb3b8c;
 $primary-100: lighten($primary, 10);
-$color: #CBCCCE;
-$bg-color: #16181a;
+$color: rgba(255,255,255,.5);
+$bg-color: desaturate(darken(#190f27, 2), 24);
+$bg-input: darken($bg-color, 8);
 
 $body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
 $font-mktg: 'Calibre-Semibold', Helvetica, Arial, sans-serif;
@@ -10,3 +11,4 @@ $border-radius: 6px;
 $h1-size: 42px;
 $btn-input-focus-shadow: none;
 $font-size-small: 18px;
+$border-color: rgba(204, 195, 222, 0.2);

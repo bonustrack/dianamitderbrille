@@ -52,8 +52,13 @@ router.post('/login', async (req, res) => {
 
 router.post('/verify', verify, async (req, res) => {
   const query = 'SELECT id, email, meta FROM users WHERE id = ? LIMIT 1';
-  const result = await db.queryAsync(query, [res.locals.id]);
-  res.json(result[0]);
+  try {
+    const result = await db.queryAsync(query, [res.locals.id]);
+    res.json(result[0]);
+  } catch (error) {
+    console.log(error);
+    res.json({ error });
+  }
 });
 
 router.post('/upload', upload.single('file'), async (req, res, next) => {

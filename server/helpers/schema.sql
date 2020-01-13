@@ -14,7 +14,7 @@ CREATE TABLE users (
 CREATE TABLE users_uploads (
   user_id VARCHAR(64) NOT NULL,
   ipfs_hash VARCHAR(20) NOT NULL,
-  meta TEXT NOT NULL,
+  meta JSON NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`, `ipfs_hash`)
 );

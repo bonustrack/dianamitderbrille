@@ -1,8 +1,8 @@
-$primary: #eb3b8c;
+$primary: #1c53eb;
 $primary-100: lighten($primary, 10);
 $color: rgba(255,255,255,.5);
-$bg-color: desaturate(darken(#190f27, 2), 24);
-$bg-input: darken($bg-color, 8);
+$bg-color: #181a21;
+$bg-input: darken($bg-color, 16);
 
 $body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
 $font-mktg: 'Calibre-Semibold', Helvetica, Arial, sans-serif;

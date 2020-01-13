@@ -61,12 +61,20 @@ router.post('/verify', verify, async (req, res) => {
   }
 });
 
-router.post('/upload', upload.single('file'), async (req, res, next) => {
-  const path = `./uploads/${req.file.filename}`;
+router.post('/upload', verify, upload.single('file'), async (req, res, next) => {
+  const path = `${req.file.destination}${req.file.filename}`;
   const readableStreamForFile = fs.createReadStream(path);
   try {
     const result = await pinata.pinFileToIPFS(readableStreamForFile);
     await fs.unlinkSync(path);
+    const userUpload = {
+      user_id: res.locals.id,
+      ipfs_hash: result.IpfsHash,
+      meta: JSON.stringify({})
+    };
+    let query = 'UPDATE users SET meta = JSON_SET(meta, "$.avatar", ?) WHERE id = ?;';
+    query += 'INSERT IGNORE INTO users_uploads SET ?;';
+    await db.queryAsync(query, [result.IpfsHash, res.locals.id, userUpload]);
     res.json({ result });
   } catch (error) {
     console.log(error);

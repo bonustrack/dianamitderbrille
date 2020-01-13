@@ -1,11 +1,20 @@
 class Client {
   public accessToken?: string = '';
 
-  request(command, params?) {
+  request(command, params?, options?) {
+    const isUpload = !!(options && options.upload);
     return new Promise((resolve, reject) => {
       const url = `${process.env.VUE_APP_API}/api/${command}`;
       let init;
-      if (params) {
+      if (isUpload) {
+        init = {
+          method: 'POST',
+          headers: {
+            Authorization: this.accessToken
+          },
+          body: params
+        };
+      } else if (params) {
         init = {
           method: 'POST',
           headers: {

@@ -1,3 +1,3 @@
 <template>
-  <Layout title="Billing" />
+  <div />
 </template>

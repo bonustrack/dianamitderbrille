@@ -1,13 +1,24 @@
 <template>
-  <img
-    class="circle"
-    :style="`width: ${size || 48}px; height: ${size || 48};`"
-    src="https://instagram.fbkk5-8.fna.fbcdn.net/v/t51.2885-19/s320x320/72229387_959197884442734_5367445652290666496_n.jpg?_nc_ht=instagram.fbkk5-8.fna.fbcdn.net&_nc_ohc=xM0LL93jKf0AX8VnvP8&oh=e3ff74aef154c465f2b4c2d9203d6e96&oe=5EB0CC7D"
-  />
+  <div class="d-inline-block">
+    <div
+      class="avatar circle"
+      :style="
+        `width: ${size || '48'}px; height: ${size ||
+          '48'}px; background-image: url('https://steemitimages.com/600x800/https://gateway.pinata.cloud/ipfs/${ipfsHash}');`
+      "
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['size']
-}
+  props: ['ipfsHash', 'size']
+};
 </script>
+
+<style scoped lang="scss">
+.avatar {
+  background-size: cover;
+  background-position: center;
+}
+</style>

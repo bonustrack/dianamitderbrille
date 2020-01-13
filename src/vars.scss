@@ -1,3 +1,9 @@
+$primary: #1a5cff;
+$primary-100: lighten($primary, 10);
+$color: rgba(255,255,255,.5);
+$bg-color: #181a21;
+$bg-input: darken($bg-color, 16);
+
 $body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
 $font-mktg: 'Calibre-Semibold', Helvetica, Arial, sans-serif;
 $body-font-size: 20px;
@@ -5,3 +11,4 @@ $border-radius: 6px;
 $h1-size: 42px;
 $btn-input-focus-shadow: none;
 $font-size-small: 18px;
+$border-color: rgba(204, 195, 222, 0.2);

@@ -1,9 +1,10 @@
-const mysql = require('mysql');
-const Pool = require('mysql/lib/Pool');
-const Connection = require('mysql/lib/Connection');
-const bluebird = require('bluebird');
-const parse = require('connection-string');
+import mysql from 'mysql';
+import Pool from 'mysql/lib/Pool';
+import Connection from 'mysql/lib/Connection';
+import bluebird from 'bluebird';
+import parse from 'connection-string';
 
+// @ts-ignore
 const config = parse(process.env.DATABASE_URL);
 config.connectionLimit = 5;
 config.multipleStatements = true;
@@ -12,4 +13,4 @@ config.host = config.hosts[0].name;
 bluebird.promisifyAll([Pool, Connection]);
 const db = mysql.createPool(config);
 
-module.exports = db;
+export default db;

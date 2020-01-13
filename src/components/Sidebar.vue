@@ -1,22 +1,28 @@
 <template>
   <div id="sidebar" class="position-fixed py-lg-4">
     <ul class="list-style-none border-top border-lg-top-0 text-center text-lg-left">
-      <li class="col-4 col-lg-12">
+      <li class="col-3 col-lg-12">
         <router-link to="/home" class="p-3 d-block">
-          <i class="iconfont iconhome mr-3" />
-          <span class="hide-sm hide-md hide-lg">Home</span>
+          <i class="iconfont iconhome" />
+          <span class="hide-sm hide-md hide-lg ml-3">Home</span>
         </router-link>
       </li>
-      <li class="col-4 col-lg-12">
-        <router-link to="/messages" class="p-3 d-block">
-          <i class="iconfont iconmessage mr-3" />
-          <span class="hide-sm hide-md hide-lg">Messages</span>
+      <li class="col-3 col-lg-12">
+        <router-link to="#messages" class="p-3 d-block">
+          <i class="iconfont iconmessage" />
+          <span class="hide-sm hide-md hide-lg ml-3">Messages</span>
         </router-link>
       </li>
-      <li class="col-4 col-lg-12">
+      <li class="col-3 col-lg-12">
         <router-link to="/account" class="p-3 d-block">
-          <i class="iconfont iconuser mr-3" />
-          <span class="hide-sm hide-md hide-lg">Account</span>
+          <i class="iconfont iconuser" />
+          <span class="hide-sm hide-md hide-lg ml-3">Account</span>
+        </router-link>
+      </li>
+      <li class="col-3 col-lg-12">
+        <router-link to="#wallet" class="p-3 d-block">
+          <i class="iconfont iconwallet" />
+          <span class="hide-sm hide-md hide-lg ml-3">Wallet</span>
         </router-link>
       </li>
     </ul>
@@ -29,10 +35,9 @@
 #sidebar {
   font-family: $font-mktg;
   width: 260px;
-  background-color: #202225;
 
   a {
-    color: rgba(255, 255, 255, 0.4);
+    color: $color;
 
     &.router-link-exact-active {
       color: white;
@@ -40,6 +45,7 @@
   }
 
   @media (max-width: 1012px - 1) {
+    background-color: $bg-color;
     width: auto;
     left: 0;
     right: 0;

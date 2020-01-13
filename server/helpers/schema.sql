@@ -1,8 +1,8 @@
-CREATE TABLE accounts (
+CREATE TABLE users (
   id VARCHAR(12) NOT NULL,
   email VARCHAR(64) NOT NULL,
   password VARCHAR(128) NOT NULL,
-  name VARCHAR(32) NOT NULL,
+  meta JSON NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   logged TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
@@ -11,20 +11,19 @@ CREATE TABLE accounts (
   KEY logged (logged)
 );
 
-CREATE TABLE metadata (
-  type VARCHAR(12) NOT NULL,
-  id VARCHAR(12) NOT NULL,
-  key VARCHAR(12) NOT NULL,
+CREATE TABLE users_uploads (
+  user_id VARCHAR(64) NOT NULL,
+  ipfs_hash VARCHAR(20) NOT NULL,
+  meta JSON NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `ipfs_hash`)
+);
+
+CREATE TABLE settings (
+  `key` VARCHAR(12) NOT NULL,
   value TEXT NOT NULL,
-  PRIMARY KEY (`type`, `id`, `key`)
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`key`)
 );
 
-CREATE TABLE uploads (
-  type VARCHAR(12) NOT NULL,
-  id VARCHAR(64) NOT NULL,
-  metadata TEXT NOT NULL,
-  PRIMARY KEY (`type`, `id`)
-);
-
-INSERT INTO accounts (id, email, password, name) VALUES
-('1', 'fabien@bonustrack.co', 'password22', 'Fabien');
+INSERT INTO users (id, email, password, meta) VALUES ('1', 'fabien@bonustrack.co', 'password22', '{"name":"Fabien","avatar":"QmdR1QWmDxYTwoDo2hp9N5iGEMHKxPH2LyhE4ACkTndn84"}');

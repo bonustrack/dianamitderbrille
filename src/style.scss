@@ -1,7 +1,14 @@
 @import "~primer-support/index.scss";
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
+@import '~//at.alicdn.com/t/font_1601044_hgp69etdrkn.css';
 @import 'fonts.scss';
+
+html, body, #app {
+  background-color: $bg-color;
+  min-height: 100vh;
+  color: $color;
+}
 
 a:hover {
   text-decoration: none;
@@ -48,7 +55,6 @@ h1, h2, h3 {
   font-size: $font-size-small;
 }
 
-
 ::-webkit-scrollbar-thumb {
   background-color: $gray-200;
   border: 0;
@@ -60,18 +66,15 @@ h1, h2, h3 {
 }
 
 .vue-ui-loading-indicator {
-  background-color: #202225 !important;
+  background-color: transparent !important;
 
   .animation {
-    border-color: rgba(255, 255, 255, 0.2);
-    border-right-color: white;
+    border-color: transparentize($primary, 0.8);
+    border-width: 4px !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-right-color: $primary;
   }
-}
-
-html, body, #app {
-  background-color: #202225;
-  min-height: 100vh;
-  color: #CBCCCE;
 }
 
 .hero {
@@ -86,5 +89,39 @@ html, body, #app {
 }
 
 .border, [class*="border-"] {
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: $border-color !important;
+}
+
+.btn-mktg {
+  padding: 0 26px;
+  border-radius: 26px;
+  height: 52px;
+  font-size: 20px;
+  line-height: 52px;
+  background-color: $primary;
+  border: none;
+
+  &:hover {
+    background-color: $primary-100;
+  }
+}
+
+.form-control {
+  padding-left: 22px;
+  padding-right: 22px;
+  border-radius: 26px;
+  background: $bg-input;
+  border: none;
+  color: white;
+  font-size: 22px;
+  min-height: 52px;
+}
+
+textarea {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+}
+
+.input-lg {
+  background: $bg-input !important;
 }

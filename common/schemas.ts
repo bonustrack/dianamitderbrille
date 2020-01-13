@@ -1,6 +1,6 @@
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
 
-const signup = Joi.object({
+export const signup = Joi.object({
   email: Joi.string()
     .email({ tlds: false })
     .lowercase({ force: true })
@@ -17,7 +17,7 @@ const signup = Joi.object({
     .required()
 });
 
-const login = Joi.object({
+export const login = Joi.object({
   email: Joi.string()
     .trim()
     .required(),
@@ -25,8 +25,3 @@ const login = Joi.object({
     .trim()
     .required()
 });
-
-module.exports = {
-  signup,
-  login
-};

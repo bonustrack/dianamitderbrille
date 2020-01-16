@@ -5,7 +5,7 @@ import { ifAuthenticated, ifNotAuthenticated } from '@/helpers/utils';
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Signup = () => import(/* webpackChunkName: "signup" */ '@/views/Signup.vue');
 const Login = () => import(/* webpackChunkName: "login" */ '@/views/Login.vue');
-const Feed = () => import(/* webpackChunkName: "feed" */ '@/views/Feed.vue');
+const Timeline = () => import(/* webpackChunkName: "timeline" */ '@/views/Timeline.vue');
 const Account = () => import(/* webpackChunkName: "account" */ '@/views/Account.vue');
 const Billing = () => import(/* webpackChunkName: "billing" */ '@/views/Billing.vue');
 
@@ -33,7 +33,7 @@ const routes = [
     meta: { isLight: true },
     beforeEnter: ifNotAuthenticated
   },
-  { path: '/home', name: 'feed', component: Feed, beforeEnter: ifAuthenticated },
+  { path: '/home', name: 'timeline', component: Timeline, beforeEnter: ifAuthenticated },
   { path: '/account', name: 'account', component: Account, beforeEnter: ifAuthenticated },
   { path: '/billing', name: 'billing', component: Billing, beforeEnter: ifAuthenticated },
   { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') }

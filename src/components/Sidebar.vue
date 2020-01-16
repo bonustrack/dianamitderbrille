@@ -14,15 +14,15 @@
         </router-link>
       </li>
       <li class="col-3 col-lg-12">
-        <router-link to="/account" class="p-3 d-block">
-          <i class="iconfont iconuser" />
-          <span class="hide-sm hide-md hide-lg ml-3">Account</span>
-        </router-link>
-      </li>
-      <li class="col-3 col-lg-12">
         <router-link to="#wallet" class="p-3 d-block">
           <i class="iconfont iconwallet" />
           <span class="hide-sm hide-md hide-lg ml-3">Wallet</span>
+        </router-link>
+      </li>
+      <li class="col-3 col-lg-12">
+        <router-link to="/account" class="p-3 d-block">
+          <i class="iconfont iconuser" />
+          <span class="hide-sm hide-md hide-lg ml-3">Profile</span>
         </router-link>
       </li>
     </ul>

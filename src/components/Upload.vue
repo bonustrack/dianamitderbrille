@@ -1,7 +1,7 @@
 <template>
   <label class="file-select">
-    <slot />
-    <input type="file" @change="handleFileChange" accept="image/*" />
+    <slot v-if="!isLoading" />
+    <input type="file" @change="handleFileChange" accept="image/*, video/mp4" />
   </label>
 </template>
 
@@ -9,17 +9,23 @@
 import client from '@/helpers/client';
 
 export default {
+  data() {
+    return {
+      isLoading: false
+    };
+  },
   methods: {
     async handleFileChange(e) {
+      this.isLoading = true;
       const file = e.target.files[0];
       let formData = new FormData();
       formData.append('file', file);
       try {
         const result = await client.request('upload', formData, { upload: true });
-        this.$emit('input', result.result.IpfsHash);
-        console.log('Result', result);
+        this.$emit('input', result.result);
+        this.isLoading = false;
       } catch (error) {
-        console.log('Error', error);
+        console.log(error);
       }
     }
   }

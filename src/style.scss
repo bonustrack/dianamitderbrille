@@ -1,7 +1,6 @@
-@import "~primer-support/index.scss";
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
-@import '~//at.alicdn.com/t/font_1601044_hgp69etdrkn.css';
+@import '~//at.alicdn.com/t/font_1601044_zjmreiv4sqo.css';
 @import 'fonts.scss';
 
 html, body, #app {
@@ -41,18 +40,9 @@ h1, h2, h3 {
   line-height: 48px;
 }
 
-.btn {
-  padding: 0 16px;
-  height: 48px;
-  line-height: 48px;
-
-  &:focus {
-    box-shadow: none !important;
-  }
-}
-
 .flash {
   font-size: $font-size-small;
+  border-radius: $border-radius;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -92,18 +82,26 @@ h1, h2, h3 {
   border-color: $border-color !important;
 }
 
-.btn-mktg {
+.btn-mktg, .btn-outline-mktg {
   padding: 0 26px;
   border-radius: 26px;
   height: 52px;
   font-size: 20px;
   line-height: 52px;
+}
+
+.btn-mktg {
   background-color: $primary;
-  border: none;
+  border-color: $primary;
 
   &:hover {
     background-color: $primary-100;
   }
+}
+
+.btn-outline-mktg {
+  color: $color;
+  border: 1px solid $border-color;
 }
 
 .form-control {

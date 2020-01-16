@@ -12,3 +12,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+img {
+  max-height: calc(100vh - 100px);
+  object-fit: cover;
+}
+</style>

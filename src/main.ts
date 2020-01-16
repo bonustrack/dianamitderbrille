@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueUi from '@vue/ui';
+import prettyMs from 'pretty-ms';
 import { upperFirst, camelCase } from 'lodash';
 import App from '@/App.vue';
 import router from '@/router';
@@ -15,6 +16,8 @@ requireComponent.keys().forEach(fileName => {
   const componentName = upperFirst(camelCase(fileName.replace(/^\.\//, '').replace(/\.\w+$/, '')));
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
+
+Vue.filter('prettyMs', value => prettyMs(new Date().getTime() - value * 1000, { compact: true }));
 
 Vue.config.productionTip = false;
 

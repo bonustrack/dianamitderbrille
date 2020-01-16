@@ -1,18 +1,18 @@
 <template>
-  <div class="p-responsive">
-    <div class="mb-4">
-      <Avatar v-if="account.meta.avatar" :ipfsHash="account.meta.avatar" size="128" />
+  <div>
+    <Cover class="border-bottom" />
+    <div class="p-4">
+      <div class="mb-4">
+        <span>Name</span>
+        <h3>{{ account.meta.name }}</h3>
+      </div>
+      <div class="mb-4">
+        <span>Email</span>
+        <h3>{{ account.email }}</h3>
+      </div>
+      <p><router-link to="/billing">Billing</router-link></p>
+      <p><a @click="logout" class="text-red">Log out</a></p>
     </div>
-    <div class="mb-4">
-      <span>Name</span>
-      <h3>{{ account.meta.name }}</h3>
-    </div>
-    <div class="mb-4">
-      <span>Email</span>
-      <h3>{{ account.email }}</h3>
-    </div>
-    <p><router-link to="/billing">Billing</router-link></p>
-    <p><a @click="logout" class="text-red">Log out</a></p>
   </div>
 </template>
 

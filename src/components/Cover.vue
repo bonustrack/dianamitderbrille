@@ -1,6 +1,6 @@
 <template>
-  <div class="cover p-responsive">
-    <Avatar v-if="accountMeta.avatar" :ipfsHash="accountMeta.avatar" size="128" class="py-8" />
+  <div class="cover text-center">
+    <Avatar :ipfsHash="accountMeta.avatar" size="128" class="py-8" />
   </div>
 </template>
 

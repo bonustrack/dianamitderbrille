@@ -9,8 +9,7 @@ import { verify } from './helpers/middleware';
 import { signup, login } from '../common/schemas';
 
 const router = express.Router();
-const storage = multer.memoryStorage();
-const fileSize = 1000 * 1000;
+const fileSize = 50 * 1000 * 1000;
 const upload = multer({ dest: 'uploads/', limits: { fileSize } });
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_API_KEY);
 
@@ -67,19 +66,39 @@ router.post('/upload', verify, upload.single('file'), async (req, res, next) => 
   try {
     const result = await pinata.pinFileToIPFS(readableStreamForFile);
     await fs.unlinkSync(path);
-    const userUpload = {
+    const file = {
       user_id: res.locals.id,
       ipfs_hash: result.IpfsHash,
+      mimetype: req.file.mimetype,
+      size: req.file.size,
       meta: JSON.stringify({})
     };
-    let query = 'UPDATE users SET meta = JSON_SET(meta, "$.avatar", ?) WHERE id = ?;';
-    query += 'INSERT IGNORE INTO users_uploads SET ?;';
-    await db.queryAsync(query, [result.IpfsHash, res.locals.id, userUpload]);
-    res.json({ result });
+    let query = 'INSERT IGNORE INTO uploads SET ?;';
+    // query += 'UPDATE users SET meta = JSON_SET(meta, "$.avatar", ?) WHERE id = ?;';
+    await db.queryAsync(query, [file, result.IpfsHash, res.locals.id]);
+    res.json({ result: file });
   } catch (error) {
     console.log(error);
     res.json({ error });
   }
+});
+
+router.post('/timeline', verify, async (req, res) => {
+  const query = 'SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta FROM posts p INNER JOIN users u ON u.id = p.user_id WHERE DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY p.created DESC';
+  const result = await db.queryAsync(query);
+  res.json({ result });
+});
+
+router.post('/post', verify, async (req, res) => {
+  const post = {
+    id: randomBytes(4).toString('hex'),
+    user_id: res.locals.id,
+    body: req.body.body,
+    meta: req.body.meta
+  };
+  let query = 'INSERT INTO posts SET ?;';
+  await db.queryAsync(query, [post]);
+  res.json({ success: true });
 });
 
 export default router;

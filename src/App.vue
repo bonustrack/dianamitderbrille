@@ -5,7 +5,7 @@
       <Sidebar v-if="isInterface" />
       <router-view
         :id="isInterface && 'content'"
-        :class="isInterface && 'border-lg-left border-lg-right height-full'"
+        :class="isInterface && 'border-lg-left border-lg-right'"
       />
     </div>
     <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
@@ -30,7 +30,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('login');
+    this.$store.dispatch('init');
   }
 };
 </script>
@@ -38,10 +38,10 @@ export default {
 <style lang="scss">
 #content {
   min-height: 100vh;
+  padding-bottom: 63px;
 
   @media (min-width: 1012px) {
     margin-left: 260px;
-    padding-bottom: 0;
   }
 }
 </style>

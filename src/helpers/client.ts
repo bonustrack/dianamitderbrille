@@ -14,7 +14,7 @@ class Client {
           },
           body: params
         };
-      } else if (params) {
+      } else {
         init = {
           method: 'POST',
           headers: {

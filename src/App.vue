@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="height-full">
+  <div id="app" :class="!isInterface && 'd-flex flex-items-center'">
     <VueLoadingIndicator v-if="isLoading" class="overlay big" />
-    <div :class="isInterface && 'container-lg height-full'" v-else>
+    <div :class="isInterface ? 'container-lg height-full' : 'width-full'" v-else>
       <Sidebar v-if="isInterface" />
       <router-view
         :id="isInterface && 'content'"

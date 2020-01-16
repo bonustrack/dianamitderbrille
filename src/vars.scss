@@ -1,7 +1,8 @@
 @import "~primer-support/index.scss";
 
-$primary: #1a5cff;
+$primary: #005fd1;
 $primary-100: lighten($primary, 5);
+$bg-blue: $primary;
 $color: rgba(255,255,255,.5);
 $bg-color: #181a21;
 $bg-input: darken($bg-color, 16);

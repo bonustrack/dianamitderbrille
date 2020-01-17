@@ -1,6 +1,6 @@
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
-@import '~//at.alicdn.com/t/font_1601044_zjmreiv4sqo.css';
+@import '~//at.alicdn.com/t/font_1601044_hxinexfrjik.css';
 @import 'fonts.scss';
 
 html, body, #app {
@@ -98,6 +98,7 @@ h6 {
   height: 52px;
   font-size: 20px;
   line-height: 52px;
+  display: inline-block;
 }
 
 .btn-mktg {
@@ -110,7 +111,8 @@ h6 {
 }
 
 .btn-outline-mktg {
-  color: $color;
+  color: $white;
+  background-color: transparent;
   border: 1px solid $border-color;
 }
 

@@ -1,9 +1,10 @@
 @import "~primer-support/index.scss";
 
-$primary: #1a5cff;
+$primary: #005fd1;
 $primary-100: lighten($primary, 5);
+$bg-blue: $primary;
 $color: rgba(255,255,255,.5);
-$bg-color: #181a21;
+$bg-color: #14171a;
 $bg-input: darken($bg-color, 16);
 
 $body-font: 'Calibre-Medium', Helvetica, Arial, sans-serif;
@@ -13,4 +14,4 @@ $border-radius: 6px;
 $h1-size: 42px;
 $btn-input-focus-shadow: none;
 $font-size-small: 18px;
-$border-color: rgba(204, 195, 222, 0.2);
+$border-color: lighten($bg-color, 15);

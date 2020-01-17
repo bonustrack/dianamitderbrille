@@ -1,6 +1,6 @@
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
-@import '~//at.alicdn.com/t/font_1601044_zjmreiv4sqo.css';
+@import '~//at.alicdn.com/t/font_1601044_hxinexfrjik.css';
 @import 'fonts.scss';
 
 html, body, #app {
@@ -12,6 +12,11 @@ html, body, #app {
 a:hover {
   text-decoration: none;
   cursor: pointer;
+}
+
+h1 {
+  font-size: 46px;
+  line-height: 1.2em;
 }
 
 h2 {
@@ -31,6 +36,16 @@ h4 {
 h1, h2, h3 {
   color: $white;
   font-family: $font-mktg;
+}
+
+h5 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .input-lg {
@@ -67,11 +82,6 @@ h1, h2, h3 {
   }
 }
 
-.hero {
-  background-image: url("https://cdn2.onlyfans.com/files/p/pm/pmf/pmfbnxzdffadmmyyln3l0e1vpii6dk831572719973/header.jpg?Expires=1609911601&Signature=cNKTWuv7h2uaJPVRcx6cN25YjoibnSIjFA07nEnVthNZ9Fhgs5DjEzjMh-x~LGxW70fZccrHhR~3JpqlhV78h9DA0NKScyFhGGXspsOHEF8k62IhrOJRRqKthrHVHvzbeX-yDZYCaaM5Utc4FoH6NtL8eQpHAI-NQUCP3Jfq1Z3N-Rkb9Lff34B3sJxxWe~SSIiim1cf1ZSzsYdaZWoLjPLvj1ieWwJWKdDlP8ty87p1WZNCGH-qDQ5R9EIAdkfXXOgE7~82OW~lcmI45JwIgdqpw5KyXchjdblKPFoCqIodVash5xE9m2s2UOiasZ0GqhrRTfSIqHlmQQogOllzoQ__&Key-Pair-Id=APKAJKLR6VB3PTZVDEBA");
-  background-size: cover;
-}
-
 .iconfont {
   font-size: 26px;
   line-height: 26px;
@@ -88,6 +98,7 @@ h1, h2, h3 {
   height: 52px;
   font-size: 20px;
   line-height: 52px;
+  display: inline-block;
 }
 
 .btn-mktg {
@@ -100,7 +111,8 @@ h1, h2, h3 {
 }
 
 .btn-outline-mktg {
-  color: $color;
+  color: $white;
+  background-color: transparent;
   border: 1px solid $border-color;
 }
 
@@ -122,4 +134,13 @@ textarea {
 
 .input-lg {
   background: $bg-input !important;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.text-justify {
+  text-align: justify;
 }

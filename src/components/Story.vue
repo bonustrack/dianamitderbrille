@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom rounded-2 py-4">
+  <div class="border-bottom py-4">
     <div class="d-flex px-4 mb-2">
       <div>
         <Avatar :ipfsHash="post.user_meta.avatar" class="mr-3" />

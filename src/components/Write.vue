@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex p-4">
-    <div><Avatar class="mr-3" :ipfsHash="accountMeta.avatar" /></div>
+    <div class="hide-sm"><Avatar class="mr-3" :ipfsHash="accountMeta.avatar" /></div>
     <form @submit.prevent="handleSubmit" class="d-flex flex-column flex-auto">
       <textarea
         class="form-control flex-auto width-full mb-3"

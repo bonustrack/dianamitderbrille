@@ -4,6 +4,7 @@ import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 const state = {
   account: false,
+  subscriptions: [],
   isAuthenticated: false,
   token: false,
   isInit: false,
@@ -18,13 +19,15 @@ const mutations = {
   isLoading(_state, payload) {
     Vue.set(_state, 'isLoading', payload);
   },
-  login(_state, { account, token }) {
+  login(_state, { account, subscriptions, token }) {
     Vue.set(_state, 'account', account);
+    Vue.set(_state, 'subscriptions', subscriptions);
     Vue.set(_state, 'isAuthenticated', true);
     Vue.set(_state, 'token', token);
   },
   logout(_state) {
     Vue.set(_state, 'account', false);
+    Vue.set(_state, 'subscriptions', []);
     Vue.set(_state, 'isAuthenticated', false);
     Vue.set(_state, 'token', false);
   },
@@ -50,10 +53,11 @@ const actions = {
       client.setAccessToken(token);
       client
         .request('verify', [])
-        .then(account => {
+        .then(result => {
           // @ts-ignore
+          const { account, subscriptions } = result;
           account.meta = JSON.parse(account.meta);
-          commit('login', { account, token });
+          commit('login', { account, subscriptions, token });
           return resolve();
         })
         .catch(() => {

@@ -30,7 +30,12 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('init');
+    this.$store.dispatch('init').then(() => {
+      const account = this.$store.state.settings.account;
+      if (!account || account.username !== '!fabien') {
+        document.addEventListener('contextmenu', event => event.preventDefault());
+      }
+    });
   }
 };
 </script>
@@ -42,6 +47,7 @@ export default {
 
   @media (min-width: 1012px) {
     margin-left: 260px;
+    padding-bottom: 0;
   }
 }
 </style>

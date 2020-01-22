@@ -3,6 +3,10 @@
     <Cover class="border-bottom" />
     <div class="p-4">
       <div class="mb-4">
+        <span>Username</span>
+        <h3>{{ account.username }}</h3>
+      </div>
+      <div class="mb-4">
         <span>Name</span>
         <h3>{{ account.meta.name }}</h3>
       </div>

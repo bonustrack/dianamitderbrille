@@ -29,9 +29,9 @@
           <h6 class="eyebrow mb-4">Subtitle 2</h6>
           <h2>Subscription bundles</h2>
           <h5>
-            Das kannst du
-            jederzeit über die Privatnachrichtenfunktion machen, jede Nachricht wird von mir
-            persönlich beantwortet, denn ich bin täglich mehrmals online und habe genügend Zeit.
+            Das kannst du jederzeit über die Privatnachrichtenfunktion machen, jede Nachricht wird
+            von mir persönlich beantwortet, denn ich bin täglich mehrmals online und habe genügend
+            Zeit.
           </h5>
         </div>
         <div class="col-md-6 float-left pl-md-6 pl-lg-6 text-center">
@@ -43,13 +43,14 @@
         </div>
       </div>
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
 <style scoped lang="scss">
 .hero {
-  background-image: linear-gradient(rgba(0,0,0,0) 70%, rgba(0,0,0, 0.4)), url('https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.4)),
+    url('https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
   background-size: cover;
   background-position: center;
 }

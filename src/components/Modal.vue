@@ -1,7 +1,7 @@
 <template>
   <div v-if="open" class="modal">
     <div class="backdrop" />
-    <div class="shell overflow-hidden container-sm rounded-2">
+    <div class="shell overflow-hidden rounded-md-2 rounded-lg-2">
       <slot />
     </div>
   </div>
@@ -42,13 +42,21 @@ export default {
     flex-direction: column;
     z-index: 999;
     margin: 0 auto;
-    width: 100%;
-    max-height: 48vh;
     background-color: $bg-color;
+    min-height: 100vh;
+    width: 100%;
 
     .modal-body {
       overflow-y: scroll;
       overflow-x: hidden;
+    }
+  }
+
+  @media (min-width: $width-md) {
+    .shell {
+      min-height: auto;
+      max-height: 64vh;
+      max-width: $width-sm;
     }
   }
 }

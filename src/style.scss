@@ -1,6 +1,6 @@
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
-@import '~//at.alicdn.com/t/font_1601044_hxinexfrjik.css';
+@import '~//at.alicdn.com/t/font_1601044_9txazi6yt0m.css';
 @import 'fonts.scss';
 
 html, body, #app {
@@ -114,6 +114,11 @@ h6 {
   color: $white;
   background-color: transparent;
   border: 1px solid $border-color;
+}
+
+i.btn-mktg, i.btn-outline-mktg {
+  font-size: 26px;
+  min-width: 54px;
 }
 
 .form-control {

@@ -17,7 +17,9 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
 
-Vue.filter('prettyMs', value => prettyMs(new Date().getTime() - value * 1000, { compact: true }));
+Vue.filter('prettyMs', value =>
+  prettyMs(new Date().getTime() - value * 1000, { compact: true }).replace('~', '')
+);
 
 Vue.config.productionTip = false;
 

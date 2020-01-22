@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-8">
     <Write class="border-bottom" />
     <Story v-for="(item, i) in items" :key="i" :item="item" />
   </div>

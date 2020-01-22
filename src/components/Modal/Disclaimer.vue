@@ -1,6 +1,6 @@
 <template>
   <Modal :open="open" @close="$emit('close')">
-    <form @submit.prevent="handleSubmit" class="p-4 text-center overflow-y-auto">
+    <form @submit.prevent="handleSubmit" class="px-4 py-6 text-center overflow-y-auto">
       <h1 class="mb-4">Are you 18+?</h1>
       <p class="text-left mb-4">
         This website may contain content of an adult nature. If you are easily offended or are under
@@ -8,7 +8,10 @@
         may include scenes of sexual content, suggestive pictures, or graphic violence. Reader
         discretion is advised.
       </p>
-      <button type="submit" class="btn-mktg mb-4">Agree</button>
+      <div class="v-align-middle mb-4">
+        <a href="https://google.com" class="btn-outline-mktg mr-3">Exit</a>
+        <button type="submit" class="btn-mktg mr-3">Agree</button>
+      </div>
     </form>
   </Modal>
 </template>

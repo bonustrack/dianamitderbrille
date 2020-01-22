@@ -8,15 +8,15 @@
         </router-link>
       </li>
       <li class="col-3 col-lg-12">
-        <router-link to="#messages" class="p-3 d-block">
-          <i class="iconfont iconmessage" />
-          <span class="hide-sm hide-md hide-lg ml-3">Messages</span>
+        <router-link to="/write" class="p-3 d-block">
+          <i class="iconfont iconpen" />
+          <span class="hide-sm hide-md hide-lg ml-3">New post</span>
         </router-link>
       </li>
       <li class="col-3 col-lg-12">
-        <router-link to="#wallet" class="p-3 d-block">
-          <i class="iconfont iconwallet" />
-          <span class="hide-sm hide-md hide-lg ml-3">Wallet</span>
+        <router-link to="/messages" class="p-3 d-block">
+          <i class="iconfont iconmessage" />
+          <span class="hide-sm hide-md hide-lg ml-3">Messages</span>
         </router-link>
       </li>
       <li class="col-3 col-lg-12">

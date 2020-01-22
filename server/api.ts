@@ -2,10 +2,10 @@ import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
 import pinataSDK from '@pinata/sdk';
-import { randomBytes } from 'crypto';
 import db from './helpers/db';
 import { issueToken } from './helpers/token';
 import { verify } from './helpers/middleware';
+import { uid } from './helpers/utils';
 import { signup, login } from '../common/schemas';
 
 const router = express.Router();
@@ -16,8 +16,10 @@ const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_A
 router.post('/signup', async (req, res) => {
   try {
     const values = await signup.validateAsync(req.body);
+    const id = uid();
     const user = {
-      id: randomBytes(4).toString('hex'),
+      id,
+      username: id,
       email: values.email,
       password: values.password,
       meta: JSON.stringify({ name: values.name })
@@ -50,10 +52,13 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify', verify, async (req, res) => {
-  const query = 'SELECT id, email, meta FROM users WHERE id = ? LIMIT 1';
+  const query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1; SELECT * FROM subscriptions WHERE user_id = ?;';
   try {
-    const result = await db.queryAsync(query, [res.locals.id]);
-    res.json(result[0]);
+    const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
+    res.json({
+      account: result[0][0],
+      subscriptions: result[0][1]
+    });
   } catch (error) {
     console.log(error);
     res.json({ error });
@@ -91,7 +96,7 @@ router.post('/timeline', verify, async (req, res) => {
 
 router.post('/post', verify, async (req, res) => {
   const post = {
-    id: randomBytes(4).toString('hex'),
+    id: uid(),
     user_id: res.locals.id,
     body: req.body.body,
     meta: req.body.meta

@@ -58,7 +58,7 @@ export default {
       try {
         const result = await client.request('login', values);
         localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, result.access_token);
-        this.$store.dispatch('init').then(() => this.$router.push('/home'));
+        this.$store.dispatch('init').then(() => this.$router.push('/dianamitderbrille'));
       } catch (error) {
         this.error = error;
         this.isLoading = false;

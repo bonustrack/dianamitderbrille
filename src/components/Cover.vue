@@ -1,12 +1,25 @@
 <template>
-  <div class="cover text-center">
-    <Avatar :ipfsHash="accountMeta.avatar" size="128" class="py-8" />
+  <div>
+    <div class="cover text-center width-full bg-gray-dark" style="height: 240px;" :style="`background-image: url('${url}')`"/>
+    <router-link v-if="username === account.username" to="/account" class="btn-outline-mktg float-right m-4">
+      <i class="iconfont iconsettings mr-2"/>
+      Edit profile
+    </router-link>
+    <div class="d-flex p-4" style="margin-top: -64px;">
+      <Avatar :ipfsHash="meta.avatar" :size="128" class="mb-4" />
+      <div class="mt-8 ml-3">
+        <div>
+          <h3 v-text="meta.name" class="d-inline-block"/>
+          <i class="iconfont iconcheck d-inline-block ml-2"/>
+        </div>
+        <p>@{{ username }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 .cover {
-  background-image: url('https://cdn2.onlyfans.com/files/k/kj/kj0/kj0yuzrkvdxjagp8cyjqsk4pfmzg4i9e1578834515/header.jpg?Expires=1610422079&Signature=M2vVm4fhy4aNznwf3k7Y-o2uVuuy7yJuoyEnwQoSn9wG-VQDV02F7oDdLIFp6mSYmOzpj-tq5LwmSOlkTtZWBMIyd25L~pkZs5q~9MnszLKG8hi~VEQnqHUoByxwaWVjuCR0ALsLp1k479O~cDARYjoIU6uwr506bxuEi8kzsA8yP3vUC5OWzVIkFhleK2vjCuibPAIotEpL7l6cD7GpWWdc5ReohAnV3gheUKibeY9IARFny8yqisnOVddEHEUVnlvt2QXPnTWUQf5qXRb403isCiSAIPy-tBVzMzaYRhNrkqVQ7UUJRH~oJPKPCo5nAN6Y19EwSN444noV9T-2yQ__&Key-Pair-Id=APKAJKLR6VB3PTZVDEBA');
   background-size: cover;
   background-position: center;
 }
@@ -14,11 +27,12 @@
 
 <script>
 export default {
-  props: ['item'],
-  computed: {
-    accountMeta() {
-      return this.$store.state.settings.account.meta;
-    }
+  props: ['username', 'meta'],
+  data() {
+    return {
+      account: this.$store.state.settings.account,
+      url: `https://steemitimages.com/960x960/https://gateway.pinata.cloud/ipfs/${this.meta.cover}`
+    };
   }
 };
 </script>

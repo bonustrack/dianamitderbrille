@@ -32,7 +32,7 @@ export default {
   created() {
     this.$store.dispatch('init').then(() => {
       const account = this.$store.state.settings.account;
-      if (!account || account.username !== '!fabien') {
+      if (!account || account.username !== 'fabien') {
         document.addEventListener('contextmenu', event => event.preventDefault());
       }
     });

@@ -88,10 +88,18 @@ router.post('/upload', verify, upload.single('file'), async (req, res, next) => 
   }
 });
 
-router.post('/timeline', verify, async (req, res) => {
-  const query = 'SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta FROM posts p INNER JOIN users u ON u.id = p.user_id WHERE DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY p.created DESC';
-  const result = await db.queryAsync(query);
-  res.json({ result });
+router.post('/:username', verify, async (req, res) => {
+  const username = req.params.username;
+  const query = 'SELECT username, meta FROM users WHERE username = ?';
+  const result = await db.queryAsync(query, [username]);
+  res.json(result[0]);
+});
+
+router.post('/:username/stories', verify, async (req, res) => {
+  const username = req.params.username;
+  const query = 'SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta FROM posts p INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY p.created DESC';
+  const result = await db.queryAsync(query, [username]);
+  res.json(result);
 });
 
 router.post('/post', verify, async (req, res) => {

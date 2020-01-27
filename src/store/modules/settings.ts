@@ -8,8 +8,7 @@ const state = {
   isAuthenticated: false,
   token: false,
   isInit: false,
-  isLoading: false,
-  timeline: false
+  isLoading: false
 };
 
 const mutations = {
@@ -30,9 +29,6 @@ const mutations = {
     Vue.set(_state, 'subscriptions', []);
     Vue.set(_state, 'isAuthenticated', false);
     Vue.set(_state, 'token', false);
-  },
-  timeline(_state, payload) {
-    Vue.set(_state, 'timeline', payload);
   }
 };
 
@@ -40,7 +36,6 @@ const actions = {
   init: async ({ commit, state, dispatch }) => {
     commit('isLoading', true);
     await dispatch('login');
-    if (state.isAuthenticated) await dispatch('getTimeline');
     commit('isLoading', false);
     commit('isInit');
   },
@@ -71,12 +66,6 @@ const actions = {
     localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
     client.setAccessToken(undefined);
     commit('logout');
-  },
-  getTimeline: ({ commit }) => {
-    return client.request('timeline').then(result => {
-      // @ts-ignore
-      commit('timeline', result.result);
-    });
   }
 };
 

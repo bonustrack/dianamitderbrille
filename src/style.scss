@@ -1,6 +1,6 @@
 @import 'vars.scss';
 @import '~@primer/css/index.scss';
-@import '~//at.alicdn.com/t/font_1601044_9txazi6yt0m.css';
+@import '~//at.alicdn.com/t/font_1601044_x62m6uefglq.css';
 @import 'fonts.scss';
 
 html, body, #app {
@@ -26,6 +26,7 @@ h2 {
 
 h3 {
   font-size: 22px;
+  line-height: 1.2em;
 }
 
 h4 {
@@ -93,6 +94,7 @@ h6 {
 }
 
 .btn-mktg, .btn-outline-mktg {
+  text-align: center;
   padding: 0 26px;
   border-radius: 26px;
   height: 52px;
@@ -118,7 +120,7 @@ h6 {
 
 i.btn-mktg, i.btn-outline-mktg {
   font-size: 26px;
-  min-width: 54px;
+  min-width: 52px;
 }
 
 .form-control {

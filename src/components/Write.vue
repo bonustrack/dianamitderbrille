@@ -9,11 +9,15 @@
         v-model="form.body"
       />
       <div v-if="file">
-        <img
-          v-if="file.mimetype.includes('image/')"
-          :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
-          class="width-full rounded-2"
-        />
+        <div class="position-relative d-inline-block">
+          <img
+            v-if="file.mimetype.includes('image/')"
+            :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
+            class="rounded-2"
+            style="max-height: 160px;"
+          />
+          <a href="#" @click="file = false" class="iconfont icondelete position-absolute top-0 right-0 m-2"/>
+        </div>
         <video
           v-if="file.mimetype.includes('video/')"
           :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
@@ -27,9 +31,7 @@
       <div class="d-flex">
         <div>
           <Upload v-model="file">
-            <div class="btn-outline-mktg">
-              <i class="iconfont iconimage" />
-            </div>
+            <i class="btn-outline-mktg iconfont iconimage d-inline-block px-0" />
           </Upload>
         </div>
         <div class="flex-auto text-right">
@@ -61,6 +63,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      this.isLoading = true;
       const values = this.form;
       values.meta = this.file
         ? JSON.stringify({ files: [this.file.ipfs_hash] })

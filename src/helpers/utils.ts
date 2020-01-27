@@ -28,7 +28,7 @@ export const ifNotAuthenticated = (to, from, next) => {
   // @ts-ignore
   const state = store.state.settings;
   const fn = () => {
-    if (state.isAuthenticated) return next('/home');
+    if (state.isAuthenticated) return next('/dianamitderbrille');
     next();
   };
   if (!state.isInit) {

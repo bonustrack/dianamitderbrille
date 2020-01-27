@@ -50,7 +50,7 @@
 <style scoped lang="scss">
 .hero {
   background-image: linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.4)),
-    url('https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
+    url('https://steemitimages.com/2560x2560/https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
   background-size: cover;
   background-position: center;
 }

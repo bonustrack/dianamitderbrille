@@ -5,8 +5,9 @@ import { ifAuthenticated, ifNotAuthenticated } from '@/helpers/utils';
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Signup = () => import(/* webpackChunkName: "signup" */ '@/views/Signup.vue');
 const Login = () => import(/* webpackChunkName: "login" */ '@/views/Login.vue');
-const Timeline = () => import(/* webpackChunkName: "timeline" */ '@/views/Timeline.vue');
+const Profile = () => import(/* webpackChunkName: "timeline" */ '@/views/Profile.vue');
 const Write = () => import(/* webpackChunkName: "write" */ '@/views/Write.vue');
+const Contacts = () => import(/* webpackChunkName: "contacts" */ '@/views/Contacts.vue');
 const Messages = () => import(/* webpackChunkName: "messages" */ '@/views/Messages.vue');
 const Account = () => import(/* webpackChunkName: "account" */ '@/views/Account.vue');
 const Billing = () => import(/* webpackChunkName: "billing" */ '@/views/Billing.vue');
@@ -35,11 +36,12 @@ const routes = [
     meta: { isLight: true },
     beforeEnter: ifNotAuthenticated
   },
-  { path: '/home', name: 'timeline', component: Timeline, beforeEnter: ifAuthenticated },
   { path: '/write', name: 'write', component: Write, beforeEnter: ifAuthenticated },
-  { path: '/messages', name: 'messages', component: Messages, beforeEnter: ifAuthenticated },
+  { path: '/messages', name: 'contacts', component: Contacts, beforeEnter: ifAuthenticated },
+  { path: '/messages/:username', name: 'messages', component: Messages, beforeEnter: ifAuthenticated },
   { path: '/account', name: 'account', component: Account, beforeEnter: ifAuthenticated },
   { path: '/billing', name: 'billing', component: Billing, beforeEnter: ifAuthenticated },
+  { path: '/:username', name: 'profile', component: Profile, beforeEnter: ifAuthenticated },
   { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') }
 ];
 

@@ -17,7 +17,7 @@ export default (app) => {
   app.use('/api', api);
   app.get('*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`));
 
-  const port = process.env.PORT || 5000;
+  const port = 5000;
   const server = app.listen(port, () => console.log(`Listening on port ${port}`));
   const wss = new Server({ server });
 

@@ -52,13 +52,12 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify', verify, async (req, res) => {
-  const query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1; SELECT * FROM subscriptions WHERE user_id = ?;';
+  let query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1;';
+  query += 'SELECT s.*, u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription;';
   try {
     const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
-    res.json({
-      account: result[0][0],
-      subscriptions: result[0][1]
-    });
+    const subscriptions = result[1].map(subscription => subscription.username);
+    res.json({ account: result[0][0], subscriptions });
   } catch (error) {
     console.log(error);
     res.json({ error });

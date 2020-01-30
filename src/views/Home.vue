@@ -34,12 +34,8 @@
             Zeit.
           </h5>
         </div>
-        <div class="col-md-6 float-left pl-md-6 pl-lg-6 text-center">
-          <div class="border rounded-2 overflow-hidden px-4 py-6">
-            <a href="#plan1" class="btn-outline-mktg btn-block my-2">Get 30 days for $29</a>
-            <a href="#plan2" class="btn-outline-mktg btn-block my-2">Get 2 months for $49</a>
-            <a href="#plan3" class="btn-outline-mktg btn-block my-2">Get 3 months for $59</a>
-          </div>
+        <div class="col-md-6 float-left pl-md-6 pl-lg-6">
+          <Plans class="border rounded-2 overflow-hidden px-4 py-6 " />
         </div>
       </div>
     </div>

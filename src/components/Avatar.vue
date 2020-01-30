@@ -9,7 +9,7 @@
   />
   <div
     v-else
-    class="avatar circle d-block text-center"
+    class="avatar circle d-block text-center bg-gray-8"
     :style="`width: ${size}px; height: ${size}px;`"
   >
     <div class="iconfont iconuser" :style="`font-size: ${size}px; line-height: ${size * 1.3}px;`" />

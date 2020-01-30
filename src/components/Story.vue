@@ -2,38 +2,38 @@
   <div class="border-bottom py-4">
     <div class="d-flex px-4 mb-2">
       <div>
-        <Avatar :ipfsHash="post.user_meta.avatar" class="mr-3" />
+        <Avatar :ipfsHash="story.user_meta.avatar" class="mr-3" />
       </div>
       <div class="flex-auto mt-1 mb-2">
-        <small class="float-right">{{ post.timestamp | prettyMs }}</small>
+        <small class="float-right">{{ story.timestamp | prettyMs }}</small>
         <div class="text-white" style="line-height: 1em !important;">
-          {{ post.user_meta.name }}
+          {{ story.user_meta.name }}
           <Icon
-            v-if="post.user_meta.is_verified"
+            v-if="story.user_meta.is_verified"
             name="check"
             style="font-size: 20px;"
             class="d-inline-block ml-1"
           />
         </div>
         <div>
-          <small class="mt-0 pt-0">@{{ post.username }}</small>
+          <small class="mt-0 pt-0">@{{ story.username }}</small>
         </div>
       </div>
     </div>
-    <div class="px-lg-4" v-if="post.meta.files">
+    <div class="px-lg-4" v-if="story.meta.files">
       <IpfsImage
         class="width-full rounded-lg-2 mb-2"
         width="1080"
         height="1080"
-        v-for="file in post.meta.files"
+        v-for="file in story.meta.files"
         :key="file"
         :ipfsHash="file"
       />
     </div>
     <div class="px-4">
-      <p v-text="post.body" class="mb-4" />
+      <p v-text="story.body" class="mb-4" />
       <div>
-        <Icon name="love" class="mr-3" />
+        <a @click="handleLike"><Icon name="love" class="mr-3"/></a>
         <Icon name="tip" class="mr-3" />
       </div>
     </div>
@@ -44,11 +44,16 @@
 export default {
   props: ['item'],
   computed: {
-    post() {
-      const post = JSON.parse(JSON.stringify(this.item));
-      post.meta = JSON.parse(post.meta);
-      post.user_meta = JSON.parse(post.user_meta);
-      return post;
+    story() {
+      const story = JSON.parse(JSON.stringify(this.item));
+      story.meta = JSON.parse(story.meta);
+      story.user_meta = JSON.parse(story.user_meta);
+      return story;
+    }
+  },
+  methods: {
+    handleLike() {
+      this.story.id;
     }
   }
 };

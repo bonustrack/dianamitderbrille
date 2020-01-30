@@ -6,7 +6,15 @@
       </div>
       <div class="flex-auto mt-1 mb-2">
         <small class="float-right">{{ post.timestamp | prettyMs }}</small>
-        <div class="text-white" style="line-height: 1em !important;">{{ post.user_meta.name }}</div>
+        <div class="text-white" style="line-height: 1em !important;">
+          {{ post.user_meta.name }}
+          <Icon
+            v-if="post.user_meta.is_verified"
+            name="check"
+            style="font-size: 20px;"
+            class="d-inline-block ml-1"
+          />
+        </div>
         <div>
           <small class="mt-0 pt-0">@{{ post.username }}</small>
         </div>
@@ -25,8 +33,8 @@
     <div class="px-4">
       <p v-text="post.body" class="mb-4" />
       <div>
-        <i class="iconfont iconlove mr-3" />
-        <i class="iconfont icontip mr-3" />
+        <Icon name="love" class="mr-3" />
+        <Icon name="tip" class="mr-3" />
       </div>
     </div>
   </div>

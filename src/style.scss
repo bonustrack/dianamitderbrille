@@ -132,6 +132,7 @@ i.btn-mktg, i.btn-outline-mktg {
   color: white;
   font-size: 22px;
   min-height: 52px;
+  width: 100% !important;
 }
 
 textarea {
@@ -150,4 +151,8 @@ textarea {
 
 .text-justify {
   text-align: justify;
+}
+
+label {
+  font-weight: normal;
 }

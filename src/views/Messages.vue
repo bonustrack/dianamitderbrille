@@ -1,29 +1,38 @@
 <template>
   <div class="d-flex flex-column">
     <div class="p-4 text-center border-bottom position-relative">
-      <router-link to="/messages" class="iconfont iconback p-4 position-absolute left-0 top-0 text-gray" />
+      <router-link
+        to="/messages"
+        class="iconfont iconback p-4 position-absolute left-0 top-0 text-gray"
+      />
       Diana Tamara Höfler
     </div>
     <div class="flex-auto" />
     <div class="p-4">
-      <VueLoadingIndicator v-if="isLoading" class="p-4"/>
-      <div class="overflow-hidden mb-2" v-for="message in messages">
-        <Avatar class="mx-2" :class="message.receiver === 'fabien' ? 'float-right' : 'float-left'" />
-        <div class="px-3 py-2 bg-gray-dark rounded-2 d-inline-block" :class="message.receiver === 'fabien' && 'float-right'">
+      <VueLoadingIndicator v-if="isLoading" class="p-4" />
+      <div class="overflow-hidden mb-2" v-for="(message, i) in messages" :key="i">
+        <Avatar
+          class="mx-2"
+          :class="message.receiver === 'fabien' ? 'float-right' : 'float-left'"
+        />
+        <div
+          class="px-3 py-2 bg-gray-dark rounded-2 d-inline-block"
+          :class="message.receiver === 'fabien' && 'float-right'"
+        >
           {{ message.body }}
         </div>
       </div>
     </div>
     <form @submit.prevent="handleSubmit" class="p-4 d-flex border-top">
-      <a><i class="btn-outline-mktg iconfont iconimage mr-2 px-0"/></a>
-      <a><i class="btn-outline-mktg iconfont icontip mr-2 px-0"/></a>
+      <a><Icon name="image" class="btn-outline-mktg mr-2 px-0"/></a>
+      <a><Icon name="tip" class="btn-outline-mktg mr-2 px-0"/></a>
       <input
         type="text"
         class="form-control width-full"
         placeholder="Type a message"
         v-model="form.body"
       />
-      <a><i class="btn-mktg iconfont iconsend ml-2 px-0"/></a>
+      <a><Icon name="send" class="btn-mktg ml-2 px-0"/></a>
     </form>
   </div>
 </template>

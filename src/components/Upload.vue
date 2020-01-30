@@ -1,7 +1,7 @@
 <template>
   <label class="file-select">
     <slot v-if="!isLoading" />
-    <VueLoadingIndicator class="m-2" v-else/>
+    <VueLoadingIndicator class="m-2" v-else />
     <input type="file" @change="handleFileChange" accept="image/*, video/mp4" />
   </label>
 </template>

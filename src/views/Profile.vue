@@ -1,8 +1,8 @@
 <template>
   <div class="pb-8">
-    <VueLoadingIndicator v-if="isLoading" class="p-4"/>
+    <VueLoadingIndicator v-if="isLoading || !isLoaded || !profile" class="p-4" />
     <div v-else>
-      <Cover :username="username" :meta="meta" class="border-bottom" />
+      <Cover :username="username" :meta="profile.meta" class="border-bottom" />
       <Story v-for="(item, i) in items" :key="i" :item="item" />
     </div>
   </div>
@@ -16,12 +16,16 @@ export default {
     return {
       profile: false,
       items: false,
+      isLoaded: false,
       isLoading: false
     };
   },
   watch: {
-    username (value, old) {
-      if (value !== old) this.loadFeed();
+    $route(to, from) {
+      this.profile = false;
+      this.items = false;
+      this.isLoaded = false;
+      this.loadFeed();
     }
   },
   computed: {
@@ -34,10 +38,13 @@ export default {
   },
   methods: {
     async loadFeed() {
+      this.profile = false;
+      this.items = false;
       this.isLoading = true;
       this.profile = await client.request(this.username);
-      this.meta = JSON.parse(this.profile.meta);
+      this.profile.meta = JSON.parse(this.profile.meta);
       this.items = await client.request(`${this.username}/stories`);
+      this.isLoaded = true;
       this.isLoading = false;
     }
   }

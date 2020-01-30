@@ -49,6 +49,16 @@ CREATE TABLE subscriptions (
   PRIMARY KEY (`user_id`, `subscription`)
 );
 
+CREATE TABLE payments (
+  id VARCHAR(24) NOT NULL,
+  user_id VARCHAR(24) NOT NULL,
+  designation VARCHAR(64) NOT NULL,
+  amount FLOAT(12,6) NOT NULL,
+  meta JSON NOT NULL,
+  created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE messages (
   id VARCHAR(24) NOT NULL,
   sender VARCHAR(24) NOT NULL,

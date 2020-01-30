@@ -1,23 +1,18 @@
 <template>
-  <div class="d-inline-block">
-    <div
-      v-if="ipfsHash"
-      class="avatar circle"
-      :style="
-        `width: ${size}px; height: ${size}px;
-        background-image: url('https://steemitimages.com/600x800/https://gateway.pinata.cloud/ipfs/${ipfsHash}');`
-      "
-    />
-    <div
-      v-else
-      class="avatar circle d-block text-center"
-      :style="`width: ${size}px; height: ${size}px;`"
-    >
-      <div
-        class="iconfont iconuser"
-        :style="`font-size: ${size}px; line-height: ${size * 1.3}px;`"
-      />
-    </div>
+  <div
+    v-if="ipfsHash"
+    class="avatar circle d-inline-block"
+    :style="
+      `width: ${size}px; height: ${size}px;
+      background-image: url('https://steemitimages.com/600x800/https://gateway.pinata.cloud/ipfs/${ipfsHash}');`
+    "
+  />
+  <div
+    v-else
+    class="avatar circle d-block text-center"
+    :style="`width: ${size}px; height: ${size}px;`"
+  >
+    <div class="iconfont iconuser" :style="`font-size: ${size}px; line-height: ${size * 1.3}px;`" />
   </div>
 </template>
 

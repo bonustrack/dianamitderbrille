@@ -16,7 +16,11 @@
             class="rounded-2"
             style="max-height: 160px;"
           />
-          <a href="#" @click="file = false" class="iconfont icondelete position-absolute top-0 right-0 m-2"/>
+          <a
+            href="#"
+            @click="file = false"
+            class="iconfont icondelete position-absolute top-0 right-0 m-2"
+          />
         </div>
         <video
           v-if="file.mimetype.includes('video/')"
@@ -31,7 +35,7 @@
       <div class="d-flex">
         <div>
           <Upload v-model="file">
-            <i class="btn-outline-mktg iconfont iconimage d-inline-block px-0" />
+            <Icon name="image" class="btn-outline-mktg d-inline-block px-0" />
           </Upload>
         </div>
         <div class="flex-auto text-right">

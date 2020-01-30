@@ -2,27 +2,33 @@
   <div id="sidebar" class="position-fixed py-lg-4">
     <ul class="list-style-none border-top border-lg-top-0 text-center text-lg-left">
       <li class="col-3 col-lg-12">
-        <router-link to="/dianamitderbrille" class="p-3 d-block">
-          <i class="iconfont iconhome" />
+        <router-link :to="`/${model}`" class="p-3 d-block">
+          <Icon name="home" />
           <span class="hide-sm hide-md hide-lg ml-3">Home</span>
         </router-link>
       </li>
-      <li class="col-3 col-lg-12">
+      <li class="col-3 col-lg-12" v-if="account === model">
         <router-link to="/write" class="p-3 d-block">
-          <i class="iconfont iconpen" />
+          <Icon name="pen" />
           <span class="hide-sm hide-md hide-lg ml-3">New post</span>
         </router-link>
       </li>
       <li class="col-3 col-lg-12">
         <router-link to="/messages" class="p-3 d-block">
-          <i class="iconfont iconmessage" />
+          <Icon name="message" />
           <span class="hide-sm hide-md hide-lg ml-3">Messages</span>
         </router-link>
       </li>
-      <li class="col-3 col-lg-12">
+      <li class="col-3 col-lg-12" v-if="account !== model">
         <router-link :to="`/${account.username}`" class="p-3 d-block">
-          <i class="iconfont iconuser" />
+          <Icon name="user" />
           <span class="hide-sm hide-md hide-lg ml-3">Profile</span>
+        </router-link>
+      </li>
+      <li class="col-3 col-lg-12">
+        <router-link to="/settings" class="p-3 d-block">
+          <Icon name="settings" />
+          <span class="hide-sm hide-md hide-lg ml-3">Settings</span>
         </router-link>
       </li>
     </ul>
@@ -30,13 +36,16 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        account: this.$store.state.settings.account
-      };
-    },
-  };
+import pkg from '@/../package.json';
+
+export default {
+  data() {
+    return {
+      model: pkg.name,
+      account: this.$store.state.settings.account
+    };
+  }
+};
 </script>
 
 <style lang="scss">

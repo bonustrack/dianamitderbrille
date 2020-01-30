@@ -9,8 +9,9 @@ const Profile = () => import(/* webpackChunkName: "timeline" */ '@/views/Profile
 const Write = () => import(/* webpackChunkName: "write" */ '@/views/Write.vue');
 const Contacts = () => import(/* webpackChunkName: "contacts" */ '@/views/Contacts.vue');
 const Messages = () => import(/* webpackChunkName: "messages" */ '@/views/Messages.vue');
-const Account = () => import(/* webpackChunkName: "account" */ '@/views/Account.vue');
-const Billing = () => import(/* webpackChunkName: "billing" */ '@/views/Billing.vue');
+const EditProfile = () => import(/* webpackChunkName: "edit-profile" */ '@/views/EditProfile.vue');
+const Wallet = () => import(/* webpackChunkName: "wallet" */ '@/views/Wallet.vue');
+const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue');
 
 Vue.use(VueRouter);
 
@@ -38,9 +39,15 @@ const routes = [
   },
   { path: '/write', name: 'write', component: Write, beforeEnter: ifAuthenticated },
   { path: '/messages', name: 'contacts', component: Contacts, beforeEnter: ifAuthenticated },
-  { path: '/messages/:username', name: 'messages', component: Messages, beforeEnter: ifAuthenticated },
-  { path: '/account', name: 'account', component: Account, beforeEnter: ifAuthenticated },
-  { path: '/billing', name: 'billing', component: Billing, beforeEnter: ifAuthenticated },
+  {
+    path: '/messages/:username',
+    name: 'messages',
+    component: Messages,
+    beforeEnter: ifAuthenticated
+  },
+  { path: '/profile', name: 'edit-profile', component: EditProfile, beforeEnter: ifAuthenticated },
+  { path: '/wallet', name: 'wallet', component: Wallet, beforeEnter: ifAuthenticated },
+  { path: '/settings', name: 'settings', component: Settings, beforeEnter: ifAuthenticated },
   { path: '/:username', name: 'profile', component: Profile, beforeEnter: ifAuthenticated },
   { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') }
 ];

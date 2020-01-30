@@ -9,7 +9,7 @@ import db from './server/helpers/db';
 import { uid } from './server/helpers/utils';
 import { sendResponse, sendErrorResponse } from './server/helpers/ws';
 
-export default (app) => {
+export default (app, server) => {
   app.use(bodyParser.json({ limit: '20mb' }));
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
   app.use(cors());
@@ -17,10 +17,7 @@ export default (app) => {
   app.use('/api', api);
   app.get('*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`));
 
-  const port = 5000;
-  const server = app.listen(port, () => console.log(`Listening on port ${port}`));
   const wss = new Server({ server });
-
   wss.on('connection', ws => {
     console.log('Got connection from new peer');
     ws.on('error', () => console.log('Error on connection with peer'));

@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id VARCHAR(24) NOT NULL,
   username VARCHAR(64) NOT NULL,
   email VARCHAR(64) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE users (
   KEY logged (logged)
 );
 
-CREATE TABLE uploads (
+CREATE TABLE IF NOT EXISTS uploads (
   user_id VARCHAR(24) NOT NULL,
   ipfs_hash VARCHAR(64) NOT NULL,
   mimetype TEXT NOT NULL,
@@ -23,14 +23,14 @@ CREATE TABLE uploads (
   PRIMARY KEY (`user_id`, `ipfs_hash`)
 );
 
-CREATE TABLE settings (
+CREATE TABLE IF NOT EXISTS settings (
   `key` VARCHAR(12) NOT NULL,
   value TEXT NOT NULL,
   created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`key`)
 );
 
-CREATE TABLE posts (
+CREATE TABLE IF NOT EXISTS posts (
   id VARCHAR(24) NOT NULL,
   user_id VARCHAR(24) NOT NULL,
   title VARCHAR(64) NOT NULL,
@@ -40,7 +40,14 @@ CREATE TABLE posts (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE subscriptions (
+CREATE TABLE IF NOT EXISTS likes (
+  user_id VARCHAR(24) NOT NULL,
+  post_id VARCHAR(64) NOT NULL,
+  created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `post_id`)
+);
+
+CREATE TABLE IF NOT EXISTS subscriptions (
   user_id VARCHAR(24) NOT NULL,
   subscription VARCHAR(24) NOT NULL,
   meta JSON NOT NULL,
@@ -49,7 +56,7 @@ CREATE TABLE subscriptions (
   PRIMARY KEY (`user_id`, `subscription`)
 );
 
-CREATE TABLE payments (
+CREATE TABLE IF NOT EXISTS payments (
   id VARCHAR(24) NOT NULL,
   user_id VARCHAR(24) NOT NULL,
   designation VARCHAR(64) NOT NULL,
@@ -59,7 +66,7 @@ CREATE TABLE payments (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
   id VARCHAR(24) NOT NULL,
   sender VARCHAR(24) NOT NULL,
   receiver VARCHAR(24) NOT NULL,

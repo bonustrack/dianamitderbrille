@@ -5,6 +5,7 @@ import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 const state = {
   account: false,
   subscriptions: [],
+  likes: [],
   isAuthenticated: false,
   token: false,
   isInit: false,
@@ -18,9 +19,10 @@ const mutations = {
   isLoading(_state, payload) {
     Vue.set(_state, 'isLoading', payload);
   },
-  login(_state, { account, subscriptions, token }) {
+  login(_state, { account, subscriptions, likes, token }) {
     Vue.set(_state, 'account', account);
     Vue.set(_state, 'subscriptions', subscriptions);
+    Vue.set(_state, 'likes', likes);
     Vue.set(_state, 'isAuthenticated', true);
     Vue.set(_state, 'token', token);
   },
@@ -29,6 +31,10 @@ const mutations = {
     Vue.set(_state, 'subscriptions', []);
     Vue.set(_state, 'isAuthenticated', false);
     Vue.set(_state, 'token', false);
+  },
+  like(_state, payload) {
+    // @ts-ignore
+    state.likes.push(payload);
   }
 };
 
@@ -50,9 +56,9 @@ const actions = {
         .request('verify', [])
         .then(result => {
           // @ts-ignore
-          const { account, subscriptions } = result;
+          const { account, subscriptions, likes } = result;
           account.meta = JSON.parse(account.meta);
-          commit('login', { account, subscriptions, token });
+          commit('login', { account, subscriptions, likes, token });
           return resolve();
         })
         .catch(() => {
@@ -66,6 +72,14 @@ const actions = {
     localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
     client.setAccessToken(undefined);
     commit('logout');
+  },
+  like: ({ commit }, id) => {
+    return new Promise((resolve, reject) => {
+      client.request('like', { post_id: id }).then(() => {
+        commit('like', id);
+        resolve();
+      });
+    });
   }
 };
 

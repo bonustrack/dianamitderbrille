@@ -53,15 +53,29 @@ router.post('/login', async (req, res) => {
 
 router.post('/verify', verify, async (req, res) => {
   let query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1;';
-  query += 'SELECT s.*, u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription;';
+  query += 'SELECT u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription;';
+  query += 'SELECT post_id FROM likes WHERE user_id = ?';
   try {
-    const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
-    const subscriptions = result[1].map(subscription => subscription.username);
-    res.json({ account: result[0][0], subscriptions });
+    const result = await db.queryAsync(query, [res.locals.id, res.locals.id, res.locals.id]);
+    res.json(result[0]);
   } catch (error) {
     console.log(error);
     res.json({ error });
   }
+});
+
+router.post('/subscriptions', verify, async (req, res) => {
+  const query = 'SELECT u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription';
+  const result = await db.queryAsync(query, [res.locals.id]);
+  const subscriptions = result.map(subscription => subscription.username);
+  res.json(subscriptions);
+});
+
+router.post('/likes', verify, async (req, res) => {
+  const query = 'SELECT post_id FROM likes WHERE user_id = ?';
+  const result = await db.queryAsync(query, [res.locals.id]);
+  const likes = result[2].map(like => like.post_id);
+  res.json(likes);
 });
 
 router.post('/upload', verify, upload.single('file'), async (req, res, next) => {
@@ -99,6 +113,16 @@ router.post('/post', verify, async (req, res) => {
   res.json({ success: true });
 });
 
+router.post('/like', verify, async (req, res) => {
+  const like = {
+    user_id: res.locals.id,
+    post_id: req.body.post_id
+  };
+  let query = 'INSERT IGNORE INTO likes SET ?;';
+  await db.queryAsync(query, [like]);
+  res.json({ success: true });
+});
+
 router.post('/payments', verify, async (req, res) => {
   const query = 'SELECT * FROM payments WHERE user_id = ?';
   const result = await db.queryAsync(query, [res.locals.id]);
@@ -114,7 +138,13 @@ router.post('/:username', verify, async (req, res) => {
 
 router.post('/:username/stories', verify, async (req, res) => {
   const username = req.params.username;
-  const query = 'SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta FROM posts p INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY p.created DESC';
+  const query = `
+    SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta, 
+    (SELECT COUNT(l.user_id) FROM likes l WHERE l.post_id = p.id) AS likes
+    FROM posts p 
+    INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) 
+    ORDER BY p.created DESC
+  `;
   const result = await db.queryAsync(query, [username]);
   res.json(result);
 });

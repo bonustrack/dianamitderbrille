@@ -32,9 +32,16 @@
     </div>
     <div class="px-4">
       <p v-text="story.body" class="mb-4" />
-      <div>
-        <a @click="handleLike"><Icon name="love" class="mr-3"/></a>
-        <Icon name="tip" class="mr-3" />
+      <div class="actions">
+        <VueLoadingIndicator v-if="isLoading" class="d-inline-block v-align-middle mr-2" />
+        <template v-else>
+          <a v-if="!likes.includes(story.id)" @click="handleLike"
+            ><Icon name="love" class="mr-2"
+          /></a>
+          <Icon v-else name="love" class="mr-2 text-red" />
+          <span v-if="story.likes + count" v-text="story.likes + count" class="mr-2" />
+        </template>
+        <Icon name="tip" class="ml-2" />
       </div>
     </div>
   </div>
@@ -43,7 +50,16 @@
 <script>
 export default {
   props: ['item'],
+  data() {
+    return {
+      isLoading: false,
+      count: 0
+    };
+  },
   computed: {
+    likes() {
+      return this.$store.state.settings.likes;
+    },
     story() {
       const story = JSON.parse(JSON.stringify(this.item));
       story.meta = JSON.parse(story.meta);
@@ -53,8 +69,25 @@ export default {
   },
   methods: {
     handleLike() {
-      this.story.id;
+      this.isLoading = true;
+      this.$store.dispatch('like', this.story.id).then(() => {
+        this.count = 1;
+        this.isLoading = false;
+      });
     }
   }
 };
 </script>
+<style scoped lang="scss">
+@import '../vars.scss';
+
+.actions {
+  a {
+    color: $color;
+
+    :hover {
+      color: $primary;
+    }
+  }
+}
+</style>

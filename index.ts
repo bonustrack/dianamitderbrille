@@ -38,13 +38,9 @@ export default (app, server) => {
           case 'login': {
             try {
               const payload = jwt.verify(params.token, process.env.JWT_SECRET);
-              ws.token = params.token;
               ws.id = payload.id;
-              let query = 'UPDATE accounts SET logged = CURRENT_TIMESTAMP WHERE id = ?';
-              await db.queryAsync(query, payload.id);
-              query = 'SELECT * FROM accounts WHERE id = ?';
-              const account = await db.queryAsync(query, payload.id);
-              sendResponse(ws, tag, account[0]);
+              ws.token = params.token;
+              sendResponse(ws, tag, true);
             } catch (e) {
               sendErrorResponse(ws, tag, 'invalid access_token');
             }
@@ -52,19 +48,20 @@ export default (app, server) => {
           }
           case 'get_messages': {
             const query = 'SELECT * FROM messages WHERE sender = ? OR receiver = ? ORDER BY created ASC LIMIT 100';
-            const messages = await db.queryAsync(query, ['fabien', 'fabien']);
+            const messages = await db.queryAsync(query, [ws.id, ws.id]);
             sendResponse(ws, tag, messages);
             break;
           }
           case 'send': {
+            const query = 'SELECT id FROM users WHERE username = ?';
+            const users = await db.queryAsync(query, [params.username]);
             const message = {
               id: uid(),
-              sender: 'fabien',
-              receiver: 'dianamitderbrille',
+              sender: ws.id,
+              receiver: users[0].id,
               body: params.body,
               meta: params.meta
             };
-            console.log(message);
             await db.queryAsync('INSERT INTO messages SET ?', [message]);
             sendResponse(ws, tag, true);
             break;

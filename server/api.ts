@@ -57,25 +57,13 @@ router.post('/verify', verify, async (req, res) => {
   query += 'SELECT post_id FROM likes WHERE user_id = ?';
   try {
     const result = await db.queryAsync(query, [res.locals.id, res.locals.id, res.locals.id]);
-    res.json(result[0]);
+    const subscriptions = result[1].map(subscription => subscription.username);
+    const likes = result[2].map(like => like.post_id);
+    res.json({ account: result[0][0], subscriptions, likes });
   } catch (error) {
     console.log(error);
     res.json({ error });
   }
-});
-
-router.post('/subscriptions', verify, async (req, res) => {
-  const query = 'SELECT u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription';
-  const result = await db.queryAsync(query, [res.locals.id]);
-  const subscriptions = result.map(subscription => subscription.username);
-  res.json(subscriptions);
-});
-
-router.post('/likes', verify, async (req, res) => {
-  const query = 'SELECT post_id FROM likes WHERE user_id = ?';
-  const result = await db.queryAsync(query, [res.locals.id]);
-  const likes = result[2].map(like => like.post_id);
-  res.json(likes);
 });
 
 router.post('/upload', verify, upload.single('file'), async (req, res, next) => {
@@ -131,9 +119,11 @@ router.post('/payments', verify, async (req, res) => {
 
 router.post('/:username', verify, async (req, res) => {
   const username = req.params.username;
-  const query = 'SELECT username, meta FROM users WHERE username = ?';
+  const query = 'SELECT id, username, meta FROM users WHERE username = ?';
   const result = await db.queryAsync(query, [username]);
-  res.json(result[0]);
+  const user = result[0];
+  user.meta = JSON.parse(result[0].meta);
+  res.json(user);
 });
 
 router.post('/:username/stories', verify, async (req, res) => {

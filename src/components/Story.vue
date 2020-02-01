@@ -31,7 +31,7 @@
       />
     </div>
     <div class="px-4">
-      <p v-text="story.body" class="mb-4" />
+      <p v-if="story.body" v-text="story.body" class="mb-4" />
       <div class="actions">
         <VueLoadingIndicator v-if="isLoading" class="d-inline-block v-align-middle mr-2" />
         <template v-else>

@@ -1,11 +1,11 @@
 <template>
   <div class="border-bottom">
-    <VueLoadingIndicator v-if="isLoading || !isLoaded" class="p-4" />
+    <VueLoadingIndicator v-if="!profile" class="p-4" />
     <div v-else>
       <div
         class="cover text-center width-full bg-gray-dark"
         style="height: 240px;"
-        :style="meta && meta.cover && `background-image: url('${url}')`"
+        :style="url && `background-image: url('${url}')`"
       />
       <router-link
         v-if="username === account.username"
@@ -20,12 +20,12 @@
         style="margin-top: -64px;"
       >
         <div class="mx-auto mx-sm-0">
-          <Avatar :ipfsHash="meta.avatar" :size="128" class="mb-4" />
+          <Avatar :ipfsHash="profile.meta.avatar" :size="128" class="mb-4" />
         </div>
         <div class="mt-sm-8 ml-sm-3">
           <div class="text-white">
-            <h3 v-text="meta.name" class="d-inline-block" />
-            <Icon v-if="meta.is_verified" name="check" class="d-inline-block ml-2" />
+            <h3 v-text="profile.meta.name" class="d-inline-block" />
+            <Icon v-if="profile.meta.is_verified" name="check" class="d-inline-block ml-2" />
           </div>
           <p>@{{ username }}</p>
         </div>
@@ -35,26 +35,26 @@
 </template>
 
 <script>
-import client from '@/helpers/client';
+import { has } from 'lodash';
 
 export default {
   props: ['username'],
   data() {
     return {
-      account: this.$store.state.settings.account,
-      url: false,
-      meta: false,
-      isLoaded: false,
-      isLoading: false
+      account: this.$store.state.settings.account
     };
   },
-  async mounted() {
-    this.isLoading = true;
-    const user = await client.request(this.username);
-    this.meta = JSON.parse(user.meta);
-    this.url = `https://steemitimages.com/960x960/https://gateway.pinata.cloud/ipfs/${this.meta.cover}`;
-    this.isLoaded = true;
-    this.isLoading = false;
+  computed: {
+    profile() {
+      return this.$store.state.settings.profiles[this.username];
+    },
+    url() {
+      if (!has(this.profile, 'meta.cover')) return;
+      return `https://steemitimages.com/960x960/https://gateway.pinata.cloud/ipfs/${this.profile.meta.cover}`;
+    }
+  },
+  created() {
+    if (!this.profile) this.$store.dispatch('getProfile', this.username);
   }
 };
 </script>

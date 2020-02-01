@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import client from '@/helpers/client';
+import kbyte from '@/helpers/kbyte';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 const state = {
@@ -9,7 +10,8 @@ const state = {
   isAuthenticated: false,
   token: false,
   isInit: false,
-  isLoading: false
+  isLoading: false,
+  profiles: {}
 };
 
 const mutations = {
@@ -35,6 +37,9 @@ const mutations = {
   like(_state, payload) {
     // @ts-ignore
     state.likes.push(payload);
+  },
+  profile(_state, payload) {
+    Vue.set(_state.profiles, payload.username, payload);
   }
 };
 
@@ -48,9 +53,7 @@ const actions = {
   login: ({ commit }) => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem(TOKEN_LOCALSTORAGE_KEY);
-      if (!token) {
-        return resolve();
-      }
+      if (!token) return resolve();
       client.setAccessToken(token);
       client
         .request('verify', [])
@@ -59,7 +62,7 @@ const actions = {
           const { account, subscriptions, likes } = result;
           account.meta = JSON.parse(account.meta);
           commit('login', { account, subscriptions, likes, token });
-          return resolve();
+          kbyte.requestAsync('login', { token }).then(() => resolve());
         })
         .catch(() => {
           localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
@@ -77,6 +80,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       client.request('like', { post_id: id }).then(() => {
         commit('like', id);
+        resolve();
+      });
+    });
+  },
+  getProfile: ({ commit }, username) => {
+    return new Promise((resolve, reject) => {
+      client.request(username).then(user => {
+        commit('profile', user);
         resolve();
       });
     });

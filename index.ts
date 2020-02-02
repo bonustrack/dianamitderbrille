@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import api from './server/api';
 import db from './server/helpers/db';
 import { uid } from './server/helpers/utils';
-import { sendResponse, sendErrorResponse } from './server/helpers/ws';
+import { sendResponse, sendErrorResponse, justsaying } from './server/helpers/ws';
 
 export default (app, server) => {
   app.use(bodyParser.json({ limit: '20mb' }));
@@ -38,8 +38,11 @@ export default (app, server) => {
           case 'login': {
             try {
               const payload = jwt.verify(params.token, process.env.JWT_SECRET);
+              const query = 'SELECT username FROM users WHERE id = ?';
+              const users = await db.queryAsync(query, [payload.id]);
               ws.id = payload.id;
               ws.token = params.token;
+              ws.username = users[0].username;
               sendResponse(ws, tag, true);
             } catch (e) {
               sendErrorResponse(ws, tag, 'invalid access_token');
@@ -47,8 +50,10 @@ export default (app, server) => {
             break;
           }
           case 'get_messages': {
-            const query = 'SELECT * FROM messages WHERE sender = ? OR receiver = ? ORDER BY created ASC LIMIT 100';
-            const messages = await db.queryAsync(query, [ws.id, ws.id]);
+            let query = 'SELECT id FROM users WHERE username = ?';
+            const users = await db.queryAsync(query, [params.username]);
+            query = 'SELECT * FROM messages WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?) ORDER BY created ASC LIMIT 100';
+            const messages = await db.queryAsync(query, [ws.id, users[0].id, users[0].id, ws.id]);
             sendResponse(ws, tag, messages);
             break;
           }
@@ -64,6 +69,12 @@ export default (app, server) => {
             };
             await db.queryAsync('INSERT INTO messages SET ?', [message]);
             sendResponse(ws, tag, true);
+            // @ts-ignore
+            message.sender_username = ws.username;
+            // @ts-ignore
+            message.receiver_username = params.username;
+            notify(ws.id, 'message', message);
+            notify(users[0].id, 'message', message);
             break;
           }
           case 'logout': {
@@ -75,4 +86,12 @@ export default (app, server) => {
       }
     });
   });
+
+  const notify = (id, subject, body) => {
+    wss.clients.forEach((ws) => {
+      if (ws.id === id) justsaying(ws, subject, body);
+    })
+  };
 }
+
+

@@ -122,7 +122,7 @@ router.post('/:username', verify, async (req, res) => {
   const query = 'SELECT id, username, meta FROM users WHERE username = ?';
   const result = await db.queryAsync(query, [username]);
   const user = result[0];
-  user.meta = JSON.parse(result[0].meta);
+  user.meta = JSON.parse(user.meta);
   res.json(user);
 });
 

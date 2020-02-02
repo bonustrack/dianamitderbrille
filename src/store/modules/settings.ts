@@ -1,17 +1,31 @@
 import Vue from 'vue';
+import store from '@/store';
 import client from '@/helpers/client';
 import kbyte from '@/helpers/kbyte';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
+kbyte.subscribe(message => {
+  if (message[1].subject === 'message') {
+    const body = message[1].body;
+    const username =
+      // @ts-ignore
+      body.sender_username === store.state.settings.account.username
+        ? body.receiver_username
+        : body.sender_username;
+    store.dispatch('addMessage', { username, message: body });
+  }
+});
+
 const state = {
+  isInit: false,
+  isLoading: false,
+  isAuthenticated: false,
+  token: false,
   account: false,
   subscriptions: [],
   likes: [],
-  isAuthenticated: false,
-  token: false,
-  isInit: false,
-  isLoading: false,
-  profiles: {}
+  profiles: {},
+  messages: {}
 };
 
 const mutations = {
@@ -38,8 +52,15 @@ const mutations = {
     // @ts-ignore
     state.likes.push(payload);
   },
-  profile(_state, payload) {
-    Vue.set(_state.profiles, payload.username, payload);
+  addProfile(_state, { username, user }) {
+    Vue.set(_state.profiles, username, user);
+  },
+  setMessages(_state, { username, messages }) {
+    Vue.set(_state.messages, username, messages);
+  },
+  addMessage(_state, { username, message }) {
+    if (!state.messages[username]) state.messages[username] = [];
+    state.messages[username].push(message);
   }
 };
 
@@ -87,10 +108,21 @@ const actions = {
   getProfile: ({ commit }, username) => {
     return new Promise((resolve, reject) => {
       client.request(username).then(user => {
-        commit('profile', user);
+        commit('addProfile', { username, user });
         resolve();
       });
     });
+  },
+  getMessages: ({ commit }, username) => {
+    return new Promise((resolve, reject) => {
+      kbyte.requestAsync('get_messages', { username }).then(messages => {
+        commit('setMessages', { username, messages });
+        resolve();
+      });
+    });
+  },
+  addMessage: ({ commit }, { username, message }) => {
+    commit('addMessage', { username, message });
   }
 };
 

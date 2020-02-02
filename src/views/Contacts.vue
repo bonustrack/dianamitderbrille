@@ -26,7 +26,7 @@ export default {
             name: 'Diana Tamara Höfler',
             avatar: 'QmNZz6n2LYLAUwnDvGi79CFj5UJNGgyRyV6758nCtajUHJ'
           },
-          last_message: 'How are you?'
+          last_message: 'Say hi!'
         }
       ]
     };

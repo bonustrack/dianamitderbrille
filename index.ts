@@ -93,5 +93,3 @@ export default (app, server) => {
     })
   };
 }
-
-

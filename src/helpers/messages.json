@@ -1,0 +1,14 @@
+{
+  "en": {
+    "message": {
+      "signup": "Sign up",
+      "login": "Log in"
+    }
+  },
+  "de": {
+    "message": {
+      "signup": "สมัครสมาชิก",
+      "login": "เข้าสู่ระบบ"
+    }
+  }
+}

@@ -8,30 +8,7 @@
         rows="3"
         v-model="form.body"
       />
-      <div v-if="file">
-        <div class="position-relative d-inline-block">
-          <img
-            v-if="file.mimetype.includes('image/')"
-            :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
-            class="rounded-2"
-            style="max-height: 160px;"
-          />
-          <a
-            href="#"
-            @click="file = false"
-            class="iconfont icondelete position-absolute top-0 right-0 m-2"
-          />
-        </div>
-        <video
-          v-if="file.mimetype.includes('video/')"
-          :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
-          class="width-full"
-          preload="metadata"
-          controlslist="nodownload"
-          controls
-          playsinline
-        />
-      </div>
+      <File v-if="file" :file="file" @delete="file = false" />
       <div class="d-flex">
         <div>
           <Upload v-model="file">

@@ -2,10 +2,12 @@ import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
 import pinataSDK from '@pinata/sdk';
+import checkout from '@paypal/checkout-server-sdk';
 import db from './helpers/db';
 import { issueToken } from './helpers/token';
 import { verify } from './helpers/middleware';
 import { uid } from './helpers/utils';
+import paypal from './helpers/paypal';
 import { signup, login } from '../common/schemas';
 
 const router = express.Router();
@@ -128,15 +130,39 @@ router.post('/:username', verify, async (req, res) => {
 
 router.post('/:username/stories', verify, async (req, res) => {
   const username = req.params.username;
+  const interval = 60;
   const query = `
     SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta, 
     (SELECT COUNT(l.user_id) FROM likes l WHERE l.post_id = p.id) AS likes
     FROM posts p 
-    INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL 30 DAY) 
+    INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL ? DAY) 
     ORDER BY p.created DESC
   `;
-  const result = await db.queryAsync(query, [username]);
+  const result = await db.queryAsync(query, [username, interval]);
   res.json(result);
+});
+
+router.post('/paypal/verify', verify, async (req, res) => {
+  const orderId = req.body.order_id;
+  let request = new checkout.orders.OrdersGetRequest(orderId);
+  let order;
+  try {
+    order = await paypal.client().execute(request);
+    console.log(order);
+  } catch (err) {
+    console.error(err);
+    return res.send(500);
+  }
+  const payment = {
+    id: uid(),
+    user_id: res.locals.id,
+    designation: order.result.purchase_units[0].description,
+    amount: parseInt(order.result.purchase_units[0].amount.value),
+    meta: JSON.stringify({})
+  };
+  let query = 'INSERT INTO payments SET ?;';
+  await db.queryAsync(query, [payment]);
+  res.json({ success: true });
 });
 
 export default router;

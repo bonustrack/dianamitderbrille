@@ -42,3 +42,5 @@ export const ifNotAuthenticated = (to, from, next) => {
     fn();
   }
 };
+
+export const LOCALSTORAGE_KEY = `_${name}`;

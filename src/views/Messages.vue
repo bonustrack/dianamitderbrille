@@ -9,7 +9,7 @@
         />
         <span class="text-white" v-text="profile.meta.name" />
       </div>
-      <div class="p-4 flex-auto overflow-y-auto">
+      <div id="messages" class="p-4 flex-auto overflow-y-auto" v-chat-scroll="{ always: false }">
         <VueLoadingIndicator v-if="messages === undefined" class="p-4" />
         <Message :profile="profile" v-for="(message, i) in messages" :message="message" :key="i" />
       </div>
@@ -59,6 +59,8 @@ export default {
     const username = this.username;
     if (!this.profile) await this.$store.dispatch('getProfile', username);
     if (!this.messages) await this.$store.dispatch('getMessages', username);
+    const messages = this.$el.querySelector('#messages');
+    messages.scrollTop = messages.scrollHeight;
   },
   methods: {
     async handleSubmit() {

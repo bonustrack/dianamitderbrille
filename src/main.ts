@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueUi from '@vue/ui';
 import VueI18n from 'vue-i18n';
+import VueChatScroll from 'vue-chat-scroll';
 import prettyMs from 'pretty-ms';
 import { upperFirst, camelCase } from 'lodash';
 import App from '@/App.vue';
@@ -11,9 +12,9 @@ import messages from '@/helpers/messages.json';
 import numberFormats from '@/helpers/number.json';
 import '@vue/ui/dist/vue-ui.css';
 import '@/style.scss';
-
 Vue.use(VueUi);
 Vue.use(VueI18n);
+Vue.use(VueChatScroll);
 
 const getLocale = () =>
   navigator.languages && navigator.languages.length

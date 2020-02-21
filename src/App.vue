@@ -2,10 +2,10 @@
   <div id="app" :class="!isInterface && 'd-flex flex-items-center'">
     <VueLoadingIndicator v-if="isLoading" class="overlay big" />
     <div :class="isInterface ? 'container-lg height-full' : 'width-full'" v-else>
-      <Sidebar v-if="isInterface" />
+      <Sidebar v-if="isInterface" :class="isHeadless && 'hide-sm hide-md hide-lg'" />
       <router-view
         :id="isInterface && 'content'"
-        :class="isInterface && 'border-lg-left border-lg-right'"
+        :class="{ 'border-lg-left border-lg-right': isInterface, headless: isHeadless }"
       />
     </div>
     <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
@@ -26,7 +26,10 @@ export default {
       return this.$store.state.settings.isLoading;
     },
     isInterface() {
-      return !this.$route.meta.isLight && this.$store.state.settings.isAuthenticated;
+      return !this.$route.meta.light && this.$store.state.settings.isAuthenticated;
+    },
+    isHeadless() {
+      return this.$route.meta.headless && this.$store.state.settings.isAuthenticated;
     }
   },
   created() {
@@ -44,6 +47,10 @@ export default {
 #content {
   min-height: 100vh;
   padding-bottom: 63px;
+
+  &.headless {
+    padding-bottom: 0;
+  }
 
   @media (min-width: 1012px) {
     margin-left: 260px;

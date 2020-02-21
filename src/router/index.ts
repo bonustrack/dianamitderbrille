@@ -20,21 +20,21 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    meta: { isLight: true },
+    meta: { light: true },
     beforeEnter: ifNotAuthenticated
   },
   {
     path: '/signup',
     name: 'signup',
     component: Signup,
-    meta: { isLight: true },
+    meta: { light: true },
     beforeEnter: ifNotAuthenticated
   },
   {
     path: '/login',
     name: 'login',
     component: Login,
-    meta: { isLight: true },
+    meta: { light: true },
     beforeEnter: ifNotAuthenticated
   },
   { path: '/write', name: 'write', component: Write, beforeEnter: ifAuthenticated },
@@ -43,6 +43,7 @@ const routes = [
     path: '/messages/:username',
     name: 'messages',
     component: Messages,
+    meta: { headless: true },
     beforeEnter: ifAuthenticated
   },
   { path: '/profile', name: 'edit-profile', component: EditProfile, beforeEnter: ifAuthenticated },

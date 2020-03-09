@@ -16,17 +16,17 @@
       <form @submit.prevent="handleSubmit" class="border-top p-4">
         <File v-if="file" :file="file" @delete="file = false" />
         <div class="d-flex">
-          <Upload v-model="file" class="p-0 mr-2">
+          <Upload v-model="file" class="mr-2">
             <Icon name="image" class="btn-outline-mktg p-0" />
           </Upload>
           <a><Icon name="tip" class="btn-outline-mktg mr-2 px-0"/></a>
           <input
             type="text"
-            class="form-control width-full"
+            class="form-control rounded-right-0 width-full"
             placeholder="Type a message"
             v-model="form.body"
           />
-          <button class="btn-mktg ml-2 px-4" type="submit" :disabled="isLoading">
+          <button class="btn-mktg rounded-left-0 px-4" type="submit" :disabled="isLoading">
             <Icon name="send" />
           </button>
         </div>

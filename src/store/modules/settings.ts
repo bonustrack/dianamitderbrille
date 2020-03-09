@@ -25,6 +25,7 @@ const state = {
   subscriptions: [],
   likes: [],
   profiles: {},
+  contacts: false,
   messages: {}
 };
 
@@ -54,6 +55,9 @@ const mutations = {
   },
   addProfile(_state, { username, user }) {
     Vue.set(_state.profiles, username, user);
+  },
+  setContacts(_state, payload) {
+    Vue.set(_state, 'contacts', payload);
   },
   setMessages(_state, { username, messages }) {
     Vue.set(_state.messages, username, messages);
@@ -109,6 +113,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       client.request(username).then(user => {
         commit('addProfile', { username, user });
+        resolve();
+      });
+    });
+  },
+  getContacts: ({ commit }) => {
+    return new Promise((resolve, reject) => {
+      kbyte.requestAsync('get_contacts', null).then(contacts => {
+        commit('setContacts', contacts);
         resolve();
       });
     });

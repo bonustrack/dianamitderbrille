@@ -49,6 +49,26 @@ export default (app, server) => {
             }
             break;
           }
+          case 'get_contacts': {
+            let query = 'SELECT * FROM subscriptions WHERE user_id = ? OR subscription = ?';
+            const subscriptions = await db.queryAsync(query, [ws.id, ws.id]);
+            const contacts = subscriptions.map(subscription =>
+              subscription.user_id === ws.id ? subscription.subscription : subscription.user_id
+            );
+            query = 'SELECT id, username, meta FROM users WHERE id IN (?)';
+            const users = await db.queryAsync(query, [contacts]);
+            console.log(users);
+
+            const fake = [{
+              user_meta: {
+                name: 'Diana Tamara Höfler',
+                avatar: 'QmNZz6n2LYLAUwnDvGi79CFj5UJNGgyRyV6758nCtajUHJ'
+              },
+              last_message: 'Say hi!'
+            }];
+            sendResponse(ws, tag, fake);
+            break;
+          }
           case 'get_messages': {
             let query = 'SELECT id FROM users WHERE username = ?';
             const users = await db.queryAsync(query, [params.username]);

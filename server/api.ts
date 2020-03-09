@@ -114,7 +114,7 @@ router.post('/like', verify, async (req, res) => {
 });
 
 router.post('/payments', verify, async (req, res) => {
-  const query = 'SELECT * FROM payments WHERE user_id = ?';
+  const query = 'SELECT * FROM payments WHERE user_id = ? ORDER BY created DESC';
   const result = await db.queryAsync(query, [res.locals.id]);
   res.json(result);
 });

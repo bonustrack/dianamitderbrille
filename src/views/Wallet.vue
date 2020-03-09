@@ -63,25 +63,29 @@ export default {
     };
   },
   async created() {
-    this.isLoading = true;
-    this.payments = await client.request('payments');
-    let balance = 0;
-    this.payments.forEach(payment => (balance += payment.amount));
-    this.balance = balance;
-    this.isLoading = false;
+    this.load();
   },
   mounted: function() {
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.VUE_APP_PAYPAL_CLIENT_ID}&disable-funding=credit,card`;
-    script.addEventListener('load', this.initPaypal);
-    document.body.appendChild(script);
-
-    const script2 = document.createElement('script');
-    script2.src = 'https://hosted.paysafe.com/checkout/v1/latest/paysafe.checkout.min.js';
-    document.body.appendChild(script2);
+    this.initPaypal();
+    this.initPaysafe();
   },
   methods: {
+    async load() {
+      this.payments = false;
+      this.isLoading = true;
+      this.payments = await client.request('payments');
+      let balance = 0;
+      this.payments.forEach(payment => (balance += payment.amount));
+      this.balance = balance;
+      this.isLoading = false;
+    },
     initPaypal() {
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.VUE_APP_PAYPAL_CLIENT_ID}&disable-funding=credit,card`;
+      script.addEventListener('load', this.initPaypalButton);
+      document.body.appendChild(script);
+    },
+    initPaypalButton() {
       window.paypal
         .Buttons({
           style: { shape: 'pill', color: 'blue' },
@@ -90,6 +94,11 @@ export default {
           onError: err => console.log(err)
         })
         .render(this.$refs.paypal);
+    },
+    initPaysafe() {
+      const script = document.createElement('script');
+      script.src = 'https://hosted.paysafe.com/checkout/v1/latest/paysafe.checkout.min.js';
+      document.body.appendChild(script);
     },
     createOrder(data, actions) {
       const description = 'Deposit';
@@ -110,8 +119,13 @@ export default {
     async onApprove(data, actions) {
       const order = await actions.order.capture();
       console.log(order);
+      this.isLoading = true;
+      this.amount = '';
+      this.balance = false;
+      this.payments = false;
       try {
-        this.payments = await client.request('paypal/verify', { order_id: order.id });
+        await client.request('paypal/verify', { order_id: order.id });
+        this.load();
       } catch (e) {
         console.log(e);
       }

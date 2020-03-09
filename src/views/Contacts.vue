@@ -15,7 +15,7 @@
         </div>
       </router-link>
     </div>
-    <VueLoadingIndicator v-else class="p-4"/>
+    <VueLoadingIndicator v-else class="p-4" />
   </div>
 </template>
 

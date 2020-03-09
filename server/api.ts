@@ -157,7 +157,7 @@ router.post('/paypal/verify', verify, async (req, res) => {
     id: uid(),
     user_id: res.locals.id,
     designation: order.result.purchase_units[0].description,
-    amount: parseInt(order.result.purchase_units[0].amount.value),
+    amount: parseFloat(order.result.purchase_units[0].amount.value).toFixed(2),
     meta: JSON.stringify({})
   };
   let query = 'INSERT INTO payments SET ?;';

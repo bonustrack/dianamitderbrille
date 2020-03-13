@@ -7,7 +7,7 @@ import { upperFirst, camelCase } from 'lodash';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
-import { LOCALSTORAGE_KEY } from '@/helpers/utils';
+import { LOCALE_LOCALSTORAGE_KEY } from '@/helpers/utils';
 import messages from '@/helpers/messages.json';
 import numberFormats from '@/helpers/number.json';
 import '@vue/ui/dist/vue-ui.css';
@@ -20,8 +20,8 @@ const getLocale = () =>
   navigator.languages && navigator.languages.length
     ? navigator.languages[0]
     : navigator.language || 'en';
-const localStorageLocale = localStorage.getItem(LOCALSTORAGE_KEY);
-const locale = localStorageLocale ? localStorageLocale : getLocale() === 'th' ? 'th' : 'en';
+const localStorageLocale = localStorage.getItem(LOCALE_LOCALSTORAGE_KEY);
+const locale = localStorageLocale ? localStorageLocale : getLocale() === 'de' ? 'de' : 'en';
 const i18n = new VueI18n({ locale, messages, numberFormats });
 
 const requireComponent = require.context('./components', true, /[\w-]+\.vue$/);

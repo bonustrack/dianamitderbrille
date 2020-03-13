@@ -41,9 +41,12 @@
           <Icon v-else name="love" class="mr-2 text-red" />
           <span v-if="story.likes + count" v-text="story.likes + count" class="mr-2" />
         </template>
-        <Icon name="tip" class="ml-2" />
+        <a @click="showPaymentModal = true">
+          <Icon name="tip" class="ml-2" />
+        </a>
       </div>
     </div>
+    <ModalPayment :open="showPaymentModal" @close="showPaymentModal = false" />
   </div>
 </template>
 
@@ -52,6 +55,7 @@ export default {
   props: ['item'],
   data() {
     return {
+      showPaymentModal: false,
       isLoading: false,
       count: 0
     };

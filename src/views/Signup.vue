@@ -1,6 +1,6 @@
 <template>
   <div class="container-sm p-responsive">
-    <h1 class="text-center">Sign up</h1>
+    <h1 class="text-center" v-text="$t('signup')" />
     <form @submit.prevent="handleSubmit" style="max-width: 360px;" class="mx-auto">
       <dl class="form-group">
         <input
@@ -28,9 +28,12 @@
       </dl>
       <dl class="flash flash-error" v-if="error" v-text="error" />
       <div class="form-actions">
-        <button type="submit" class="btn-mktg btn-block" :disabled="isLoading">
-          Sign up
-        </button>
+        <button
+          type="submit"
+          class="btn-mktg btn-block"
+          :disabled="isLoading"
+          v-text="$t('signup')"
+        />
       </div>
       <dl class="form-group text-center">Or, <router-link to="/login">log in</router-link></dl>
     </form>

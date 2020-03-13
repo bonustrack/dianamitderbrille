@@ -1,6 +1,6 @@
 <template>
   <div v-if="open" class="modal">
-    <div class="backdrop" />
+    <div class="backdrop" @click="$emit('close')" />
     <div class="shell overflow-hidden rounded-md-2 rounded-lg-2">
       <slot />
     </div>

@@ -7,5 +7,14 @@
     "percent": {
       "style": "percent"
     }
+  },
+  "de": {
+    "currency": {
+      "style": "currency",
+      "currency": "USD"
+    },
+    "percent": {
+      "style": "percent"
+    }
   }
 }

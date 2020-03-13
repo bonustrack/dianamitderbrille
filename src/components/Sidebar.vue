@@ -4,7 +4,7 @@
       <li class="col-3 col-lg-12">
         <router-link :to="`/${model}`" class="p-3 d-block">
           <Icon name="home" />
-          <span class="hide-sm hide-md hide-lg ml-3">Home</span>
+          <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('home')" />
         </router-link>
       </li>
       <li class="col-3 col-lg-12" v-if="account === model">
@@ -16,19 +16,19 @@
       <li class="col-3 col-lg-12">
         <router-link to="/messages" class="p-3 d-block">
           <Icon name="message" />
-          <span class="hide-sm hide-md hide-lg ml-3">Messages</span>
+          <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('messages')" />
         </router-link>
       </li>
       <li class="col-3 col-lg-12" v-if="account !== model">
         <router-link :to="`/${account.username}`" class="p-3 d-block">
           <Icon name="user" />
-          <span class="hide-sm hide-md hide-lg ml-3">Profile</span>
+          <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('profile')" />
         </router-link>
       </li>
       <li class="col-3 col-lg-12">
         <router-link to="/settings" class="p-3 d-block">
           <Icon name="settings" />
-          <span class="hide-sm hide-md hide-lg ml-3">Settings</span>
+          <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('settings')" />
         </router-link>
       </li>
     </ul>

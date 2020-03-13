@@ -1,14 +1,24 @@
 {
   "en": {
-    "message": {
-      "signup": "Sign up",
-      "login": "Log in"
-    }
+    "hero_title": "Welcome to my official website",
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out",
+    "home": "Home",
+    "messages": "Messages",
+    "profile": "Profile",
+    "settings": "Settings",
+    "wallet": "Wallet"
   },
   "de": {
-    "message": {
-      "signup": "สมัครสมาชิก",
-      "login": "เข้าสู่ระบบ"
-    }
+    "hero_title": "Herzlich willkommen auf meiner offiziellen website",
+    "signup": "Registrieren",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "home": "Startseite",
+    "messages": "Nachrichten",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "wallet": "Wallet"
   }
 }

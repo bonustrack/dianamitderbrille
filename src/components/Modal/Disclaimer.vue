@@ -10,7 +10,7 @@
       </p>
       <div class="v-align-middle mb-4">
         <a href="https://google.com" class="btn-outline-mktg mr-3">Exit</a>
-        <button type="submit" class="btn-mktg mr-3">Agree</button>
+        <button type="submit" class="btn-mktg">Agree</button>
       </div>
     </form>
   </Modal>

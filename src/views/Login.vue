@@ -1,6 +1,6 @@
 <template>
   <div class="container-sm p-responsive">
-    <h1 class="text-center">Log in</h1>
+    <h1 class="text-center" v-text="$t('login')" />
     <form @submit.prevent="handleSubmit" style="max-width: 360px;" class="mx-auto">
       <dl class="form-group">
         <input
@@ -20,9 +20,12 @@
       </dl>
       <dl class="flash flash-error" v-if="error" v-text="error" />
       <div class="form-actions">
-        <button type="submit" class="btn-mktg btn-block" :disabled="isLoading">
-          Log in
-        </button>
+        <button
+          type="submit"
+          class="btn-mktg btn-block"
+          :disabled="isLoading"
+          v-text="$t('login')"
+        />
       </div>
       <dl class="form-group text-center">Or, <router-link to="/signup">sign up</router-link></dl>
     </form>
@@ -58,7 +61,10 @@ export default {
       try {
         const result = await client.request('login', values);
         localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, result.access_token);
-        this.$store.dispatch('init').then(() => this.$router.push('/dianamitderbrille'));
+        this.$store.dispatch('init').then(() => {
+          const redirect = this.$route.query.redirect;
+          this.$router.push(redirect || '/dianamitderbrille')
+        });
       } catch (error) {
         this.error = error;
         this.isLoading = false;

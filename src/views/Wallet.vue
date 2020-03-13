@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0">Wallet</h2>
+    <h2 class="p-4 border-bottom mb-0" v-text="$t('wallet')"/>
     <div class="overflow-hidden border-bottom">
       <div class="p-4 col-6 float-left">
         <h3 class="mb-2">Balance</h3>
@@ -14,12 +14,14 @@
             <span
               class="form-control rounded-right-0 pl-4 v-align-bottom pt-3"
               style="width: 50px !important;"
-              >$</span
-            >
+              >
+              $
+            </span>
             <input
               type="number"
               class="form-control rounded-left-0 pl-0"
               placeholder="0.00"
+              min="5"
               v-model="amount"
             />
           </div>
@@ -28,13 +30,13 @@
         <button
           class="btn-mktg btn-block border-0"
           style="background-color: #2c2241;"
-          @click="paysafe()"
+          @click="paysafeCheckout()"
         >
           <Icon name="paysafe" style="font-size: 18px;" />
         </button>
       </div>
     </div>
-    <div>
+    <div class="pb-6">
       <h3 class="px-4 pt-4">Payments</h3>
       <div class="px-4 py-3 border-bottom">
         <span class="float-right">Amount</span>
@@ -89,18 +91,13 @@ export default {
       window.paypal
         .Buttons({
           style: { shape: 'pill', color: 'blue' },
-          createOrder: this.createOrder,
-          onApprove: this.onApprove,
+          createOrder: this.paypalCreateOrder,
+          onApprove: this.paypalOnApprove,
           onError: err => console.log(err)
         })
         .render(this.$refs.paypal);
     },
-    initPaysafe() {
-      const script = document.createElement('script');
-      script.src = 'https://hosted.paysafe.com/checkout/v1/latest/paysafe.checkout.min.js';
-      document.body.appendChild(script);
-    },
-    createOrder(data, actions) {
+    paypalCreateOrder(data, actions) {
       const description = 'Deposit';
       const amount = parseFloat(this.amount).toFixed(2);
       const currency = 'USD';
@@ -116,7 +113,7 @@ export default {
         ]
       });
     },
-    async onApprove(data, actions) {
+    async paypalOnApprove(data, actions) {
       const order = await actions.order.capture();
       console.log(order);
       this.isLoading = true;
@@ -130,9 +127,13 @@ export default {
         console.log(e);
       }
     },
-    paysafe() {
+    initPaysafe() {
+      const script = document.createElement('script');
+      script.src = 'https://hosted.paysafe.com/checkout/v1/latest/paysafe.checkout.min.js';
+      document.body.appendChild(script);
+    },
+    paysafeCheckout() {
       const amount = parseFloat(this.amount).toFixed(2) * 100;
-      alert(amount);
       const apiKey = process.env.VUE_APP_PAYSAFE_API_KEY;
       paysafe.checkout.setup(
         apiKey,
@@ -143,10 +144,22 @@ export default {
           environment: 'TEST',
           preferredPaymentMethod: 'cards'
         },
-        (instance, error, result) => {
-          console.log(result, error);
-        }
+        this.paysafeOnApprove
       );
+    },
+    async paysafeOnApprove(instance, error, result) {
+      const amount = parseFloat(this.amount).toFixed(2) * 100;
+      this.isLoading = true;
+      this.amount = '';
+      this.balance = false;
+      this.payments = false;
+      try {
+        await client.request('paysafe/verify', { token: result.token, amount });
+        this.load();
+        instance.showSuccessScreen();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 };

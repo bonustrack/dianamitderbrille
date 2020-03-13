@@ -5,6 +5,9 @@ import cors from 'cors';
 import { Server } from 'ws';
 import jwt from 'jsonwebtoken';
 import api from './server/api';
+import auth from './server/auth';
+import payment from './server/payment';
+import upload from './server/upload';
 import db from './server/helpers/db';
 import { uid } from './server/helpers/utils';
 import { sendResponse, sendErrorResponse, justsaying } from './server/helpers/ws';
@@ -14,6 +17,9 @@ export default (app, server) => {
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
   app.use(cors());
   app.use(serveStatic(`${__dirname}/dist`));
+  app.use('/api', auth);
+  app.use('/api', payment);
+  app.use('/api', upload);
   app.use('/api', api);
   app.get('*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`));
 

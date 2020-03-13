@@ -1,96 +1,9 @@
 import express from 'express';
-import multer from 'multer';
-import fs from 'fs';
-import pinataSDK from '@pinata/sdk';
-import checkout from '@paypal/checkout-server-sdk';
 import db from './helpers/db';
-import { issueToken } from './helpers/token';
 import { verify } from './helpers/middleware';
 import { uid } from './helpers/utils';
-import paypal from './helpers/paypal';
-import { cardPaymentWithToken } from './helpers/paysafe';
-import { signup, login } from '../common/schemas';
 
 const router = express.Router();
-const fileSize = 50 * 1000 * 1000;
-const upload = multer({ dest: 'uploads/', limits: { fileSize } });
-const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_API_KEY);
-
-router.post('/signup', async (req, res) => {
-  try {
-    const values = await signup.validateAsync(req.body);
-    const id = uid();
-    const user = {
-      id,
-      username: id,
-      email: values.email,
-      password: values.password,
-      meta: JSON.stringify({ name: values.name })
-    };
-    await db.queryAsync('INSERT INTO users SET ?', [user]);
-    const token = issueToken(user.id);
-    res.json({ access_token: token });
-  } catch (error) {
-    const errorMessage = error.sqlMessage || 'request failed';
-    res.status(500).json({ error: errorMessage });
-  }
-});
-
-router.post('/login', async (req, res) => {
-  try {
-    const values = await login.validateAsync(req.body);
-    const query = 'SELECT id FROM users WHERE email = ? AND password = ?';
-    const users = await db.queryAsync(query, [values.email, values.password]);
-    if (users && users[0] && users[0].id) {
-      const token = issueToken(users[0].id);
-      res.json({ access_token: token });
-    } else {
-      const errorMessage = 'email or password is wrong';
-      res.status(500).json({ error: errorMessage });
-    }
-  } catch (error) {
-    const errorMessage = 'request failed';
-    res.status(500).json({ error: errorMessage });
-  }
-});
-
-router.post('/verify', verify, async (req, res) => {
-  let query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1;';
-  query += 'SELECT u.username AS username FROM subscriptions s, users u WHERE s.user_id = ? AND u.id = s.subscription;';
-  query += 'SELECT post_id FROM likes WHERE user_id = ?';
-  try {
-    const result = await db.queryAsync(query, [res.locals.id, res.locals.id, res.locals.id]);
-    const subscriptions = result[1].map(subscription => subscription.username);
-    const likes = result[2].map(like => like.post_id);
-    res.json({ account: result[0][0], subscriptions, likes });
-  } catch (error) {
-    console.log(error);
-    res.json({ error });
-  }
-});
-
-router.post('/upload', verify, upload.single('file'), async (req, res, next) => {
-  const path = `${req.file.destination}${req.file.filename}`;
-  const readableStreamForFile = fs.createReadStream(path);
-  try {
-    const result = await pinata.pinFileToIPFS(readableStreamForFile);
-    await fs.unlinkSync(path);
-    const file = {
-      user_id: res.locals.id,
-      ipfs_hash: result.IpfsHash,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-      meta: JSON.stringify({})
-    };
-    let query = 'INSERT IGNORE INTO uploads SET ?;';
-    // query += 'UPDATE users SET meta = JSON_SET(meta, "$.avatar", ?) WHERE id = ?;';
-    await db.queryAsync(query, [file, result.IpfsHash, res.locals.id]);
-    res.json({ result: file });
-  } catch (error) {
-    console.log(error);
-    res.json({ error });
-  }
-});
 
 router.post('/post', verify, async (req, res) => {
   const post = {
@@ -141,56 +54,6 @@ router.post('/:username/stories', verify, async (req, res) => {
   `;
   const result = await db.queryAsync(query, [username, interval]);
   res.json(result);
-});
-
-router.post('/paypal/verify', verify, async (req, res) => {
-  const orderId = req.body.order_id;
-  let request = new checkout.orders.OrdersGetRequest(orderId);
-  let order;
-  try {
-    order = await paypal.client().execute(request);
-  } catch (e) {
-    console.error(e);
-    return res.sendStatus(500);
-  }
-  const amount = parseFloat(order.result.purchase_units[0].amount.value).toFixed(2);
-  // @ts-ignore
-  if (amount <= 0 || order.result.purchase_units[0].amount.currency_code !== 'USD')
-    return res.sendStatus(500);
-  const payment = {
-    id: uid(),
-    user_id: res.locals.id,
-    designation: 'Deposit with Paypal',
-    amount,
-    meta: JSON.stringify(order)
-  };
-  const query = 'INSERT INTO payments SET ?';
-  await db.queryAsync(query, [payment]);
-  res.json({ success: true });
-});
-
-router.post('/paysafe/verify', verify, async (req, res) => {
-  const { token, amount } = req.body;
-  let order;
-  try {
-    order = await cardPaymentWithToken(token, token, parseInt(amount));
-    console.log(order);
-  } catch (e) {
-    console.error(e);
-    return res.sendStatus(500);
-  }
-  if (order.COMPLETED !== 'USD' && order.status !== 'COMPLETED')
-    return res.sendStatus(500);
-  const payment = {
-    id: uid(),
-    user_id: res.locals.id,
-    designation: 'Deposit with Paysafe',
-    amount: (order.amount / 100).toFixed(2),
-    meta: JSON.stringify(order)
-  };
-  const query = 'INSERT INTO payments SET ?';
-  await db.queryAsync(query, [payment]);
-  res.json({ success: true });
 });
 
 export default router;

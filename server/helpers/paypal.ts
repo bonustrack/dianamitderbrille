@@ -20,6 +20,7 @@ async function prettyPrint(jsonData, pre = '') {
   }
   for (let key in jsonData) {
     if (jsonData.hasOwnProperty(key)) {
+      // @ts-ignore
       if (isNaN(key)) pretty += pre + capitalize(key) + ': ';
       else pretty += pre + (parseInt(key) + 1) + ': ';
       if (typeof jsonData[key] === 'object') {

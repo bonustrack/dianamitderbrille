@@ -27,12 +27,6 @@ router.post('/like', verify, async (req, res) => {
   res.json({ success: true });
 });
 
-router.post('/payments', verify, async (req, res) => {
-  const query = 'SELECT * FROM payments WHERE user_id = ? ORDER BY created DESC';
-  const result = await db.queryAsync(query, [res.locals.id]);
-  res.json(result);
-});
-
 router.post('/:username', verify, async (req, res) => {
   const username = req.params.username;
   const query = 'SELECT id, username, meta FROM users WHERE username = ?';

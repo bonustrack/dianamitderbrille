@@ -2,11 +2,26 @@ import express from 'express';
 import checkout from '@paypal/checkout-server-sdk';
 import db from './helpers/db';
 import { verify } from './helpers/middleware';
-import { uid } from './helpers/utils';
 import paypal from './helpers/paypal';
 import { cardPaymentWithToken } from './helpers/paysafe';
 
 const router = express.Router();
+
+router.post('/payments', verify, async (req, res) => {
+  const query = 'SELECT * FROM payments WHERE sender = ? OR receiver = ? ORDER BY created DESC LIMIT 20';
+  const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
+  res.json(result);
+});
+
+router.post('/balance', verify, async (req, res) => {
+  let query = 'SELECT SUM(amount) AS total FROM payments WHERE receiver = ?;';
+  query += 'SELECT SUM(amount) AS total FROM payments WHERE sender = ?;';
+  const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
+  const received = result[0][0].total || 0;
+  const spent = result[1][0].total || 0;
+  const balance = received - spent;
+  res.json(balance);
+});
 
 router.post('/paypal/verify', verify, async (req, res) => {
   const orderId = req.body.order_id;
@@ -14,6 +29,7 @@ router.post('/paypal/verify', verify, async (req, res) => {
   let order;
   try {
     order = await paypal.client().execute(request);
+    console.log(order);
   } catch (e) {
     console.error(e);
     return res.sendStatus(500);
@@ -23,9 +39,10 @@ router.post('/paypal/verify', verify, async (req, res) => {
   if (amount <= 0 || order.result.purchase_units[0].amount.currency_code !== 'USD')
     return res.sendStatus(500);
   const payment = {
-    id: uid(),
-    user_id: res.locals.id,
-    designation: 'Deposit with Paypal',
+    id: `paypal/${order.result.id}`,
+    sender: 'paypal',
+    receiver: res.locals.id,
+    memo: 'Deposit with Paypal',
     amount,
     meta: JSON.stringify(order)
   };
@@ -44,12 +61,13 @@ router.post('/paysafe/verify', verify, async (req, res) => {
     console.error(e);
     return res.sendStatus(500);
   }
-  if (order.COMPLETED !== 'USD' && order.status !== 'COMPLETED')
+  if (order.status !== 'COMPLETED')
     return res.sendStatus(500);
   const payment = {
-    id: uid(),
-    user_id: res.locals.id,
-    designation: 'Deposit with Paysafe',
+    id: `paysafe/${token}`,
+    sender: 'paysafe',
+    receiver: res.locals.id,
+    memo: 'Deposit with Paysafe',
     amount: (order.amount / 100).toFixed(2),
     meta: JSON.stringify(order)
   };

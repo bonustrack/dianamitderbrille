@@ -45,7 +45,7 @@
       <VueLoadingIndicator v-if="isLoading" class="p-4" />
       <div class="px-4 py-3 border-bottom" v-for="payment in payments" :key="payment.id">
         <span class="float-right" v-text="$n(payment.amount, 'currency')" />
-        {{ payment.designation }}
+        {{ payment.memo }}
       </div>
     </div>
   </div>
@@ -76,9 +76,7 @@ export default {
       this.payments = false;
       this.isLoading = true;
       this.payments = await client.request('payments');
-      let balance = 0;
-      this.payments.forEach(payment => (balance += payment.amount));
-      this.balance = balance;
+      this.balance = await client.request('balance');
       this.isLoading = false;
     },
     initPaypal() {

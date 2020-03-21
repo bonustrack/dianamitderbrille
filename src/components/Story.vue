@@ -46,7 +46,11 @@
         </a>
       </div>
     </div>
-    <ModalPayment :open="showPaymentModal" @close="showPaymentModal = false" />
+    <ModalPayment
+      :open="showPaymentModal"
+      :receiver="story.user_id"
+      @close="showPaymentModal = false"
+    />
   </div>
 </template>
 

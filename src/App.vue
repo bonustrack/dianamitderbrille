@@ -9,6 +9,7 @@
       />
     </div>
     <ModalDisclaimer :open="showDisclaimer" @close="showDisclaimer = false" />
+    <Notifications />
   </div>
 </template>
 

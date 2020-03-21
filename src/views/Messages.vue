@@ -14,7 +14,7 @@
         <Message :profile="profile" v-for="(message, i) in messages" :message="message" :key="i" />
       </div>
       <form @submit.prevent="handleSubmit" class="border-top p-4">
-        <File v-if="file" :file="file" @delete="file = false" />
+        <File v-if="file" :file="file" @delete="file = false" :loaded="scrollDown" />
         <div class="d-flex">
           <Upload v-model="file" class="mr-2">
             <Icon name="image" class="btn-outline-mktg p-0" />
@@ -52,17 +52,22 @@ export default {
       return this.$store.state.settings.profiles[this.username];
     },
     messages() {
-      return this.$store.state.settings.messages[this.username];
+      return this.$store.state.messenger.messages[this.username];
     }
   },
   async created() {
     const username = this.username;
     if (!this.profile) await this.$store.dispatch('getProfile', username);
     if (!this.messages) await this.$store.dispatch('getMessages', username);
-    const messages = this.$el.querySelector('#messages');
-    messages.scrollTop = messages.scrollHeight;
+    this.scrollDown();
   },
   methods: {
+    scrollDown() {
+      setTimeout(() => {
+        const messages = this.$el.querySelector('#messages');
+        messages.scrollTop = messages.scrollHeight;
+      }, 500);
+    },
     async handleSubmit() {
       this.isLoading = true;
       const values = JSON.parse(JSON.stringify(this.form));

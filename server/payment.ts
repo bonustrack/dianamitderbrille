@@ -4,8 +4,40 @@ import db from './helpers/db';
 import { verify } from './helpers/middleware';
 import paypal from './helpers/paypal';
 import { cardPaymentWithToken } from './helpers/paysafe';
+import { uid } from './helpers/utils';
 
 const router = express.Router();
+
+const getBalance = (id) => new Promise((resolve) => {
+  let query = 'SELECT SUM(amount) AS total FROM payments WHERE receiver = ?;';
+  query += 'SELECT SUM(amount) AS total FROM payments WHERE sender = ?;';
+  db.queryAsync(query, [id, id]).then(result => {
+    const received = result[0][0].total || 0;
+    const spent = result[1][0].total || 0;
+    const balance = received - spent;
+    resolve(balance);
+  });
+});
+
+router.post('/payment', verify, async (req, res) => {
+  const receiver = req.body.receiver;
+  const amount = parseFloat(req.body.amount);
+  const balance = await getBalance(res.locals.id);
+  // @ts-ignore
+  if (amount <= 0 || amount > balance || receiver === res.locals.id)
+    return res.status(500).json({ error: 'invalid payment' });
+  const payment = {
+    id: uid(),
+    sender: res.locals.id,
+    receiver,
+    memo: 'Tip',
+    amount,
+    meta: JSON.stringify({})
+  };
+  let query = 'INSERT IGNORE INTO payments SET ?;';
+  await db.queryAsync(query, [payment]);
+  res.json({ success: true });
+});
 
 router.post('/payments', verify, async (req, res) => {
   const query = 'SELECT * FROM payments WHERE sender = ? OR receiver = ? ORDER BY created DESC LIMIT 20';
@@ -14,12 +46,7 @@ router.post('/payments', verify, async (req, res) => {
 });
 
 router.post('/balance', verify, async (req, res) => {
-  let query = 'SELECT SUM(amount) AS total FROM payments WHERE receiver = ?;';
-  query += 'SELECT SUM(amount) AS total FROM payments WHERE sender = ?;';
-  const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
-  const received = result[0][0].total || 0;
-  const spent = result[1][0].total || 0;
-  const balance = received - spent;
+  const balance = await getBalance(res.locals.id);
   res.json(balance);
 });
 

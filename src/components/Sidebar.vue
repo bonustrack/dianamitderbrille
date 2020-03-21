@@ -7,7 +7,7 @@
           <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('home')" />
         </router-link>
       </li>
-      <li class="col-3 col-lg-12" v-if="account === model">
+      <li class="col-3 col-lg-12" v-if="account.username === model">
         <router-link to="/write" class="p-3 d-block">
           <Icon name="pen" />
           <span class="hide-sm hide-md hide-lg ml-3">New post</span>
@@ -19,7 +19,7 @@
           <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('messages')" />
         </router-link>
       </li>
-      <li class="col-3 col-lg-12" v-if="account !== model">
+      <li class="col-3 col-lg-12" v-if="account.username !== model">
         <router-link :to="`/${account.username}`" class="p-3 d-block">
           <Icon name="user" />
           <span class="hide-sm hide-md hide-lg ml-3" v-text="$t('profile')" />

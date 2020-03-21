@@ -63,7 +63,7 @@ export default {
         localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, result.access_token);
         this.$store.dispatch('init').then(() => {
           const redirect = this.$route.query.redirect;
-          this.$router.push(redirect || '/dianamitderbrille')
+          this.$router.push(redirect || '/dianamitderbrille');
         });
       } catch (error) {
         this.error = error;

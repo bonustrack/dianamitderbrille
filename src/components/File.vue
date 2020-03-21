@@ -6,6 +6,7 @@
         :src="`https://gateway.pinata.cloud/ipfs/${file.ipfs_hash}`"
         class="rounded-2"
         style="max-height: 160px;"
+        onload="$emit('loaded')"
       />
       <a
         href="#"

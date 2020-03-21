@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0" v-text="$t('wallet')"/>
+    <h2 class="p-4 border-bottom mb-0" v-text="$t('wallet')" />
     <div class="overflow-hidden border-bottom">
       <div class="p-4 col-6 float-left">
         <h3 class="mb-2">Balance</h3>
@@ -14,13 +14,14 @@
             <span
               class="form-control rounded-right-0 pl-4 v-align-bottom pt-3"
               style="width: 50px !important;"
-              >
+            >
               $
             </span>
             <input
               type="number"
               class="form-control rounded-left-0 pl-0"
               placeholder="0.00"
+              step="0.01"
               min="5"
               v-model="amount"
             />
@@ -42,11 +43,15 @@
         <span class="float-right">Amount</span>
         Designation
       </div>
-      <VueLoadingIndicator v-if="isLoading" class="p-4" />
       <div class="px-4 py-3 border-bottom" v-for="payment in payments" :key="payment.id">
-        <span class="float-right" v-text="$n(payment.amount, 'currency')" />
+        <span :class="payment.receiver === account.id && 'text-green'" class="float-right">
+          <span v-if="payment.receiver === account.id" v-text="'+'" /><span v-else v-text="'-'" />{{
+            $n(payment.amount, 'currency')
+          }}
+        </span>
         {{ payment.memo }}
       </div>
+      <VueLoadingIndicator v-if="isLoading" class="p-4" />
     </div>
   </div>
 </template>
@@ -58,6 +63,7 @@ import { name } from '@/../package.json';
 export default {
   data() {
     return {
+      account: this.$store.state.settings.account,
       amount: '',
       balance: false,
       payments: false,

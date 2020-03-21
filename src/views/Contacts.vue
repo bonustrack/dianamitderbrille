@@ -23,7 +23,7 @@
 export default {
   computed: {
     contacts() {
-      return this.$store.state.settings.contacts;
+      return this.$store.state.messenger.contacts;
     }
   },
   async created() {

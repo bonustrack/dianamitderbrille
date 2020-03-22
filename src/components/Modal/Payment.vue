@@ -39,7 +39,7 @@ export default {
       account: this.$store.state.settings.account,
       amount: '',
       balance: false,
-      isLoading: false,
+      isLoading: false
     };
   },
   async mounted() {

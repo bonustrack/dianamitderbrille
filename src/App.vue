@@ -1,6 +1,12 @@
 <template>
   <div id="app" :class="!isInterface && 'd-flex flex-items-center'">
-    <VueLoadingIndicator v-if="isLoading" class="overlay big" />
+    <div v-if="isLoading" class="overlay big vue-ui-loading-indicator p-6">
+      <img
+        src="~/@/assets/logo.svg"
+        class="anim-pulse mb-6"
+        style="max-width: 100%; width: 460px;"
+      />
+    </div>
     <div :class="isInterface ? 'container-lg height-full' : 'width-full'" v-else>
       <Sidebar v-if="isInterface" :class="isHeadless && 'hide-sm hide-md hide-lg'" />
       <router-view

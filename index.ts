@@ -10,6 +10,7 @@ import payment from './server/payment';
 import upload from './server/upload';
 import db from './server/helpers/db';
 import { uid } from './server/helpers/utils';
+import {getContacts, getMessages} from './server/helpers/messenger';
 import { sendResponse, sendErrorResponse, justsaying } from './server/helpers/ws';
 
 export default (app, server) => {
@@ -56,30 +57,12 @@ export default (app, server) => {
             break;
           }
           case 'get_contacts': {
-            let query = 'SELECT * FROM subscriptions WHERE user_id = ? OR subscription = ?';
-            const subscriptions = await db.queryAsync(query, [ws.id, ws.id]);
-            const contacts = subscriptions.map(subscription =>
-              subscription.user_id === ws.id ? subscription.subscription : subscription.user_id
-            );
-            query = 'SELECT id, username, meta FROM users WHERE id IN (?)';
-            const users = await db.queryAsync(query, [contacts]);
-            console.log(users);
-
-            const fake = [{
-              user_meta: {
-                name: 'Diana Tamara Höfler',
-                avatar: 'QmNZz6n2LYLAUwnDvGi79CFj5UJNGgyRyV6758nCtajUHJ'
-              },
-              last_message: 'Say hi!'
-            }];
-            sendResponse(ws, tag, fake);
+            const contacts = await getContacts(ws.id);
+            sendResponse(ws, tag, contacts);
             break;
           }
           case 'get_messages': {
-            let query = 'SELECT id FROM users WHERE username = ?';
-            const users = await db.queryAsync(query, [params.username]);
-            query = 'SELECT * FROM messages WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?) ORDER BY created ASC LIMIT 100';
-            const messages = await db.queryAsync(query, [ws.id, users[0].id, users[0].id, ws.id]);
+            const messages = await getMessages(ws.id, params.username);
             sendResponse(ws, tag, messages);
             break;
           }

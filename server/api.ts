@@ -38,7 +38,7 @@ router.post('/:username', verify, async (req, res) => {
 
 router.post('/:username/stories', verify, async (req, res) => {
   const username = req.params.username;
-  const interval = 60;
+  const interval = 30;
   const query = `
     SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta, 
     (SELECT COUNT(l.user_id) FROM likes l WHERE l.post_id = p.id) AS likes

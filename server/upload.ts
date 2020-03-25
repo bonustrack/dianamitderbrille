@@ -19,6 +19,7 @@ router.post('/upload', verify, upload.single('file'), async (req, res, next) => 
     meta = await sharp(path)
       .resize(760)
       .webp({ lossless: true })
+      .composite([{ input: './uploads/watermark.png', gravity: 'southeast' }])
       .toFile(`${path}_`);
     readableStreamForFile = fs.createReadStream(`${path}_`);
   } catch (e) {

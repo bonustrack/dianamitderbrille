@@ -10,6 +10,7 @@ const state = {
   token: false,
   account: false,
   subscriptions: [],
+  subscribers: false,
   likes: [],
   profiles: {}
 };
@@ -40,6 +41,9 @@ const mutations = {
   },
   addProfile(_state, { username, user }) {
     Vue.set(_state.profiles, username, user);
+  },
+  addSubscribers(_state, payload) {
+    Vue.set(_state, 'subscribers', payload);
   }
 };
 
@@ -88,6 +92,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       client.request(username).then(user => {
         commit('addProfile', { username, user });
+        resolve();
+      });
+    });
+  },
+  getSubscribers: ({ commit }) => {
+    return new Promise((resolve, reject) => {
+      client.request('subscribers').then(result => {
+        commit('addSubscribers', result);
         resolve();
       });
     });

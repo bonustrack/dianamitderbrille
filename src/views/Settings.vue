@@ -7,6 +7,11 @@
         class="d-flex border-bottom v-align-middle px-4 py-3"
         v-text="$t('wallet')"
       />
+      <router-link
+        to="/subscribers"
+        class="d-flex border-bottom v-align-middle px-4 py-3"
+        v-text="$t('fans')"
+      />
       <a
         @click="logout"
         class="d-flex border-bottom v-align-middle px-4 py-3 text-red"

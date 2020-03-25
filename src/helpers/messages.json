@@ -8,7 +8,8 @@
     "messages": "Messages",
     "profile": "Profile",
     "settings": "Settings",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "fans": "Fans"
   },
   "de": {
     "hero_title": "Herzlich willkommen auf meiner offiziellen website",
@@ -19,6 +20,7 @@
     "messages": "Nachrichten",
     "profile": "Profil",
     "settings": "Einstellungen",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "fans": "Fans"
   }
 }

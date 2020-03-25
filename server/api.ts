@@ -27,6 +27,24 @@ router.post('/like', verify, async (req, res) => {
   res.json({ success: true });
 });
 
+router.post('/subscribers', verify, async (req, res) => {
+  const query = `
+    SELECT 
+      s.*, 
+      UNIX_TIMESTAMP(s.created) AS created, 
+      UNIX_TIMESTAMP(s.expired) AS expired, 
+      u.username, 
+      u.meta AS user_meta
+    FROM subscriptions s 
+    INNER JOIN users u ON u.id = s.user_id 
+    WHERE s.subscription = ? 
+    ORDER BY s.created DESC
+  `;
+  let result = await db.queryAsync(query, [res.locals.id]);
+  result = result.map(i => ({ ...i, user_meta: JSON.parse(i.user_meta) }));
+  res.json(result);
+});
+
 router.post('/:username', verify, async (req, res) => {
   const username = req.params.username;
   const query = 'SELECT id, username, meta FROM users WHERE username = ?';

@@ -27,6 +27,19 @@ router.post('/like', verify, async (req, res) => {
   res.json({ success: true });
 });
 
+router.post('/profile', verify, async (req, res) => {
+  const { name, about } = req.body;
+  try {
+    const query = 'UPDATE users SET meta = JSON_SET(meta, "$.name", ?), meta = JSON_SET(meta, "$.about", ?) WHERE id = ?;';
+    const result = await db.queryAsync(query, [name, about, res.locals.id]);
+    console.log(result);
+    res.json({ success: true });
+  } catch (e) {
+    console.log('Failed to edit profile', e);
+    res.status(500).json({ error: 'request failed' });
+  }
+});
+
 router.post('/subscribers', verify, async (req, res) => {
   const query = `
     SELECT 

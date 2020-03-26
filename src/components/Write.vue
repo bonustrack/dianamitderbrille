@@ -52,7 +52,7 @@ export default {
       try {
         await client.request('post', values);
         await this.$store.dispatch('getTimeline');
-        this.$store.dispatch('notify', { message: `You've successfully published a story` });
+        this.$store.dispatch('notify', `You've successfully published a story`);
         this.form.body = '';
         this.file = false;
         this.isLoading = false;

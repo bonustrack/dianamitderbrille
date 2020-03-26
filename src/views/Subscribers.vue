@@ -2,10 +2,7 @@
   <div>
     <h2 class="p-4 border-bottom mb-0">Fans</h2>
     <div v-if="items !== false">
-      <div
-        v-if="items.length === 0"
-        class="d-flex border-bottom v-align-middle p-4 text-white"
-      >
+      <div v-if="items.length === 0" class="d-flex border-bottom v-align-middle p-4 text-white">
         You don't have any fans
       </div>
       <div v-else>
@@ -21,6 +18,7 @@
             <div class="text-white" v-text="item.user_meta.name" />
             <div class="text-gray">
               Started {{ item.created | prettyMs }}
+              <template v-if="item.expired"> expire {{ item.expired | prettyMs }} </template>
             </div>
           </div>
         </router-link>

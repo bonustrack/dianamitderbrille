@@ -54,7 +54,7 @@ export default {
       };
       try {
         await client.request('payment', params);
-        this.$store.dispatch('notify', { message: `You've successfully sent a tip` });
+        this.$store.dispatch('notify', `You've successfully sent a tip`);
       } catch (e) {
         this.$store.dispatch('notify', {
           type: 'error',

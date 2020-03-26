@@ -10,7 +10,9 @@ const mutations = {
 
 const actions = {
   notify({ commit }, payload) {
-    commit('notify', payload);
+    typeof payload === 'string'
+      ? commit('notify', { message: payload })
+      : commit('notify', payload);
   }
 };
 

@@ -8,12 +8,16 @@
           id="name"
           class="form-control input-lg input-block"
           type="text"
-          :value="account.meta.name"
+          v-model="form.name"
         />
       </dl>
       <dl class="form-group">
-        <dt><label for="bio">Bio</label></dt>
-        <textarea id="bio" class="form-control input-lg input-block" />
+        <dt><label for="about">Bio</label></dt>
+        <textarea
+          id="about"
+          class="form-control input-lg input-block"
+          v-model="form.about"
+        />
       </dl>
       <dl class="flash flash-error" v-if="error" v-text="error" />
       <div class="form-actions pt-4">
@@ -26,6 +30,8 @@
 </template>
 
 <script>
+import client from '@/helpers/client';
+
 export default {
   data() {
     return {
@@ -35,8 +41,20 @@ export default {
       account: this.$store.state.settings.account
     };
   },
+  mounted() {
+    this.form = JSON.parse(JSON.stringify(this.account.meta));
+  },
   methods: {
-    handleSubmit() {}
+    async handleSubmit() {
+      this.isLoading = true;
+      try {
+        await client.request('profile', this.form);
+        this.$store.dispatch('notify', `You've successfully updated your profile`);
+      } catch (error) {
+        this.error = error;
+      }
+      this.isLoading = false;
+    }
   }
 };
 </script>

@@ -13,11 +13,7 @@
       </dl>
       <dl class="form-group">
         <dt><label for="about">Bio</label></dt>
-        <textarea
-          id="about"
-          class="form-control input-lg input-block"
-          v-model="form.about"
-        />
+        <textarea id="about" class="form-control input-lg input-block" v-model="form.about" />
       </dl>
       <dl class="flash flash-error" v-if="error" v-text="error" />
       <div class="form-actions pt-4">
@@ -49,6 +45,7 @@ export default {
       this.isLoading = true;
       try {
         await client.request('profile', this.form);
+        await this.$store.dispatch('getProfile', this.account.username);
         this.$store.dispatch('notify', `You've successfully updated your profile`);
       } catch (error) {
         this.error = error;

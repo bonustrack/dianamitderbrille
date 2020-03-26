@@ -1,7 +1,7 @@
 <template>
   <Modal :open="open" @close="$emit('close')">
     <form @submit.prevent="handleSubmit" class="px-4 py-6 text-center overflow-y-auto">
-      <h1 class="mb-4">Are you 18+?</h1>
+      <h2 class="mb-4">Are you 18+?</h2>
       <p class="text-left mb-4">
         This website may contain content of an adult nature. If you are easily offended or are under
         the age of 18, please exit now. The posts and pages within are intended for adults only and

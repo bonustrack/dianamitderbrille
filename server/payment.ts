@@ -4,20 +4,9 @@ import db from './helpers/db';
 import { verify } from './helpers/middleware';
 import paypal from './helpers/paypal';
 import { cardPaymentWithToken } from './helpers/paysafe';
-import { uid } from './helpers/utils';
+import { uid, getBalance } from './helpers/utils';
 
 const router = express.Router();
-
-const getBalance = (id) => new Promise((resolve) => {
-  let query = 'SELECT SUM(amount) AS total FROM payments WHERE receiver = ?;';
-  query += 'SELECT SUM(amount) AS total FROM payments WHERE sender = ?;';
-  db.queryAsync(query, [id, id]).then(result => {
-    const received = result[0][0].total || 0;
-    const spent = result[1][0].total || 0;
-    const balance = received - spent;
-    resolve(balance);
-  });
-});
 
 router.post('/payment', verify, async (req, res) => {
   const receiver = req.body.receiver;

@@ -1,7 +1,7 @@
 import express from 'express';
 import db from './helpers/db';
 import { verify } from './helpers/middleware';
-import { uid } from './helpers/utils';
+import { uid, getBalance, getPlan, subscribe, MODEL_ID } from './helpers/utils';
 
 const router = express.Router();
 
@@ -38,6 +38,29 @@ router.post('/profile', verify, async (req, res) => {
     console.log('Failed to edit profile', e);
     res.status(500).json({ error: 'request failed' });
   }
+});
+
+router.post('/subscribe', verify, async (req, res) => {
+  const planId = req.body.plan_id;
+  const plan = getPlan(planId);
+  if (!plan)
+    return res.status(500).json({ error: 'invalid plan' });
+  const balance = await getBalance(res.locals.id);
+  // @ts-ignore
+  if (plan.price <= 0 || plan.price > balance || MODEL_ID === res.locals.id)
+    return res.status(500).json({ error: 'invalid payment' });
+  const payment = {
+    id: uid(),
+    sender: res.locals.id,
+    receiver: MODEL_ID,
+    memo: 'Subscribe',
+    amount: plan.price,
+    meta: JSON.stringify({})
+  };
+  const query = 'INSERT IGNORE INTO payments SET ?';
+  await db.queryAsync(query, [payment]);
+  await subscribe(res.locals.id, planId);
+  res.json({ success: true });
 });
 
 router.post('/subscribers', verify, async (req, res) => {

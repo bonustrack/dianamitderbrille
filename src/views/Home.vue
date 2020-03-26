@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="top-0 left-0 p-4 position-absolute">
+      <img src="~/@/assets/logo.svg" style="max-width: 160px;" />
+    </div>
     <div class="top-0 right-0 p-4 position-absolute">
       <a v-if="$i18n.locale === 'en'" @click="changeLocale('de')">
         <img
@@ -16,8 +19,8 @@
         />
       </a>
     </div>
-    <div class="hero py-12">
-      <div class="container-lg p-responsive">
+    <div class="hero py-10">
+      <div class="container-lg p-responsive pt-10">
         <div class="col-md-5">
           <h6 class="eyebrow mb-4">Diana mit der brille</h6>
           <h1 class="mb-4" v-text="$t('hero_title')" />

@@ -8,6 +8,7 @@
         v-text="$t('wallet')"
       />
       <router-link
+        v-if="isVerified"
         to="/subscribers"
         class="d-flex border-bottom v-align-middle px-4 py-3"
         v-text="$t('fans')"
@@ -23,6 +24,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isVerified: !!this.$store.state.settings.account.meta.is_verified
+    };
+  },
   methods: {
     logout() {
       this.$store.dispatch('logout');

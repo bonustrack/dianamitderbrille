@@ -1,7 +1,36 @@
 <template>
-  <div class="text-center">
-    <a href="#plan1" class="btn-outline-mktg btn-block my-2">Get 30 days for $29</a>
-    <a href="#plan2" class="btn-outline-mktg btn-block my-2">Get 2 months for $49</a>
-    <a href="#plan3" class="btn-outline-mktg btn-block my-2">Get 3 months for $59</a>
+  <div>
+    <div class="text-center">
+      <a
+        v-for="(plan, i) in plans"
+        :key="i"
+        @click="openModal(i)"
+        class="btn-outline-mktg btn-block my-2"
+        v-text="plan.name"
+      />
+    </div>
+    <ModalSubscribe :open="showModal" @close="showModal = false" :planId="planId" />
   </div>
 </template>
+
+<script>
+import plans from '@/helpers/plans';
+
+export default {
+  data() {
+    return {
+      plans,
+      account: this.$store.state.settings.account,
+      showModal: false,
+      planId: false
+    };
+  },
+  methods: {
+    openModal(planId) {
+      if (!this.account) this.$router.push('/signup');
+      this.planId = planId;
+      this.showModal = true;
+    }
+  }
+};
+</script>

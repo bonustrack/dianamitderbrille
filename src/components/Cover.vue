@@ -28,6 +28,7 @@
             <Icon v-if="profile.meta.is_verified" name="check" class="d-inline-block ml-2" />
           </div>
           <p>@{{ username }}</p>
+          <p v-text="profile.meta.about" />
         </div>
       </div>
     </div>

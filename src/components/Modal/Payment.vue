@@ -1,7 +1,7 @@
 <template>
   <Modal :open="open" @close="$emit('close')">
     <form @submit.prevent="handleSubmit" class="px-4 py-6 text-center overflow-y-auto">
-      <h1 class="mb-4">Tip</h1>
+      <h2 class="mb-4">Tip</h2>
       <dl class="form-group text-left">
         <dt>
           <label for="amount">
@@ -23,7 +23,7 @@
         />
       </dl>
       <div class="v-align-middle mb-4">
-        <button type="submit" class="btn-mktg" :disabled="isLoading" v-text="'Send tip'" />
+        <button type="submit" class="btn-mktg" :disabled="isLoading" v-text="'Send'" />
       </div>
     </form>
   </Modal>

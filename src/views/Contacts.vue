@@ -19,7 +19,7 @@
         <Avatar :ipfsHash="contact.meta.avatar" class="mr-4" />
         <div>
           <div class="text-white" v-text="contact.meta.name" />
-          <div class="text-gray" v-text="contact.last_message || ''" />
+          <div class="text-gray" v-text="contact.last_message || 'Start a conversation'" />
         </div>
       </router-link>
     </div>

@@ -74,6 +74,7 @@ export default {
       values.meta = this.file
         ? JSON.stringify({ files: [this.file.ipfs_hash] })
         : JSON.stringify({});
+      if (!values.body) values.body = '';
       values.username = this.username;
       this.form.body = '';
       this.file = false;

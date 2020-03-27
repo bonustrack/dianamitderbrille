@@ -78,6 +78,7 @@ const actions = {
   logout: ({ commit }) => {
     localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
     client.setAccessToken(undefined);
+    kbyte.requestAsync('logout', null);
     commit('logout');
   },
   like: ({ commit }, id) => {

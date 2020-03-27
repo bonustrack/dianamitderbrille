@@ -33,7 +33,8 @@ export default {
     }
   },
   async mounted() {
-    this.balance = (await client.request('balance')).toFixed(2);
+    if (this.account)
+      this.balance = (await client.request('balance')).toFixed(2);
   },
   methods: {
     async handleSubmit() {

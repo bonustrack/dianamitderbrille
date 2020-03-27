@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     openModal(planId) {
-      if (!this.account) this.$router.push('/signup');
+      if (!this.account) return this.$router.push('/signup');
       this.planId = planId;
       this.showModal = true;
     }

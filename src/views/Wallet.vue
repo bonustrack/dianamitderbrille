@@ -28,13 +28,15 @@
           </div>
         </div>
         <div ref="paypal" />
-        <button
-          class="btn-mktg btn-block border-0"
-          style="background-color: #2c2241;"
-          @click="paysafeCheckout()"
-        >
-          <Icon name="paysafe" style="font-size: 18px;" />
-        </button>
+        <template v-if="enablePaysafe">
+          <button
+            class="btn-mktg btn-block border-0"
+            style="background-color: #2c2241;"
+            @click="paysafeCheckout()"
+          >
+            <Icon name="paysafe" style="font-size: 18px;" />
+          </button>
+        </template>
       </div>
     </div>
     <div class="pb-6">
@@ -63,6 +65,7 @@ import { name } from '@/../package.json';
 export default {
   data() {
     return {
+      enablePaysafe: false,
       account: this.$store.state.settings.account,
       amount: '',
       balance: false,

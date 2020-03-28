@@ -9,9 +9,13 @@ html, body, #app {
   color: $color;
 }
 
-a:hover {
-  text-decoration: none;
-  cursor: pointer;
+a {
+  color: $primary;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
 h1 {
@@ -108,8 +112,9 @@ h6 {
   background-color: $primary;
   border-color: $primary;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: $primary-100;
+    border-color: $primary;
   }
 }
 
@@ -117,6 +122,11 @@ h6 {
   color: $white;
   background-color: transparent;
   border: 1px solid $border-color;
+
+  &:hover {
+    color: $primary;
+    border-color: $primary;
+  }
 }
 
 i.btn-mktg, i.btn-outline-mktg {

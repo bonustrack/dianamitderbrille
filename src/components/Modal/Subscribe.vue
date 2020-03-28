@@ -33,14 +33,12 @@ export default {
     }
   },
   async mounted() {
-    if (this.account)
-      this.balance = (await client.request('balance')).toFixed(2);
+    if (this.account) this.balance = (await client.request('balance')).toFixed(2);
   },
   methods: {
     async handleSubmit() {
       this.isLoading = true;
-      if (this.balance < this.plan.price)
-        return this.$router.push('/wallet');
+      if (this.balance < this.plan.price) return this.$router.push('/wallet');
       try {
         await client.request('subscribe', { plan_id: this.planId });
         this.$store.dispatch('init').then(() => {

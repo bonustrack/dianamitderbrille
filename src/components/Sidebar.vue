@@ -1,5 +1,8 @@
 <template>
   <div id="sidebar" class="position-fixed py-lg-4">
+    <router-link :to="`/${model}`">
+      <img src="~/@/assets/logo.svg" style="max-width: 200px;" class="mb-2" />
+    </router-link>
     <ul class="list-style-none border-top border-lg-top-0 text-center text-lg-left">
       <li class="col-3 col-lg-12">
         <router-link :to="`/${model}`" class="p-3 d-block">

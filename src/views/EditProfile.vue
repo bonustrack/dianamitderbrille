@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Cover :username="account.username" :meta="account.meta" class="border-bottom" />
+    <Cover
+      :username="account.username"
+      :meta="account.meta"
+      :editable="true"
+      class="border-bottom"
+    />
     <form @submit.prevent="handleSubmit" class="p-4">
       <dl class="form-group">
         <dt><label for="name">Name</label></dt>

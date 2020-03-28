@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top-0 left-0 p-4 position-absolute">
-      <img src="~/@/assets/logo.svg" style="max-width: 160px;" />
+      <img src="~/@/assets/logo.svg" style="max-width: 200px;" />
     </div>
     <div class="top-0 right-0 p-4 position-absolute">
       <a v-if="$i18n.locale === 'en'" @click="changeLocale('de')">
@@ -78,7 +78,7 @@ export default {
 <style scoped lang="scss">
 .hero {
   background-image: linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.4)),
-    url('https://steemitimages.com/2560x2560/https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
+    url('https://gateway.pinata.cloud/ipfs/QmQyvkEP3gSccRKWYxvesZV8TgiiDDEMrsieeR36UCsCb4');
   background-size: cover;
   background-position: center;
 }

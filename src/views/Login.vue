@@ -1,9 +1,9 @@
 <template>
   <div class="container-sm p-responsive">
-    <div class="text-center mb-6">
+    <div class="text-center mb-4">
       <img src="~/@/assets/logo.svg" style="max-width: 240px;" />
     </div>
-    <h1 class="text-center mb-4" v-text="$t('login')" />
+    <h4 class="text-center eyebrow mb-4" v-text="$t('login')" />
     <form @submit.prevent="handleSubmit" style="max-width: 360px;" class="mx-auto">
       <dl class="form-group">
         <input

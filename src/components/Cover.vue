@@ -54,12 +54,14 @@
         <div class="mt-sm-8 ml-sm-3">
           <div class="text-white">
             <h3 v-text="profile.meta.name" class="d-inline-block" />
-            <Icon v-if="profile.meta.is_verified" name="check" class="text-primary d-inline-block ml-2" />
+            <Icon
+              v-if="profile.meta.is_verified"
+              name="check"
+              class="text-primary d-inline-block ml-2"
+            />
           </div>
           <p>
-            <router-link :to="`/${username}`">
-              @{{ username }}
-            </router-link>
+            <router-link :to="`/${username}`"> @{{ username }} </router-link>
           </p>
           <p v-text="profile.meta.about" />
         </div>
@@ -82,13 +84,11 @@ export default {
   },
   watch: {
     coverUpload(value, oldValue) {
-      if (value !== oldValue && value.ipfs_hash)
-        this.$emit('cover', value.ipfs_hash);
+      if (value !== oldValue && value.ipfs_hash) this.$emit('cover', value.ipfs_hash);
     },
     avatarUpload(value, oldValue) {
-      if (value !== oldValue && value.ipfs_hash)
-        this.$emit('avatar', value.ipfs_hash);
-    },
+      if (value !== oldValue && value.ipfs_hash) this.$emit('avatar', value.ipfs_hash);
+    }
   },
   computed: {
     profile() {

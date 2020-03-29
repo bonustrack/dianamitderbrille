@@ -7,7 +7,9 @@
           <label for="amount">
             Amount
             <span v-if="balance !== false">
-              (max: <a @click="amount = balance" v-text="balance" />)
+              (balance:
+              <a @click="amount = balance" v-text="balance" />
+              <Coin class="ml-1"/>)
             </span>
           </label>
         </dt>

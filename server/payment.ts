@@ -7,6 +7,7 @@ import { cardPaymentWithToken } from './helpers/paysafe';
 import { uid, getBalance } from './helpers/utils';
 
 const router = express.Router();
+const rate = 4;
 
 router.post('/payment', verify, async (req, res) => {
   const receiver = req.body.receiver;
@@ -50,7 +51,8 @@ router.post('/paypal/verify', verify, async (req, res) => {
     console.error(e);
     return res.sendStatus(500);
   }
-  const amount = parseFloat(order.result.purchase_units[0].amount.value).toFixed(2);
+  const usd = parseFloat(order.result.purchase_units[0].amount.value);
+  const amount = (usd * rate).toFixed(2);
   // @ts-ignore
   if (amount <= 0 || order.result.purchase_units[0].amount.currency_code !== 'USD')
     return res.sendStatus(500);
@@ -68,7 +70,7 @@ router.post('/paypal/verify', verify, async (req, res) => {
 });
 
 router.post('/paysafe/verify', verify, async (req, res) => {
-  const { token, amount } = req.body;
+  let { token, amount } = req.body;
   let order;
   try {
     order = await cardPaymentWithToken(token, token, parseInt(amount));
@@ -77,14 +79,17 @@ router.post('/paysafe/verify', verify, async (req, res) => {
     console.error(e);
     return res.sendStatus(500);
   }
-  if (order.status !== 'COMPLETED')
+  const usd = (order.amount / 100).toFixed(2);
+  // @ts-ignore
+  amount = (usd * rate).toFixed(2);
+  if (amount <= 0 || order.status !== 'COMPLETED')
     return res.sendStatus(500);
   const payment = {
     id: `paysafe/${token}`,
     sender: 'paysafe',
     receiver: res.locals.id,
     memo: 'Deposit with Paysafe',
-    amount: (order.amount / 100).toFixed(2),
+    amount,
     meta: JSON.stringify(order)
   };
   const query = 'INSERT INTO payments SET ?';

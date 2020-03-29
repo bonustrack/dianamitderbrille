@@ -5,7 +5,13 @@
       <div class="p-4 col-6 float-left">
         <h3 class="mb-2">Balance</h3>
         <VueLoadingIndicator v-if="balance === false" class="d-inline-block" />
-        <h1 v-else v-text="$n(balance, 'currency')" class="m-0" />
+        <h1 v-else class="m-0">
+          {{ $n(balance) }}
+          <Coin size="36" />
+        </h1>
+        <div>
+          1 <Coin class="ml-1"/> = {{ $n(0.25, 'currency') }}
+        </div>
       </div>
       <div class="p-4 col-6 float-left border-left">
         <h3 class="mb-2">Add funds to your wallet</h3>
@@ -47,9 +53,9 @@
       </div>
       <div class="px-4 py-3 border-bottom" v-for="payment in payments" :key="payment.id">
         <span :class="payment.receiver === account.id && 'text-green'" class="float-right">
-          <span v-if="payment.receiver === account.id" v-text="'+'" /><span v-else v-text="'-'" />{{
-            $n(payment.amount, 'currency')
-          }}
+          <span v-if="payment.receiver === account.id" v-text="'+'" /><span v-else v-text="'-'" />
+          {{ $n(payment.amount) }}
+          <Coin class="ml-1"/>
         </span>
         {{ payment.memo }}
       </div>

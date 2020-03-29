@@ -17,9 +17,7 @@
         </div>
         <div>
           <small class="mt-0 pt-0">
-            <router-link :to="`/${story.username}`">
-              @{{ story.username }}
-            </router-link>
+            <router-link :to="`/${story.username}`"> @{{ story.username }} </router-link>
           </small>
         </div>
       </div>

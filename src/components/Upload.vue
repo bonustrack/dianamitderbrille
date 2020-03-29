@@ -18,6 +18,7 @@ export default {
   methods: {
     async handleFileChange(e) {
       this.isLoading = true;
+      this.$emit('isLoading', this.isLoading);
       const file = e.target.files[0];
       let formData = new FormData();
       formData.append('file', file);
@@ -25,6 +26,7 @@ export default {
         const result = await client.request('upload', formData, { upload: true });
         this.$emit('input', result.result);
         this.isLoading = false;
+        this.$emit('isLoading', this.isLoading);
       } catch (error) {
         console.log(error);
       }

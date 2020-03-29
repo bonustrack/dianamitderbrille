@@ -4,6 +4,8 @@
       :username="account.username"
       :meta="account.meta"
       :editable="true"
+      @cover="setCover"
+      @avatar="setAvatar"
       class="border-bottom"
     />
     <form @submit.prevent="handleSubmit" class="p-4">
@@ -56,6 +58,12 @@ export default {
         this.error = error;
       }
       this.isLoading = false;
+    },
+    setCover(value) {
+      this.form.cover = value;
+    },
+    setAvatar(value) {
+      this.form.avatar = value;
     }
   }
 };

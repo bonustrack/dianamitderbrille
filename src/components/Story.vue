@@ -12,11 +12,15 @@
             v-if="story.user_meta.is_verified"
             name="check"
             style="font-size: 20px;"
-            class="d-inline-block ml-1"
+            class="d-inline-block ml-1 text-primary"
           />
         </div>
         <div>
-          <small class="mt-0 pt-0">@{{ story.username }}</small>
+          <small class="mt-0 pt-0">
+            <router-link :to="`/${story.username}`">
+              @{{ story.username }}
+            </router-link>
+          </small>
         </div>
       </div>
     </div>

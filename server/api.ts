@@ -28,10 +28,15 @@ router.post('/like', verify, async (req, res) => {
 });
 
 router.post('/profile', verify, async (req, res) => {
-  const { name, about } = req.body;
+  const { name, about, cover, avatar } = req.body;
   try {
-    const query = 'UPDATE users SET meta = JSON_SET(meta, "$.name", ?), meta = JSON_SET(meta, "$.about", ?) WHERE id = ?;';
-    const result = await db.queryAsync(query, [name, about, res.locals.id]);
+    const query = `UPDATE users SET 
+      meta = JSON_SET(meta, "$.name", ?), 
+      meta = JSON_SET(meta, "$.about", ?),
+      meta = JSON_SET(meta, "$.cover", ?), 
+      meta = JSON_SET(meta, "$.avatar", ?)
+    WHERE id = ?`;
+    const result = await db.queryAsync(query, [name, about, cover, avatar, res.locals.id]);
     console.log(result);
     res.json({ success: true });
   } catch (e) {

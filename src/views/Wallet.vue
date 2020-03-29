@@ -9,9 +9,7 @@
           {{ $n(balance) }}
           <Coin size="36" />
         </h1>
-        <div>
-          1 <Coin class="ml-1"/> = {{ $n(0.25, 'currency') }}
-        </div>
+        <div>1 <Coin class="ml-1" /> = {{ $n(0.25, 'currency') }}</div>
       </div>
       <div class="p-4 col-6 float-left border-left">
         <h3 class="mb-2">Add funds to your wallet</h3>
@@ -55,7 +53,7 @@
         <span :class="payment.receiver === account.id && 'text-green'" class="float-right">
           <span v-if="payment.receiver === account.id" v-text="'+'" /><span v-else v-text="'-'" />
           {{ $n(payment.amount) }}
-          <Coin class="ml-1"/>
+          <Coin class="ml-1" />
         </span>
         {{ payment.memo }}
       </div>

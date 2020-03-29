@@ -9,7 +9,7 @@
             <span v-if="balance !== false">
               (balance:
               <a @click="amount = balance" v-text="balance" />
-              <Coin class="ml-1"/>)
+              <Coin class="ml-1" />)
             </span>
           </label>
         </dt>

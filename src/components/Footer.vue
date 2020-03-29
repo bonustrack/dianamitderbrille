@@ -3,7 +3,7 @@
     <div class="container-lg p-responsive d-flex">
       <div class="flex-auto">{{ pkg.name }} © 2020</div>
       <div>
-        <a v-for="(link, i) in links" :href="link" class="text-white" target="_blank">
+        <a v-for="(link, i) in links" :key="i" :href="link" class="text-white" target="_blank">
           <Icon :name="i" class="ml-4" />
         </a>
       </div>

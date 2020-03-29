@@ -1,17 +1,17 @@
 {
   "1": {
-    "name": "Get 30 days for $29",
+    "name": "Get 30 days",
     "duration": 30,
-    "price": 29
+    "price": 120
   },
   "2": {
-    "name": "Get 2 months for $49",
+    "name": "Get 2 months",
     "duration": 60,
-    "price": 49
+    "price": 150
   },
   "3": {
-    "name": "Get 3 months for $59",
+    "name": "Get 3 months",
     "duration": 90,
-    "price": 59
+    "price": 180
   }
 }

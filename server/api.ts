@@ -27,24 +27,6 @@ router.post('/like', verify, async (req, res) => {
   res.json({ success: true });
 });
 
-router.post('/profile', verify, async (req, res) => {
-  const { name, about, cover, avatar } = req.body;
-  try {
-    const query = `UPDATE users SET 
-      meta = JSON_SET(meta, "$.name", ?), 
-      meta = JSON_SET(meta, "$.about", ?),
-      meta = JSON_SET(meta, "$.cover", ?), 
-      meta = JSON_SET(meta, "$.avatar", ?)
-    WHERE id = ?`;
-    const result = await db.queryAsync(query, [name, about, cover, avatar, res.locals.id]);
-    console.log(result);
-    res.json({ success: true });
-  } catch (e) {
-    console.log('Failed to edit profile', e);
-    res.status(500).json({ error: 'request failed' });
-  }
-});
-
 router.post('/subscribe', verify, async (req, res) => {
   const planId = req.body.plan_id;
   const plan = getPlan(planId);

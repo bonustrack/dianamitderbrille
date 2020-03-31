@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0">Messages</h2>
+    <Top :title="$t('messages')"/>
     <div v-if="contacts !== false">
       <router-link
         v-if="contacts.length === 0"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0" v-text="$t('settings')" />
+    <Top :title="$t('settings')"/>
     <div>
       <router-link
         to="/wallet"

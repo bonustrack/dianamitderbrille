@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0" v-text="$t('wallet')" />
+    <Top back="/settings" :title="$t('wallet')"/>
     <div class="overflow-hidden border-bottom">
       <div class="p-4 col-6 float-left">
         <h3 class="mb-2">Balance</h3>

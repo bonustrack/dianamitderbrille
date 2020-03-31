@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h2 class="p-4 border-bottom mb-0">Fans</h2>
+    <Top back="/settings" title="Fans"/>
     <div v-if="items !== false">
       <div v-if="items.length === 0" class="d-flex border-bottom v-align-middle p-4 text-white">
         You don't have any fans
       </div>
       <div v-else>
-        <h3 class="p-4 border-bottom mb-0">Active ({{ items.length }})</h3>
+        <div class="border-bottom">
+          <h3 class="p-4 mb-0 d-inline-block border-right">Active ({{ items.length }})</h3>
+        </div>
         <router-link
           class="d-flex border-bottom v-align-middle p-4"
           v-for="(item, i) in items"

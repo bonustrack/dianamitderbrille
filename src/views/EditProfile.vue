@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import client from '@/helpers/client';
+import client from '@/helpers/kbyte';
 
 export default {
   data() {
@@ -51,7 +51,7 @@ export default {
     async handleSubmit() {
       this.isLoading = true;
       try {
-        await client.request('profile', this.form);
+        await client.requestAsync('edit_profile', this.form);
         await this.$store.dispatch('getProfile', this.account.username);
         this.$store.dispatch('notify', `You've successfully updated your profile`);
       } catch (error) {

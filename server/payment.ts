@@ -4,41 +4,9 @@ import db from './helpers/db';
 import { verify } from './helpers/middleware';
 import paypal from './helpers/paypal';
 import { cardPaymentWithToken } from './helpers/paysafe';
-import { uid, getBalance } from './helpers/utils';
 
 const router = express.Router();
 const rate = 4;
-
-router.post('/payment', verify, async (req, res) => {
-  const receiver = req.body.receiver;
-  const amount = parseFloat(req.body.amount);
-  const balance = await getBalance(res.locals.id);
-  // @ts-ignore
-  if (amount <= 0 || amount > balance || receiver === res.locals.id)
-    return res.status(500).json({ error: 'invalid payment' });
-  const payment = {
-    id: uid(),
-    sender: res.locals.id,
-    receiver,
-    memo: 'Tip',
-    amount,
-    meta: JSON.stringify({})
-  };
-  let query = 'INSERT IGNORE INTO payments SET ?;';
-  await db.queryAsync(query, [payment]);
-  res.json({ success: true });
-});
-
-router.post('/payments', verify, async (req, res) => {
-  const query = 'SELECT * FROM payments WHERE sender = ? OR receiver = ? ORDER BY created DESC LIMIT 20';
-  const result = await db.queryAsync(query, [res.locals.id, res.locals.id]);
-  res.json(result);
-});
-
-router.post('/balance', verify, async (req, res) => {
-  const balance = await getBalance(res.locals.id);
-  res.json(balance);
-});
 
 router.post('/paypal/verify', verify, async (req, res) => {
   const orderId = req.body.order_id;

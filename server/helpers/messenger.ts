@@ -2,7 +2,6 @@ import db from './db';
 import { usernameToId } from './utils';
 
 export const getContacts = async (id) => {
-  const contacts = [];
   let query = 'SELECT * FROM subscriptions WHERE user_id = ? OR subscription = ?';
   const subscriptions = await db.queryAsync(query, [id, id]);
   const ids = subscriptions.map(subscription =>
@@ -17,14 +16,10 @@ export const getContacts = async (id) => {
       ) AS last_message 
       FROM users u WHERE u.id IN (?)
     `;
-    const users = await db.queryAsync(query, [id, id, ids]);
-    users.forEach(user => {
-      user.meta = JSON.parse(user.meta);
-      // @ts-ignore
-      contacts.push(user);
-    });
+    const result = await db.queryAsync(query, [id, id, ids]);
+    return result.map(i => ({ ...i, meta: JSON.parse(i.meta) }));
   }
-  return contacts;
+  return [];
 };
 
 export const getMessages = async (id, username) => {

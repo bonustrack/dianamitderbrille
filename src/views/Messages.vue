@@ -2,7 +2,7 @@
   <div class="overflow-hidden d-flex flex-column" style="height: 100vh;">
     <VueLoadingIndicator v-if="!profile" class="p-4 border-bottom" />
     <template v-else>
-      <Top :title="profile.meta.name" back="/messages"/>
+      <Top :title="profile.meta.name" back="/messages" />
       <div id="messages" class="p-4 flex-auto overflow-y-auto" v-chat-scroll="{ always: false }">
         <VueLoadingIndicator v-if="messages === undefined" class="p-4" />
         <Message :profile="profile" v-for="(message, i) in messages" :message="message" :key="i" />

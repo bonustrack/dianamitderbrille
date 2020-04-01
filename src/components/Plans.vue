@@ -7,7 +7,7 @@
         @click="openModal(i)"
         class="btn-outline-mktg btn-block my-2"
       >
-        {{ plan.name }} for {{ $n(plan.price) }} <Coin class="ml-1"/>
+        {{ plan.name }} for {{ $n(plan.price) }} <Coin class="ml-1" />
       </a>
     </div>
     <ModalSubscribe :open="showModal" @close="showModal = false" :planId="planId" />

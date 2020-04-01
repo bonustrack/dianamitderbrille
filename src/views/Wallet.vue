@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top back="/settings" :title="$t('wallet')"/>
+    <Top back="/settings" :title="$t('wallet')" />
     <div class="overflow-hidden border-bottom">
       <div class="p-4 col-6 float-left">
         <h3 class="mb-2">Balance</h3>
@@ -44,25 +44,20 @@
       </div>
     </div>
     <div class="pb-6">
-      <h3 class="px-4 pt-4">Payments</h3>
-      <div class="px-4 py-3 border-bottom">
-        <span class="float-right">Amount</span>
-        Designation
-      </div>
-      <div class="px-4 py-3 border-bottom" v-for="payment in payments" :key="payment.id">
-        <span :class="payment.receiver === account.id && 'text-green'" class="float-right">
-          <span v-if="payment.receiver === account.id" v-text="'+'" /><span v-else v-text="'-'" />
-          {{ $n(payment.amount) }}
-          <Coin class="ml-1" />
-        </span>
-        {{ payment.memo }}
-      </div>
+      <h3 class="p-4 border-bottom">Activity</h3>
+      <RowPayment
+        class="px-4 py-3 border-bottom"
+        v-for="payment in payments"
+        :key="payment.id"
+        :item="payment"
+      />
       <VueLoadingIndicator v-if="isLoading" class="p-4" />
     </div>
   </div>
 </template>
 
 <script>
+import kbyte from '@/helpers/kbyte';
 import client from '@/helpers/client';
 import { name } from '@/../package.json';
 
@@ -88,8 +83,8 @@ export default {
     async load() {
       this.payments = false;
       this.isLoading = true;
-      this.payments = await client.request('payments');
-      this.balance = await client.request('balance');
+      this.payments = await kbyte.requestAsync('get_payments', null);
+      this.balance = await kbyte.requestAsync('get_balance', null);
       this.isLoading = false;
     },
     initPaypal() {

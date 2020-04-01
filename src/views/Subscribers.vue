@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top back="/settings" title="Fans"/>
+    <Top back="/settings" title="Fans" />
     <div v-if="items !== false">
       <div v-if="items.length === 0" class="d-flex border-bottom v-align-middle p-4 text-white">
         You don't have any fans

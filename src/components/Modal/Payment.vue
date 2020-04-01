@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import client from '@/helpers/client';
+import client from '@/helpers/kbyte';
 
 export default {
   props: ['open', 'receiver'],
@@ -45,7 +45,7 @@ export default {
     };
   },
   async mounted() {
-    this.balance = (await client.request('balance')).toFixed(2);
+    this.balance = (await client.requestAsync('get_balance', null)).toFixed(2);
   },
   methods: {
     async handleSubmit() {
@@ -55,13 +55,10 @@ export default {
         amount: parseFloat(this.amount)
       };
       try {
-        await client.request('payment', params);
+        await client.requestAsync('pay', params);
         this.$store.dispatch('notify', `You've successfully sent a tip`);
       } catch (e) {
-        this.$store.dispatch('notify', {
-          type: 'error',
-          message: 'Ooops, something went wrong'
-        });
+        this.$store.dispatch('notify', { type: 'error', message: 'Ooops, something went wrong' });
       }
       this.$emit('close');
       this.isLoading = false;

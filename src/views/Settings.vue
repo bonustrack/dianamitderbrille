@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :title="$t('settings')"/>
+    <Top :title="$t('settings')" />
     <div>
       <router-link
         to="/wallet"

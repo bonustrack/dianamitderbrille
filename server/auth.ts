@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import router from './helpers/router';
-import db from './helpers/db';
 import { sendResponse, sendErrorResponse } from './helpers/ws';
+import db from './helpers/db';
 import { issueToken } from './helpers/token';
 import { uid } from './helpers/utils';
 import { signup, login } from '../common/schemas';
@@ -19,9 +19,9 @@ router.add('signup', async (params, tag, ws) => {
     };
     await db.queryAsync('INSERT INTO users SET ?', [user]);
     const token = issueToken(user.id);
-    sendResponse(ws, tag, { access_token: token });
+    return sendResponse(ws, tag, { access_token: token });
   } catch (error) {
-    sendErrorResponse(ws, tag, error.sqlMessage || 'request failed');
+    return sendErrorResponse(ws, tag, error.sqlMessage || 'request failed');
   }
 });
 
@@ -32,12 +32,12 @@ router.add('login', async (params, tag, ws) => {
     const users = await db.queryAsync(query, [values.email, values.password]);
     if (users && users[0] && users[0].id) {
       const token = issueToken(users[0].id);
-      sendResponse(ws, tag, { access_token: token });
+      return sendResponse(ws, tag, { access_token: token });
     } else {
-      sendErrorResponse(ws, tag, 'email or password is wrong');
+      return sendErrorResponse(ws, tag, 'email or password is wrong');
     }
   } catch (e) {
-    sendErrorResponse(ws, tag, 'request failed');
+    return sendErrorResponse(ws, tag, 'request failed');
   }
 });
 
@@ -53,7 +53,7 @@ router.add('verify', async (params, tag, ws) => {
       ws.username = result[1][0].username;
     }
   } catch (e) {
-    sendErrorResponse(ws, tag, e);
+    return sendErrorResponse(ws, tag, e);
   }
   if (!ws.id) return;
   let query = 'SELECT id, username, email, meta FROM users WHERE id = ? LIMIT 1;';
@@ -63,15 +63,15 @@ router.add('verify', async (params, tag, ws) => {
     const result = await db.queryAsync(query, [ws.id, ws.id, ws.id]);
     const subscriptions = result[1].map(subscription => subscription.username);
     const likes = result[2].map(like => like.post_id);
-    sendResponse(ws, tag, { account: result[0][0], subscriptions, likes });
+    return sendResponse(ws, tag, { account: result[0][0], subscriptions, likes });
   } catch (e) {
-    sendErrorResponse(ws, tag, e);
+    return sendErrorResponse(ws, tag, e);
   }
 });
 
 router.add('logout', async (params, tag, ws) => {
   delete ws.id;
-  sendResponse(ws, tag, true);
+  return sendResponse(ws, tag, true);
 });
 
 router.add('edit_profile', async (params, tag, ws) => {
@@ -85,10 +85,10 @@ router.add('edit_profile', async (params, tag, ws) => {
       meta = JSON_SET(meta, "$.avatar", ?)
     WHERE id = ?`;
     await db.queryAsync(query, [name, about, cover, avatar, ws.id]);
-    sendResponse(ws, tag, { success: true });
+    return sendResponse(ws, tag, { success: true });
   } catch (e) {
     console.log('Failed to edit profile', e);
-    sendErrorResponse(ws, tag, 'request failed');
+    return sendErrorResponse(ws, tag, 'request failed');
   }
 });
 

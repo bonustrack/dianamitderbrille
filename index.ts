@@ -7,6 +7,7 @@ import api from './server/api';
 import payment from './server/payment';
 import upload from './server/upload';
 import router from './server/helpers/router';
+import './server/routes';
 import './server/auth';
 import './server/messenger';
 

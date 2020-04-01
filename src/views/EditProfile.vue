@@ -54,6 +54,7 @@ export default {
         await client.requestAsync('edit_profile', this.form);
         await this.$store.dispatch('getProfile', this.account.username);
         this.$store.dispatch('notify', `You've successfully updated your profile`);
+        this.$router.push(`/${this.account.username}`);
       } catch (error) {
         this.error = error;
       }

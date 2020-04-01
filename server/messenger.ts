@@ -1,19 +1,19 @@
 import router from './helpers/router';
+import { sendResponse } from './helpers/ws';
 import db from './helpers/db';
 import { uid } from './helpers/utils';
 import { getContacts, getMessages} from './helpers/messenger';
-import { sendResponse } from './helpers/ws';
 
 router.add('get_contacts', async (params, tag, ws) => {
   if (!ws.id) return;
   const contacts = await getContacts(ws.id);
-  sendResponse(ws, tag, contacts);
+  return sendResponse(ws, tag, contacts);
 });
 
 router.add('get_messages', async (params, tag, ws) => {
   if (!ws.id) return;
   const messages = await getMessages(ws.id, params.username);
-  sendResponse(ws, tag, messages);
+  return sendResponse(ws, tag, messages);
 });
 
 router.add('send', async (params, tag, ws) => {

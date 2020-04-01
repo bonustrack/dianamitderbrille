@@ -59,7 +59,8 @@ const actions = {
       const token = localStorage.getItem(TOKEN_LOCALSTORAGE_KEY);
       if (!token) return resolve();
       client.setAccessToken(token);
-      kbyte.requestAsync('verify', token)
+      kbyte
+        .requestAsync('verify', token)
         .then(result => {
           // @ts-ignore
           const { account, subscriptions, likes } = result;

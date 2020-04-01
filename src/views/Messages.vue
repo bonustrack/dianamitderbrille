@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 
 export default {
   data() {
@@ -73,7 +73,7 @@ export default {
       this.form.body = '';
       this.file = false;
       try {
-        await kbyte.requestAsync('send', values);
+        await client.request('send', values);
         this.isLoading = false;
       } catch (error) {
         this.error = error;

@@ -1,44 +1,45 @@
-import express from 'express';
+import router from './helpers/router';
+import { sendResponse, sendErrorResponse } from './helpers/ws';
 import db from './helpers/db';
-import { verify } from './helpers/middleware';
 import { uid, getBalance, getPlan, subscribe, MODEL_ID } from './helpers/utils';
 
-const router = express.Router();
-
-router.post('/post', verify, async (req, res) => {
+router.add('post', async (params, tag, ws) => {
+  if (!ws.id) return;
   const post = {
     id: uid(),
-    user_id: res.locals.id,
-    body: req.body.body,
-    meta: req.body.meta
+    user_id: ws.id,
+    body: params.body,
+    meta: params.meta
   };
   let query = 'INSERT INTO posts SET ?;';
   await db.queryAsync(query, [post]);
-  res.json({ success: true });
+  return sendResponse(ws, tag, { success: true });
 });
 
-router.post('/like', verify, async (req, res) => {
+router.add('like', async (params, tag, ws) => {
+  if (!ws.id) return;
   const like = {
-    user_id: res.locals.id,
-    post_id: req.body.post_id
+    user_id: ws.id,
+    post_id: params.post_id
   };
   let query = 'INSERT IGNORE INTO likes SET ?;';
   await db.queryAsync(query, [like]);
-  res.json({ success: true });
+  return sendResponse(ws, tag, { success: true });
 });
 
-router.post('/subscribe', verify, async (req, res) => {
-  const planId = req.body.plan_id;
+router.add('subscribe', async (params, tag, ws) => {
+  if (!ws.id) return;
+  const planId = params.plan_id;
   const plan = getPlan(planId);
   if (!plan)
-    return res.status(500).json({ error: 'invalid plan' });
-  const balance = await getBalance(res.locals.id);
+    return sendErrorResponse(ws, tag, 'invalid plan');
+  const balance = await getBalance(ws.id);
   // @ts-ignore
-  if (plan.price <= 0 || plan.price > balance || MODEL_ID === res.locals.id)
-    return res.status(500).json({ error: 'invalid payment' });
+  if (plan.price <= 0 || plan.price > balance || MODEL_ID === ws.id)
+    return sendErrorResponse(ws, tag, 'invalid payment');
   const payment = {
     id: uid(),
-    sender: res.locals.id,
+    sender: ws.id,
     receiver: MODEL_ID,
     memo: 'Subscribe',
     amount: plan.price,
@@ -46,11 +47,12 @@ router.post('/subscribe', verify, async (req, res) => {
   };
   const query = 'INSERT IGNORE INTO payments SET ?';
   await db.queryAsync(query, [payment]);
-  await subscribe(res.locals.id, planId);
-  res.json({ success: true });
+  await subscribe(ws.id, planId);
+  return sendResponse(ws, tag, { success: true });
 });
 
-router.post('/subscribers', verify, async (req, res) => {
+router.add('get_subscribers', async (params, tag, ws) => {
+  if (!ws.id) return;
   const query = `
     SELECT 
       s.*, 
@@ -63,22 +65,21 @@ router.post('/subscribers', verify, async (req, res) => {
     WHERE s.subscription = ? 
     ORDER BY s.created DESC
   `;
-  let result = await db.queryAsync(query, [res.locals.id]);
+  let result = await db.queryAsync(query, [ws.id]);
   result = result.map(i => ({ ...i, user_meta: JSON.parse(i.user_meta) }));
-  res.json(result);
+  return sendResponse(ws, tag, result);
 });
 
-router.post('/:username', verify, async (req, res) => {
-  const username = req.params.username;
+router.add('get_profile', async (params, tag, ws) => {
   const query = 'SELECT id, username, meta FROM users WHERE username = ?';
-  const result = await db.queryAsync(query, [username]);
+  const result = await db.queryAsync(query, [params]);
   const user = result[0];
   user.meta = JSON.parse(user.meta);
-  res.json(user);
+  return sendResponse(ws, tag, user);
 });
 
-router.post('/:username/stories', verify, async (req, res) => {
-  const username = req.params.username;
+router.add('get_stories', async (params, tag, ws) => {
+  if (!ws.id) return;
   const interval = 30;
   const query = `
     SELECT p.*, UNIX_TIMESTAMP(p.created) AS timestamp, u.username, u.meta AS user_meta, 
@@ -87,8 +88,8 @@ router.post('/:username/stories', verify, async (req, res) => {
     INNER JOIN users u ON u.id = p.user_id WHERE u.username = ? AND DATE(p.created) > DATE_SUB(CURDATE(), INTERVAL ? DAY) 
     ORDER BY p.created DESC
   `;
-  const result = await db.queryAsync(query, [username, interval]);
-  res.json(result);
+  const result = await db.queryAsync(query, [params, interval]);
+  return sendResponse(ws, tag, result);
 });
 
 export default router;

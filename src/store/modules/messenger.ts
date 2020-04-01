@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import store from '@/store';
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 
-kbyte.subscribe(message => {
+client.subscribe(message => {
   if (message[1].subject === 'message') {
     const body = message[1].body;
     const username =
@@ -35,7 +35,7 @@ const mutations = {
 const actions = {
   getContacts: ({ commit }) => {
     return new Promise((resolve, reject) => {
-      kbyte.requestAsync('get_contacts', null).then(contacts => {
+      client.request('get_contacts').then(contacts => {
         commit('setContacts', contacts);
         resolve();
       });
@@ -43,7 +43,7 @@ const actions = {
   },
   getMessages: ({ commit }, username) => {
     return new Promise((resolve, reject) => {
-      kbyte.requestAsync('get_messages', { username }).then(messages => {
+      client.request('get_messages', { username }).then(messages => {
         commit('setMessages', { username, messages });
         resolve();
       });

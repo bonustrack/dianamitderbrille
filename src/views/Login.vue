@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import client from '@/helpers/kbyte';
+import client from '@/helpers/client';
 import { login } from '@/../common/schemas';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
@@ -62,7 +62,7 @@ export default {
     },
     async submit(values) {
       try {
-        const result = await client.requestAsync('login', values);
+        const result = await client.request('login', values);
         localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, result.access_token);
         this.$store.dispatch('init').then(() => {
           const redirect = this.$route.query.redirect;

@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
 import client from '@/helpers/client';
 import plans from '@/helpers/plans';
 
@@ -34,7 +33,7 @@ export default {
     }
   },
   async mounted() {
-    if (this.account) this.balance = (await kbyte.requestAsync('get_balance', null)).toFixed(2);
+    if (this.account) this.balance = (await client.request('get_balance')).toFixed(2);
   },
   methods: {
     async handleSubmit() {

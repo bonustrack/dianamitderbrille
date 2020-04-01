@@ -13,10 +13,13 @@
       </div>
       {{ item.memo }}
     </div>
-    <div :class="isReceiver && 'text-green'" class="mt-3">
-      <span v-if="isReceiver" v-text="'+'" /><span v-else v-text="'-'" />
-      {{ $n(item.amount) }}
-      <Coin class="ml-1" />
+    <div class="text-right">
+      <div :class="isReceiver && 'text-green'">
+        <span v-if="isReceiver" v-text="'+'" /><span v-else v-text="'-'" />
+        {{ $n(item.amount) }}
+        <Coin class="ml-1" />
+      </div>
+      <div>{{ item.created | prettyMs }} ago</div>
     </div>
   </div>
 </template>

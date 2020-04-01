@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
 import client from '@/helpers/client';
 import { name } from '@/../package.json';
 
@@ -83,8 +82,8 @@ export default {
     async load() {
       this.payments = false;
       this.isLoading = true;
-      this.payments = await kbyte.requestAsync('get_payments', null);
-      this.balance = await kbyte.requestAsync('get_balance', null);
+      this.payments = await client.request('get_payments');
+      this.balance = await client.request('get_balance');
       this.isLoading = false;
     },
     initPaypal() {

@@ -32,7 +32,7 @@ export default {
   async mounted() {
     if (this.isVisible) {
       this.isLoading = true;
-      this.items = await client.request(`${this.username}/stories`);
+      this.items = await client.request('get_stories', this.username);
       this.isLoading = false;
       this.isLoaded = true;
     }

@@ -1,6 +1,6 @@
 import Vue from 'vue';
+import api from '@/helpers/api';
 import client from '@/helpers/client';
-import kbyte from '@/helpers/kbyte';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
 const state = {
@@ -58,9 +58,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem(TOKEN_LOCALSTORAGE_KEY);
       if (!token) return resolve();
-      client.setAccessToken(token);
-      kbyte
-        .requestAsync('verify', token)
+      api.setAccessToken(token);
+      client
+        .request('verify', token)
         .then(result => {
           // @ts-ignore
           const { account, subscriptions, likes } = result;
@@ -70,15 +70,15 @@ const actions = {
         })
         .catch(() => {
           localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
-          client.setAccessToken(undefined);
+          api.setAccessToken(undefined);
           return resolve();
         });
     });
   },
   logout: ({ commit }) => {
     localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
-    client.setAccessToken(undefined);
-    kbyte.requestAsync('logout', null);
+    api.setAccessToken(undefined);
+    client.request('logout');
     commit('logout');
   },
   like: ({ commit }, id) => {
@@ -91,7 +91,7 @@ const actions = {
   },
   getProfile: ({ commit }, username) => {
     return new Promise((resolve, reject) => {
-      client.request(username).then(user => {
+      client.request('get_profile', username).then(user => {
         commit('addProfile', { username, user });
         resolve();
       });
@@ -99,7 +99,7 @@ const actions = {
   },
   getSubscribers: ({ commit }) => {
     return new Promise((resolve, reject) => {
-      client.request('subscribers').then(result => {
+      client.request('get_subscribers').then(result => {
         commit('addSubscribers', result);
         resolve();
       });

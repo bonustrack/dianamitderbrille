@@ -1,51 +1,22 @@
-class Client {
-  public accessToken?: string = '';
+import { Client } from 'kbyte';
+import store from '@/store';
 
-  request(command, params?, options?) {
-    const isUpload = !!(options && options.upload);
-    return new Promise((resolve, reject) => {
-      const url = `${process.env.VUE_APP_API}/api/${command}`;
-      let init;
-      if (isUpload) {
-        init = {
-          method: 'POST',
-          headers: {
-            Authorization: this.accessToken
-          },
-          body: params
-        };
-      } else {
-        init = {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: this.accessToken
-          },
-          body: JSON.stringify(params)
-        };
-      }
-      return fetch(url, init)
-        .then(res => {
-          if (!res.ok) throw res;
-          return res.json();
-        })
-        .then(json => {
-          resolve(json);
-        })
-        .catch(err => {
-          err.json().then(result => {
-            reject(result.error);
-          });
-        });
+const address = process.env.VUE_APP_WS_API;
+const client = new Client(address);
+
+client.requestSync = client.request;
+client.request = (command, params) =>
+  new Promise((resolve, reject) => {
+    client.requestSync(command, params || null, (e, result) => {
+      if (e) return reject(e);
+      resolve(result);
     });
-  }
+  });
 
-  setAccessToken(accessToken) {
-    this.accessToken = accessToken;
-  }
-}
+setInterval(() => client.request('heartbeat'), 10 * 1000);
 
-const client = new Client();
+client.ws.addEventListener('close', () => {
+  store.dispatch('notify', { message: 'The connection has been closed', type: 'error' });
+});
 
 export default client;

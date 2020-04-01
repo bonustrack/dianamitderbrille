@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import client from '@/helpers/client';
+import api from '@/helpers/api';
 
 export default {
   data() {
@@ -23,7 +23,7 @@ export default {
       let formData = new FormData();
       formData.append('file', file);
       try {
-        const result = await client.request('upload', formData, { upload: true });
+        const result = await api.request('upload', formData, { upload: true });
         this.$emit('input', result.result);
         this.isLoading = false;
         this.$emit('isLoading', this.isLoading);

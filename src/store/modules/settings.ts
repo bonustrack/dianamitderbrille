@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import api from '@/helpers/api';
 import client from '@/helpers/client';
 import { TOKEN_LOCALSTORAGE_KEY } from '@/helpers/utils';
 
@@ -58,7 +57,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem(TOKEN_LOCALSTORAGE_KEY);
       if (!token) return resolve();
-      api.setAccessToken(token);
       client
         .request('verify', token)
         .then(result => {
@@ -70,14 +68,12 @@ const actions = {
         })
         .catch(() => {
           localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
-          api.setAccessToken(undefined);
           return resolve();
         });
     });
   },
   logout: ({ commit }) => {
     localStorage.removeItem(TOKEN_LOCALSTORAGE_KEY);
-    api.setAccessToken(undefined);
     client.request('logout');
     commit('logout');
   },

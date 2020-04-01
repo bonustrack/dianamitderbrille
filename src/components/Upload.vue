@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import api from '@/helpers/api';
-
 export default {
   data() {
     return {
@@ -23,8 +21,15 @@ export default {
       let formData = new FormData();
       formData.append('file', file);
       try {
-        const result = await api.request('upload', formData, { upload: true });
-        this.$emit('input', result.result);
+        const url = `${process.env.VUE_APP_API}/api/upload`;
+        const init = {
+          method: 'POST',
+          headers: { Authorization: this.$store.state.settings.token },
+          body: formData
+        };
+        const result = await fetch(url, init);
+        const output = await result.json();
+        this.$emit('input', output.file);
         this.isLoading = false;
         this.$emit('isLoading', this.isLoading);
       } catch (error) {

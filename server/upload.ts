@@ -43,7 +43,7 @@ router.post('/upload', verify, upload.single('file'), async (req, res, next) => 
     let query = 'INSERT IGNORE INTO uploads SET ?;';
     // query += 'UPDATE users SET meta = JSON_SET(meta, "$.avatar", ?) WHERE id = ?;';
     await db.queryAsync(query, [file, result.IpfsHash, res.locals.id]);
-    res.json({ result: file });
+    res.json({ file });
   } catch (error) {
     console.log(error);
     res.json({ error });

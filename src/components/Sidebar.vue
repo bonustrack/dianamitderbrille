@@ -1,7 +1,7 @@
 <template>
   <div id="sidebar" class="position-fixed py-lg-4">
     <router-link class="hide-sm hide-md hide-lg" :to="`/${model}`">
-      <img src="~/@/assets/logo.svg" style="max-width: 200px;" class="mb-2" />
+      <img src="~/@/assets/logo.svg" style="max-width: 220px;" class="mb-2" />
     </router-link>
     <ul class="list-style-none border-top border-lg-top-0 text-center text-lg-left">
       <li class="col-3 col-lg-12">

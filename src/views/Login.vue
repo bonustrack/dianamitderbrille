@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm p-responsive">
     <div class="text-center mb-4">
-      <img src="~/@/assets/logo.svg" style="max-width: 240px;" />
+      <img src="~/@/assets/logo.svg" style="max-width: 220px;" />
     </div>
     <h4 class="text-center eyebrow mb-4" v-text="$t('login')" />
     <form @submit.prevent="handleSubmit" style="max-width: 360px;" class="mx-auto">

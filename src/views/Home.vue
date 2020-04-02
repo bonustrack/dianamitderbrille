@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top-0 left-0 p-4 position-absolute">
-      <img src="~/@/assets/logo.svg" style="max-width: 200px;" />
+      <img src="~/@/assets/logo.svg" style="max-width: 220px;" />
     </div>
     <div class="top-0 right-0 p-4 position-absolute">
       <a v-if="$i18n.locale === 'en'" @click="changeLocale('de')">
